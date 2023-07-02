@@ -386,21 +386,27 @@ public class FunTargetBet : MonoBehaviour
                             bet4_text.text = clickbetData.ToString();
                             betClickCounter_Data4++;
                             tempClick_Data4 = clickbetData;
+
+
+                            Debug.Log(betClickCounter_Data4 + "   Reached @ 0 fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfs");
                         }
-                        else if (betClickCounter_Data4 == 1)
+                        else if (betClickCounter_Data4 > 0)
                         {
                             tempClick_Data4 += clickbetData;
                             PlayerPrefs.SetInt("data4", tempClick_Data4);
                             bet4_text.text = tempClick_Data4.ToString();
                             betClickCounter_Data4++;
                             tempClick_Data4 = clickbetData;
+                            Debug.Log(betClickCounter_Data4 + "   Reached @ 1 fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfs");
+                            Debug.Log(tempClick_Data4 + "   Reached @ 1 fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfs");
                         }
-                        else if (betClickCounter_Data4 > 1)
+                        /*else if (betClickCounter_Data4 > 1)
                         {
                             tempClick_Data4 += clickbetData;
                             PlayerPrefs.SetInt("data4", tempClick_Data4);
                             bet4_text.text = tempClick_Data4.ToString();
-                        }
+                            Debug.Log(betClickCounter_Data4 + "    Reached @ >1 fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfs");
+                        }*/
                     }
                     else
                     {
