@@ -191,25 +191,21 @@ public class FunTargetBet : MonoBehaviour
                     {
                         if (betClickCounter_Data1 == 0)
                         {
-                            PlayerPrefs.SetInt("data1", clickbetData);
                             bet1_text.text = clickbetData.ToString();
-                            betClickCounter_Data1++;
                             tempClick_Data1 = clickbetData;
                         }
                         else if (betClickCounter_Data1 == 1)
                         {
                             tempClick_Data1 += clickbetData;
-                            PlayerPrefs.SetInt("data1", tempClick_Data1);
-                            bet1_text.text = tempClick_Data1.ToString();
                             betClickCounter_Data1++;
-                            tempClick_Data1 = clickbetData;
                         }
                         else if (betClickCounter_Data1 > 1)
                         {
                             tempClick_Data1 += clickbetData;
-                            PlayerPrefs.SetInt("data1", tempClick_Data1);
-                            bet1_text.text = tempClick_Data1.ToString();
                         }
+                        betClickCounter_Data1++;
+                        PlayerPrefs.SetInt("data1", tempClick_Data1);
+                        bet1_text.text = tempClick_Data1.ToString();
                     }
                     else
                     {
@@ -254,25 +250,21 @@ public class FunTargetBet : MonoBehaviour
                     {
                         if (betClickCounter_Data2 == 0)
                         {
-                            PlayerPrefs.SetInt("data2", clickbetData);
                             bet2_text.text = clickbetData.ToString();
-                            betClickCounter_Data2++;
                             tempClick_Data2 = clickbetData;
                         }
                         else if (betClickCounter_Data2 == 1)
                         {
                             tempClick_Data2 += clickbetData;
-                            PlayerPrefs.SetInt("data2", tempClick_Data2);
-                            bet2_text.text = tempClick_Data2.ToString();
                             betClickCounter_Data2++;
-                            tempClick_Data2 = clickbetData;
                         }
                         else if (betClickCounter_Data2 > 1)
                         {
                             tempClick_Data2 += clickbetData;
-                            PlayerPrefs.SetInt("data2", tempClick_Data2);
-                            bet2_text.text = tempClick_Data2.ToString();
                         }
+                        betClickCounter_Data2++;
+                        PlayerPrefs.SetInt("data2", tempClick_Data2);
+                        bet2_text.text = tempClick_Data2.ToString();
                     }
                     else
                     {
@@ -318,25 +310,21 @@ public class FunTargetBet : MonoBehaviour
                     {
                         if (betClickCounter_Data3 == 0)
                         {
-                            PlayerPrefs.SetInt("data3", clickbetData);
                             bet3_text.text = clickbetData.ToString();
-                            betClickCounter_Data3++;
                             tempClick_Data3 = clickbetData;
                         }
                         else if (betClickCounter_Data3 == 1)
                         {
                             tempClick_Data3 += clickbetData;
-                            PlayerPrefs.SetInt("data3", tempClick_Data3);
-                            bet3_text.text = tempClick_Data3.ToString();
                             betClickCounter_Data3++;
-                            tempClick_Data3 = clickbetData;
                         }
                         else if (betClickCounter_Data3 > 1)
                         {
                             tempClick_Data3 += clickbetData;
-                            PlayerPrefs.SetInt("data3", tempClick_Data3);
-                            bet3_text.text = tempClick_Data3.ToString();
                         }
+                        betClickCounter_Data3++;
+                        PlayerPrefs.SetInt("data3", tempClick_Data3);
+                        bet3_text.text = tempClick_Data3.ToString();
                     }
                     else
                     {
@@ -382,31 +370,21 @@ public class FunTargetBet : MonoBehaviour
                     {
                         if (betClickCounter_Data4 == 0)
                         {
-                            PlayerPrefs.SetInt("data4", clickbetData);
                             bet4_text.text = clickbetData.ToString();
-                            betClickCounter_Data4++;
                             tempClick_Data4 = clickbetData;
-
-
-                            Debug.Log(betClickCounter_Data4 + "   Reached @ 0 fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfs");
                         }
-                        else if (betClickCounter_Data4 > 0)
+                        else if (betClickCounter_Data4 == 1)
                         {
                             tempClick_Data4 += clickbetData;
-                            PlayerPrefs.SetInt("data4", tempClick_Data4);
-                            bet4_text.text = tempClick_Data4.ToString();
                             betClickCounter_Data4++;
-                            tempClick_Data4 = clickbetData;
-                            Debug.Log(betClickCounter_Data4 + "   Reached @ 1 fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfs");
-                            Debug.Log(tempClick_Data4 + "   Reached @ 1 fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfs");
                         }
-                        /*else if (betClickCounter_Data4 > 1)
+                        else if (betClickCounter_Data4 > 1)
                         {
                             tempClick_Data4 += clickbetData;
-                            PlayerPrefs.SetInt("data4", tempClick_Data4);
-                            bet4_text.text = tempClick_Data4.ToString();
-                            Debug.Log(betClickCounter_Data4 + "    Reached @ >1 fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfs");
-                        }*/
+                        }
+                        betClickCounter_Data4++;
+                        PlayerPrefs.SetInt("data4", tempClick_Data4);
+                        bet4_text.text = tempClick_Data4.ToString();
                     }
                     else
                     {
@@ -452,25 +430,21 @@ public class FunTargetBet : MonoBehaviour
                     {
                         if (betClickCounter_Data5 == 0)
                         {
-                            PlayerPrefs.SetInt("data5", clickbetData);
                             bet5_text.text = clickbetData.ToString();
-                            betClickCounter_Data5++;
                             tempClick_Data5 = clickbetData;
                         }
                         else if (betClickCounter_Data5 == 1)
                         {
                             tempClick_Data5 += clickbetData;
-                            PlayerPrefs.SetInt("data5", tempClick_Data5);
-                            bet5_text.text = tempClick_Data5.ToString();
                             betClickCounter_Data5++;
-                            tempClick_Data5 = clickbetData;
                         }
                         else if (betClickCounter_Data5 > 1)
                         {
                             tempClick_Data5 += clickbetData;
-                            PlayerPrefs.SetInt("data5", tempClick_Data5);
-                            bet5_text.text = tempClick_Data5.ToString();
                         }
+                        betClickCounter_Data5++;
+                        PlayerPrefs.SetInt("data5", tempClick_Data5);
+                        bet5_text.text = tempClick_Data5.ToString();
                     }
                     else
                     {
@@ -515,25 +489,21 @@ public class FunTargetBet : MonoBehaviour
                     {
                         if (betClickCounter_Data6 == 0)
                         {
-                            PlayerPrefs.SetInt("data6", clickbetData);
                             bet6_text.text = clickbetData.ToString();
-                            betClickCounter_Data6++;
                             tempClick_Data6 = clickbetData;
                         }
                         else if (betClickCounter_Data6 == 1)
                         {
                             tempClick_Data6 += clickbetData;
-                            PlayerPrefs.SetInt("data6", tempClick_Data6);
-                            bet6_text.text = tempClick_Data6.ToString();
                             betClickCounter_Data6++;
-                            tempClick_Data6 = clickbetData;
                         }
                         else if (betClickCounter_Data6 > 1)
                         {
                             tempClick_Data6 += clickbetData;
-                            PlayerPrefs.SetInt("data6", tempClick_Data6);
-                            bet6_text.text = tempClick_Data6.ToString();
                         }
+                        betClickCounter_Data6++;
+                        PlayerPrefs.SetInt("data6", tempClick_Data6);
+                        bet6_text.text = tempClick_Data6.ToString();
                     }
                     else
                     {
@@ -578,25 +548,21 @@ public class FunTargetBet : MonoBehaviour
                     {
                         if (betClickCounter_Data7 == 0)
                         {
-                            PlayerPrefs.SetInt("data7", clickbetData);
                             bet7_text.text = clickbetData.ToString();
-                            betClickCounter_Data7++;
                             tempClick_Data7 = clickbetData;
                         }
                         else if (betClickCounter_Data7 == 1)
                         {
                             tempClick_Data7 += clickbetData;
-                            PlayerPrefs.SetInt("data7", tempClick_Data7);
-                            bet7_text.text = tempClick_Data7.ToString();
                             betClickCounter_Data7++;
-                            tempClick_Data7 = clickbetData;
                         }
                         else if (betClickCounter_Data7 > 1)
                         {
                             tempClick_Data7 += clickbetData;
-                            PlayerPrefs.SetInt("data7", tempClick_Data7);
-                            bet7_text.text = tempClick_Data7.ToString();
                         }
+                        betClickCounter_Data7++;
+                        PlayerPrefs.SetInt("data7", tempClick_Data7);
+                        bet7_text.text = tempClick_Data7.ToString();
                     }
                     else
                     {
@@ -641,25 +607,21 @@ public class FunTargetBet : MonoBehaviour
                     {
                         if (betClickCounter_Data8 == 0)
                         {
-                            PlayerPrefs.SetInt("data8", clickbetData);
                             bet8_text.text = clickbetData.ToString();
-                            betClickCounter_Data8++;
                             tempClick_Data8 = clickbetData;
                         }
                         else if (betClickCounter_Data8 == 1)
                         {
                             tempClick_Data8 += clickbetData;
-                            PlayerPrefs.SetInt("data8", tempClick_Data8);
-                            bet8_text.text = tempClick_Data8.ToString();
                             betClickCounter_Data8++;
-                            tempClick_Data8 = clickbetData;
                         }
                         else if (betClickCounter_Data8 > 1)
                         {
                             tempClick_Data8 += clickbetData;
-                            PlayerPrefs.SetInt("data8", tempClick_Data8);
-                            bet8_text.text = tempClick_Data8.ToString();
                         }
+                        betClickCounter_Data8++;
+                        PlayerPrefs.SetInt("data8", tempClick_Data8);
+                        bet8_text.text = tempClick_Data8.ToString();
                     }
                     else
                     {
@@ -704,25 +666,21 @@ public class FunTargetBet : MonoBehaviour
                     {
                         if (betClickCounter_Data9 == 0)
                         {
-                            PlayerPrefs.SetInt("data9", clickbetData);
                             bet9_text.text = clickbetData.ToString();
-                            betClickCounter_Data9++;
                             tempClick_Data9 = clickbetData;
                         }
                         else if (betClickCounter_Data9 == 1)
                         {
                             tempClick_Data9 += clickbetData;
-                            PlayerPrefs.SetInt("data9", tempClick_Data9);
-                            bet9_text.text = tempClick_Data9.ToString();
                             betClickCounter_Data9++;
-                            tempClick_Data9 = clickbetData;
                         }
                         else if (betClickCounter_Data9 > 1)
                         {
                             tempClick_Data9 += clickbetData;
-                            PlayerPrefs.SetInt("data9", tempClick_Data9);
-                            bet9_text.text = tempClick_Data9.ToString();
                         }
+                        betClickCounter_Data9++;
+                        PlayerPrefs.SetInt("data9", tempClick_Data9);
+                        bet9_text.text = tempClick_Data9.ToString();
                     }
                     else
                     {
