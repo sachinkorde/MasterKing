@@ -67,9 +67,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 1
@@ -104,7 +101,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 2
+    serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -117,7 +114,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    buildHeightMesh: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -7035,7 +7032,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.0024832047, y: 0.9560538}
   m_AnchorMax: {x: 0.108357966, y: 0.9976269}
-  m_AnchoredPosition: {x: 29.400146, y: -3.5999756}
+  m_AnchoredPosition: {x: 29.400177, y: -3.5999756}
   m_SizeDelta: {x: 0.000019073486, y: -0.0000047683716}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &903523879
@@ -8094,7 +8091,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.87644255, y: 0.0072418703}
   m_AnchorMax: {x: 0.9384988, y: 0.03774221}
-  m_AnchoredPosition: {x: -24.849976, y: 30.407013}
+  m_AnchoredPosition: {x: -24.849976, y: 30.406982}
   m_SizeDelta: {x: 0.44335938, y: 2.0017776}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1131597547
@@ -8287,7 +8284,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -8655,7 +8654,7 @@ RectTransform:
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1255382662
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -8669,6 +8668,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -9025,7 +9025,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.026097763, y: 0.083842255}
   m_AnchorMax: {x: 0.21630971, y: 0.9161577}
-  m_AnchoredPosition: {x: -1.0699921, y: 0}
+  m_AnchoredPosition: {x: -1.0699959, y: 0}
   m_SizeDelta: {x: -2.1425495, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1346200424
@@ -9636,9 +9636,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -13619,6 +13627,8 @@ MonoBehaviour:
   userIdTxt: {fileID: 857264011}
   userCoinTxt: {fileID: 159766895}
   passwordChangeResponce: {fileID: 1729422336}
+  scoreBoardURI: https://godigiinfotech.com/masterking/api/ft_scoreboard
+  pointText: {fileID: 159766895}
 --- !u!1 &1908895915
 GameObject:
   m_ObjectHideFlags: 0
@@ -14622,8 +14632,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1894998341}
+        m_TargetAssemblyTypeName: MasterKingGameSelectionScreen, Assembly-CSharp
         m_MethodName: ChangePassWordPOP
         m_Mode: 1
         m_Arguments:

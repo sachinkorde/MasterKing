@@ -8,50 +8,186 @@ public class FunTargetAPIManager : MonoBehaviour
 {
     public FunTargetBet funTargetBet;
     public SpinTheWheel spinTheWheel;
+
     public string lastTransactionIdurl = "https://godigiinfotech.com/masterking/api/last_transaction_id_ft"; // Get WinScore click on bet if winscore is greateer than 0
     public string scoreBoardURI = "https://godigiinfotech.com/masterking/api/ft_scoreboard"; // Shows updaed score
     public string betting_data = "https://godigiinfotech.com/masterking/api/betting_data"; // Send all betting data 0 to 9
     public string transfer_main_wallet = "https://godigiinfotech.com/masterking/api/ft_transfer_main_wallet"; //Take API
     public string get_result = "https://godigiinfotech.com/masterking/api/get_result";
-    public string last_10_ft = "https://godigiinfotech.com/masterking/api/last_10_ft";
-    public string get_Timer = "https://godigiinfotech.com/masterking/api/get_timer";
+    public string last_10_ft = "https://godigiinfotech.com/masterking/api/last_10_ft"; // Get Last 10 Wining Num and Winning score here
+    public string get_Timer = "https://godigiinfotech.com/masterking/api/get_timer"; // Timer API
+    public string gt_WinningNumFromDb = "https://godigiinfotech.com/masterking/api/get_winning_number"; // Getting wiining Number from Database
 
-    string userID;
-    
     public static ScoreBoardData scoreBoardData;
-    //public static SendWheelDataForLast10Data sendWheelDataForLast10Data;
     public static TimerData timerData;
     public static TakeAPI takeAPI;
     public static Last_10_WinningNum last_10_WinningNum;
     public static LasttransactionId lasttransactionId;
     public static BettingData bettingData;
+    public static GetDbWinNum getDbWinNum;
+    public static GetResultData getResultData;
 
-    public TMP_Text scoreTxt;
-    public TMP_Text timerText;
-    public TMP_Text bottomPanelMsg;
-    public TMP_Text[] last10WinText;
-
-    public GameObject btnHider;
-
-    public bool iscancelSpecificBet = false;
-    public bool isTake = false;
+    string userID;
 
     private void Start()
     {
         PlayerPrefs.SetInt("userId", 1020);
         userID = PlayerPrefs.GetInt("userId").ToString();
-        StartCoroutine(OnLoadScoreData());
+        GetScoreAndWinScoreDataFunction();
         StartCoroutine(GetTimeData());
-        btnHider.SetActive(false);
+        //GetResultFun();
+        funTargetBet.btnHider.SetActive(false);
         GetLast10WinNumbers();
     }
 
-    public void OnLoadScoreDataFun()
+    #region GettimerData get_Timer
+    public void StartTimerAgain()
     {
-        StartCoroutine(OnLoadScoreData());
+        StartCoroutine(GetTimeData());
+        //GetLast10WinNumbers();
     }
 
-    IEnumerator OnLoadScoreData()
+    
+    IEnumerator GetTimeData()
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get(get_Timer))
+        {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string strjson = www.downloadHandler.text;
+
+                timerData = JsonUtility.FromJson<TimerData>(strjson);
+
+                switch (timerData.status)
+                {
+                    case 500:
+                        Debug.Log(www.error);
+
+                        break;
+
+                    case 200:
+
+                        if (timerData.timer < 10)
+                        {
+                            //counter = true;
+                            funTargetBet.timerText.text = "00:0" + timerData.timer.ToString();
+
+                            if(!funTargetBet.isFunCounter)
+                            {
+                                UpdateWinNum();
+
+                                Debug.Log(timerData.timer + "    time values senddddd");
+                                funTargetBet.btnHider.SetActive(true);
+                                funTargetBet.bottomPanelMsg.text = "Bet cannot be Accepted";
+                                SendBetData();
+                                funTargetBet.isFunCounter = true;
+                                Debug.Log(funTargetBet.isFunCounter + "    timer data send Valuessssssssssssssssss");
+                            }
+                            else
+                            {
+                                yield return null;
+                            }
+                        }
+                        else
+                        {
+                            funTargetBet.timerText.text = "00:" + timerData.timer.ToString();
+                        }
+
+
+                        if (timerData.timer == 0)
+                        {
+                            spinTheWheel.StartSpinButtonClick();
+                            StopCoroutine(GetTimeData());
+                            FT_SoundManager.instance.timerAudio.Stop();
+                        }
+                        else
+                        {
+                            if (!FT_SoundManager.instance.timerAudio.isPlaying)
+                            {
+                                FT_SoundManager.instance.timerAudio.Play();
+                            }
+
+                            StartCoroutine(GetTimeData());
+                        }
+                        break;
+                }
+            }
+        }
+    }
+    #endregion
+
+    #region TakeAPI transfer_main_wallet
+    public void Take()
+    {
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+        StartCoroutine(TransferToMainVallet());
+        //GetScoreAndWinScoreDataFunction();
+    }
+
+    IEnumerator TransferToMainVallet()
+    {
+        WWWForm form = new();
+
+        form.AddField("user_id", userID);
+        form.AddField("app_token", "temp_token");
+
+        using (UnityWebRequest www = UnityWebRequest.Post(transfer_main_wallet, form))
+        {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string strjson = www.downloadHandler.text;
+                takeAPI = JsonUtility.FromJson<TakeAPI>(strjson);
+
+                switch (scoreBoardData.status)
+                {
+                    case 500:
+                        Debug.Log(www.error);
+                        break;
+
+                    case 200:
+                        Debug.Log(takeAPI.message);
+                        Debug.Log(takeAPI.main_score);
+                        Debug.Log(takeAPI.wining_score);
+                        Debug.Log(takeAPI.message);
+                        funTargetBet.isTake = false;
+                        if(takeAPI.message != "Data not found.")
+                        {
+                            Debug.Log(takeAPI.message);
+                            funTargetBet.scoreTxt.text = takeAPI.main_score.ToString();
+                            funTargetBet.winText.text = "0";
+                        }
+                        else
+                        {
+                            Debug.Log(takeAPI.message);
+                            yield return null;
+                        }
+                        
+                        
+                        //funTargetBet.isTake = false;
+                        break;
+                }
+            }
+        }
+    }
+    #endregion
+
+    #region ScoreData scoreBoardURI
+    public void GetScoreAndWinScoreDataFunction()
+    {
+        StartCoroutine(GetScoreAndWinScoreData());
+    }
+
+    IEnumerator GetScoreAndWinScoreData()
     {
         WWWForm form = new();
 
@@ -68,14 +204,8 @@ public class FunTargetAPIManager : MonoBehaviour
             else
             {
                 string strjson = www.downloadHandler.text;
-               //Debug.Log(strjson);
-
                 scoreBoardData = JsonUtility.FromJson<ScoreBoardData>(strjson);
-                //Debug.Log(scoreBoardData);
-
-                //Debug.Log(scoreBoardData.main_score);
-                //Debug.Log(scoreBoardData.wining_score);
-
+                
                 switch (scoreBoardData.status)
                 {
                     case 500:
@@ -83,18 +213,19 @@ public class FunTargetAPIManager : MonoBehaviour
                         break;
 
                     case 200:
-                        //Debug.Log(scoreBoardData.main_score);
-                        //Debug.Log(scoreBoardData.wining_score);
+                         Debug.Log(scoreBoardData.main_score);
+                        Debug.Log(scoreBoardData.wining_score);
 
-                        scoreTxt.text = scoreBoardData.main_score.ToString();
-
+                        funTargetBet.scoreTxt.text = scoreBoardData.main_score.ToString();
                         PlayerPrefs.SetInt("ft_Score", scoreBoardData.main_score);
                         break;
                 }
             }
         }
     }
+    #endregion
 
+    #region Last 10 Win Num last_10_ft
     public void GetLast10WinNumbers()
     {
         StartCoroutine(GettingLast_10_WinnigNumbers());
@@ -128,178 +259,24 @@ public class FunTargetAPIManager : MonoBehaviour
                         break;
 
                     case 200:
-                        //Debug.Log(last_10_WinningNum.main_score);
-                        //Debug.Log(last_10_WinningNum.message);
-                        //Debug.Log(last_10_WinningNum.wining_score);
-
-
-                        //foreach (DataItem_WinNum item in last_10_WinningNum.last_10_data)
-                        //{
-                        //    Debug.Log("ID: " + item.id);
-                        //    Debug.Log("Random Number: " + item.random_number);
-                        //    //last10WinText[]
-                        //    Debug.Log("Created At: " + item.created_at);
-                        //    Debug.Log("Created By: " + item.created_by);
-                        //}
-                        int minLength = Mathf.Min(last10WinText.Length, last_10_WinningNum.last_10_data.Length);
+                        
+                        int minLength = Mathf.Min(funTargetBet.last10WinText.Length, last_10_WinningNum.last_10_data.Length);
 
                         for (int i = 0; i < minLength; i++)
                         {
-                            last10WinText[i].text = last_10_WinningNum.last_10_data[i].random_number;
+                            funTargetBet.last10WinText[i].text = last_10_WinningNum.last_10_data[i].random_number;
+
+
+                            Debug.Log(last_10_WinningNum.last_10_data[i].random_number + "       random Numbersssssss");
                         }
                         break;
                 }
             }
         }
     }
+    #endregion
 
-    IEnumerator GetTimeData()
-    {
-        using (UnityWebRequest www = UnityWebRequest.Get(get_Timer))
-        {
-            yield return www.SendWebRequest();
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                string strjson = www.downloadHandler.text;
-                //Debug.Log(strjson);
-
-                timerData = JsonUtility.FromJson<TimerData>(strjson);
-
-                switch (timerData.status)
-                {
-                    case 500:
-                        Debug.Log(www.error);
-
-                        break;
-
-                    case 200:
-                        //Debug.Log(timerData.message);
-                        //Debug.Log(timerData.status);
-
-                        if(timerData.timer < 10)
-                        {
-                            timerText.text = "00:0" + timerData.timer.ToString();
-                        }
-                        else
-                        {
-                            timerText.text = "00:" + timerData.timer.ToString();
-                        }
-
-                        
-                        if(timerData.timer == 0)
-                        {
-                            spinTheWheel.StartSpinButtonClick();
-                            StopCoroutine(GetTimeData());
-                            FT_SoundManager.instance.timerAudio.Stop();
-                            //send wining data to the server
-                            //send allAmt to server and update scoreBoard value
-                            //send specific amt to the server and reset playerprefs to that perticular function
-                            //Update last 10 data
-                        }
-                        else
-                        {
-                            if (!FT_SoundManager.instance.timerAudio.isPlaying)
-                            {
-                                FT_SoundManager.instance.timerAudio.Play();
-                            }
-                            
-                            StartCoroutine(GetTimeData());
-                        }
-
-                        if (timerData.timer > 50)
-                        {
-                            btnHider.SetActive(true);
-                            bottomPanelMsg.text = "Bet cannot be Accepted";
-                        }
-                        break;
-                }
-            }
-        }
-    }
-
-    public void Take()
-    {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-        StartCoroutine(TransferToMainVallet());
-        OnLoadScoreDataFun();
-    }
-
-    IEnumerator TransferToMainVallet()
-    {
-        WWWForm form = new();
-
-        form.AddField("user_id", userID);
-        form.AddField("app_token", "temp_token");
-
-        using (UnityWebRequest www = UnityWebRequest.Post(transfer_main_wallet, form))
-        {
-            yield return www.SendWebRequest();
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                string strjson = www.downloadHandler.text;
-                //Debug.Log(strjson);
-
-                takeAPI = JsonUtility.FromJson<TakeAPI>(strjson);
-
-                //Debug.Log(takeAPI);
-                switch (scoreBoardData.status)
-                {
-                    case 500:
-                        Debug.Log(www.error);
-                        break;
-
-                    case 200:
-                        Debug.Log(takeAPI.message);
-                        break;
-                }
-            }
-        }
-    }
-
-    IEnumerator Last_10_Data()
-    {
-        WWWForm form = new();
-
-        form.AddField("user_id", userID);
-        form.AddField("app_token", "temp_token");
-
-        using (UnityWebRequest www = UnityWebRequest.Post(last_10_ft, form))
-        {
-            yield return www.SendWebRequest();
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                //Debug.Log(www.error);
-            }
-            else
-            {
-                string strjson = www.downloadHandler.text;
-               // Debug.Log(strjson);
-
-                takeAPI = JsonUtility.FromJson<TakeAPI>(strjson);
-
-               // Debug.Log(takeAPI);
-                switch (scoreBoardData.status)
-                {
-                    case 500:
-                        Debug.Log(www.error);
-                        break;
-
-                    case 200:
-                        Debug.Log(takeAPI.message);
-                        break;
-                }
-            }
-        }
-    }
-
+    #region lastTransactionIdurl unused this API
     public void GetWinScoreFunction()
     {
         StartCoroutine(GetWinScore());
@@ -336,19 +313,37 @@ public class FunTargetAPIManager : MonoBehaviour
                         Debug.Log(lasttransactionId.message);
                         Debug.Log(lasttransactionId.wining_score);
 
-                        if (lasttransactionId.wining_score > 0)
+                        /*if (lasttransactionId.wining_score > 0)
                         {
-                            isTake = true;
+                            //funTargetBet.isTake = true;
                         }
+                        else
+                        {
+                            //funTargetBet.isTake = false;
+                        }*/
                         break;
                 }
             }
         }
     }
+    #endregion
+
+    #region Sending Betting Data betting_data
+
+    public void OnClickSendBetData()
+    {
+        funTargetBet.btnHider.SetActive(true);
+        funTargetBet.bottomPanelMsg.text = "Bet Cannot be Accepted..!";
+        StartCoroutine(SendBettingData());
+        funTargetBet.isDataSendOnClick = true;
+    }
 
     public void SendBetData()
     {
-        StartCoroutine(SendBettingData());
+        if(!funTargetBet.isDataSendOnClick)
+        {
+            StartCoroutine(SendBettingData());
+        }
     }
 
     IEnumerator SendBettingData()
@@ -374,6 +369,17 @@ public class FunTargetAPIManager : MonoBehaviour
         form.AddField("data_content[data9]", PlayerPrefs.GetInt("data9"));
         form.AddField("wining_number", sendWinNum);
 
+
+        Debug.Log(PlayerPrefs.GetInt("data0"));
+        Debug.Log(PlayerPrefs.GetInt("data1"));
+        Debug.Log(PlayerPrefs.GetInt("data2"));
+        Debug.Log(PlayerPrefs.GetInt("data3"));
+        Debug.Log(PlayerPrefs.GetInt("data4"));
+        Debug.Log(PlayerPrefs.GetInt("data5"));
+        Debug.Log(PlayerPrefs.GetInt("data6"));
+        Debug.Log(PlayerPrefs.GetInt("data7"));
+        Debug.Log(PlayerPrefs.GetInt("data8"));
+        Debug.Log(PlayerPrefs.GetInt("data9"));
         using (UnityWebRequest www = UnityWebRequest.Post(betting_data, form))
         {
             yield return www.SendWebRequest();
@@ -392,121 +398,126 @@ public class FunTargetAPIManager : MonoBehaviour
                 {
                     case 500:
                         Debug.Log(www.error);
+
+                        funTargetBet.isDataNull = true;
                         break;
 
                     case 200:
                         Debug.Log(bettingData.message);
                         Debug.Log(bettingData.transaction_id);
-                        funTargetBet.ResetBetData();
+                        funTargetBet.isDataNull = false;
+                        funTargetBet.lastTransactionId = bettingData.transaction_id;
+
+                        PlayerPrefs.SetInt("last_transaction_id", bettingData.transaction_id);
+                        //funTargetBet.ResetBetData();
                         break;
                 }
             }
         }
     }
+    #endregion
 
-    public void StartTimerAgain()
+    #region Win Nun Send to pin Wheel gt_WinningNumFromDb
+    public void UpdateWinNum()
     {
-        StartCoroutine(GetTimeData());
+        funTargetBet.isCallWinNumAPI = true;
+        StartCoroutine(GetWinNumFromDb());
     }
 
-    public void OnMouseDownEnter(Button buttonDown)
+    IEnumerator GetWinNumFromDb()
     {
-        if (buttonDown.interactable == true)
+        using (UnityWebRequest www = UnityWebRequest.Get(gt_WinningNumFromDb))
         {
-            //buttonDown.transform.localScale = new Vector2(1.15f, 1.15f);
-            buttonDown.transform.localScale = new Vector3(1.0f, 1.0f);
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string strjson = www.downloadHandler.text;
+
+                getDbWinNum = JsonUtility.FromJson<GetDbWinNum>(strjson);
+
+                switch (timerData.status)
+                {
+                    case 500:
+                        Debug.Log(www.error);
+                        funTargetBet.isGetWinNum = false;
+                        break;
+
+                    case 200:
+                        Debug.Log(getDbWinNum.winning_number +  "     Get Winningngngn Nummmmmmmmmm");
+                        funTargetBet.isGetWinNum = true;
+                        spinTheWheel.Winningnumber = getDbWinNum.winning_number;
+                        break;
+                }
+            }
         }
     }
+    #endregion
 
-    public void OnMouseDownExit(Button buttonExit)
+    #region GetResult Data
+    public void GetResultFun()
     {
-        if (buttonExit.interactable == true)
+        StartCoroutine(GetResultData());
+    }
+
+    IEnumerator GetResultData()
+    {
+        Debug.Log(PlayerPrefs.GetInt("last_transaction_id") + "    last trrnasaction idddddddddddddddddddddd");
+        WWWForm form = new();
+
+        form.AddField("user_id", userID);
+        form.AddField("app_token", "temp_token");
+        form.AddField("id", PlayerPrefs.GetInt("last_transaction_id"));
+
+        using (UnityWebRequest www = UnityWebRequest.Post(get_result, form))
         {
-            //buttonExit.transform.localScale = new Vector2(1f, 1f);
-            buttonExit.transform.localScale = new Vector3(1.15f, 1.15f);
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string strjson = www.downloadHandler.text;
+                getResultData = JsonUtility.FromJson<GetResultData>(strjson);
+
+                Debug.Log(strjson);
+
+                switch (getResultData.status)
+                {
+                    case 500:
+                        Debug.Log(www.error);
+                        break;
+
+                    case 200:
+                        Debug.Log(getResultData.betting_data[0].main_score);
+                        Debug.Log(getResultData.betting_data[0].winner_score);
+
+                        funTargetBet.scoreTxt.text = getResultData.betting_data[0].main_score.ToString();
+                        funTargetBet.winText.text = getResultData.betting_data[0].winner_score.ToString();
+
+                        if (getResultData.betting_data[0].winner_score > 0)
+                        {
+                            funTargetBet.isTake = true;
+
+                            Debug.Log("Take winning score it is greater than 0");
+
+                            funTargetBet.bottomPanelMsg.text = "Please Take your Win Amount And Play";
+                        }
+                        else
+                        {
+                            Debug.Log("Winning score data are 0");
+                            funTargetBet.bottomPanelMsg.text = "Sorry.. You are Not Win Pleae Play Again...!";
+                            funTargetBet.isTake = false;
+                        }
+
+                        break;
+                }
+            }
         }
     }
-}
-
-
-[System.Serializable]
-public class ScoreBoardData
-{
-    public int status;
-    public string message;
-    public int main_score;
-    public int wining_score;
-}
-
-[System.Serializable]
-public class TimerData
-{
-    public int status;
-    public string message;
-    public int timer;
-}
-
-[System.Serializable]
-public class Last_Transaction_id_FT
-{
-    public int status;
-    public string message;
-    public int last_transaction_id;
-    public int collection_status;
-    public int transaction_status;
-    public int wining_score;
-}
-
-[System.Serializable]
-public class TakeAPI
-{
-    public string message;
-    public int success;
-}
-
-[System.Serializable]
-public class Last_10_WinningFt
-{
-    public int status;
-    public string message;
-
-}
-
-[System.Serializable]
-public class Last_10_WinningNum
-{
-    public int status;
-    public string message;
-    public DataItem_WinNum[] last_10_data;
-    public int main_score;
-    public int wining_score;
-}
-
-[System.Serializable]
-public class DataItem_WinNum
-{
-    public int id;
-    public string random_number;
-    public string random_symbol;
-    public string created_at;
-    public string created_by;
-}
-
-[System.Serializable]
-public class LasttransactionId
-{
-    public int status;
-    public string message;
-    public int last_transaction_id;
-    public int collection_status;
-    public int transaction_status;
-    public int wining_score;
-}
-
-[System.Serializable]
-public class BettingData
-{
-    public int status;
-    public string message;
-    public int transaction_id;
+    #endregion
 }

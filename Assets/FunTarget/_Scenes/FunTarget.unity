@@ -1013,7 +1013,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.87999725, y: 0}
+  m_AnchoredPosition: {x: 0.8800049, y: 0}
   m_SizeDelta: {x: -36.08, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &65208848
@@ -1063,7 +1063,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.3
+  m_fontSize: 22.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1351,7 +1351,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.12827909, y: 0}
   m_AnchorMax: {x: 0.86114424, y: 0.9003615}
-  m_AnchoredPosition: {x: 0.5001221, y: 0.090042114}
+  m_AnchoredPosition: {x: 0.50024414, y: 0.090042114}
   m_SizeDelta: {x: 0.99768066, y: 0.17995071}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &95186064
@@ -1544,8 +1544,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
           m_MethodName: OnMouseDownEnter
           m_Mode: 2
           m_Arguments:
@@ -1560,8 +1560,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
           m_MethodName: OnMouseDownExit
           m_Mode: 2
           m_Arguments:
@@ -2598,8 +2598,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
           m_MethodName: OnMouseDownEnter
           m_Mode: 2
           m_Arguments:
@@ -2614,8 +2614,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
           m_MethodName: OnMouseDownExit
           m_Mode: 2
           m_Arguments:
@@ -4422,7 +4422,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.128}
   m_AnchorMax: {x: 1, y: 0.346864}
-  m_AnchoredPosition: {x: 0, y: 43.00003}
+  m_AnchoredPosition: {x: 0, y: 43.000046}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &414907850
@@ -4862,6 +4862,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2695d745ff0a467db912cf68b757680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCallWinNumAPI: 0
+  isGetWinNum: 0
+  isTake: 0
+  isDataNull: 0
+  isFunCounter: 0
+  isDataSendOnClick: 0
+  btnHider: {fileID: 242249583}
+  scoreTxt: {fileID: 292347440}
+  winText: {fileID: 1063299773}
+  timerText: {fileID: 1140281980}
+  bottomPanelMsg: {fileID: 833644378}
+  bet1_text: {fileID: 1883702523}
+  bet2_text: {fileID: 832402512}
+  bet3_text: {fileID: 869598391}
+  bet4_text: {fileID: 1689144159}
+  bet5_text: {fileID: 2109081494}
+  bet6_text: {fileID: 1239701379}
+  bet7_text: {fileID: 178285591}
+  bet8_text: {fileID: 579837561}
+  bet9_text: {fileID: 488353450}
+  bet0_text: {fileID: 509655043}
+  showAllAmt: {fileID: 1410121680}
+  last10WinText:
+  - {fileID: 478462201}
+  - {fileID: 1291701546}
+  - {fileID: 26197932}
+  - {fileID: 1421838537}
+  - {fileID: 1854306785}
+  - {fileID: 1286634924}
+  - {fileID: 809429371}
+  - {fileID: 409974283}
+  - {fileID: 1174043740}
+  - {fileID: 1869390740}
   clickbetData: 0
   tempBetData: 0
   clickCounter: 0
@@ -4886,17 +4919,7 @@ MonoBehaviour:
   betClickCounter_Data9: 0
   tempClick_Data9: 0
   allAmt: 0
-  bet1_text: {fileID: 1883702523}
-  bet2_text: {fileID: 832402512}
-  bet3_text: {fileID: 869598391}
-  bet4_text: {fileID: 1689144159}
-  bet5_text: {fileID: 2109081494}
-  bet6_text: {fileID: 1239701379}
-  bet7_text: {fileID: 178285591}
-  bet8_text: {fileID: 579837561}
-  bet9_text: {fileID: 488353450}
-  bet0_text: {fileID: 509655043}
-  showAllAmt: {fileID: 1410121680}
+  lastTransactionId: 0
 --- !u!4 &452000787
 Transform:
   m_ObjectHideFlags: 0
@@ -7057,7 +7080,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.6854819, y: 0.5361861}
   m_AnchorMax: {x: 0.83414423, y: 0.6565644}
-  m_AnchoredPosition: {x: 0.3000183, y: -0.42004395}
+  m_AnchoredPosition: {x: 0.30004883, y: -0.42004395}
   m_SizeDelta: {x: -0.55999756, y: -1.16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &681522514
@@ -7138,7 +7161,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 1008f4c8f67ffa84096ec2d7b813950d, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -8661,7 +8684,7 @@ GameObject:
   - component: {fileID: 833644379}
   - component: {fileID: 833644378}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: BottomInfo_Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9844,7 +9867,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1036280479}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1321358050}
+        m_TargetAssemblyTypeName: FunTargetAPIManager, Assembly-CSharp
+        m_MethodName: OnClickSendBetData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1036280479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11293,8 +11328,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   funTargetAPIManager: {fileID: 1321358050}
+  funTargetBet: {fileID: 452000786}
   SpinWheel: {fileID: 1299274698}
-  winText: {fileID: 1063299773}
+  spinCenter: {fileID: 1779246219}
+  totalNumbers: 10
+  Winningnumber: 0
+  result: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  resultarr: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   NumberValue:
   - 0
   - 1
@@ -11317,11 +11357,6 @@ MonoBehaviour:
   - 217.2
   - 252.5
   - 288
-  totalNumbers: 10
-  Winningnumber: 0
-  result: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
-  resultarr: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
-  spinCenter: {fileID: 1779246219}
 --- !u!4 &1200923297
 Transform:
   m_ObjectHideFlags: 0
@@ -12632,23 +12667,7 @@ MonoBehaviour:
   get_result: https://godigiinfotech.com/masterking/api/get_result
   last_10_ft: https://godigiinfotech.com/masterking/api/last_10_ft
   get_Timer: https://godigiinfotech.com/masterking/api/get_timer
-  scoreTxt: {fileID: 292347440}
-  timerText: {fileID: 1140281980}
-  bottomPanelMsg: {fileID: 0}
-  last10WinText:
-  - {fileID: 1869390740}
-  - {fileID: 1174043740}
-  - {fileID: 409974283}
-  - {fileID: 809429371}
-  - {fileID: 1286634924}
-  - {fileID: 1854306785}
-  - {fileID: 1421838537}
-  - {fileID: 26197932}
-  - {fileID: 1291701546}
-  - {fileID: 478462201}
-  btnHider: {fileID: 242249583}
-  iscancelSpecificBet: 0
-  isTake: 0
+  gt_WinningNumFromDb: https://godigiinfotech.com/masterking/api/get_winning_number
 --- !u!1 &1334945738
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,7 +27,9 @@ public class MasterKingGameSelectionScreen : MonoBehaviour
     public TMP_Text userIdTxt;
     public TMP_Text userCoinTxt;
     public TMP_Text passwordChangeResponce;
-    
+    public static ScoreBoardData scoreBoardData;
+    public string scoreBoardURI = "https://godigiinfotech.com/masterking/api/ft_scoreboard";
+
     private void Start()
     {
         StartCoroutine(SelectionScreenAnim());
@@ -40,6 +42,9 @@ public class MasterKingGameSelectionScreen : MonoBehaviour
 
         Debug.Log(PlayerPrefs.GetInt("userId"));
         Debug.Log(PlayerPrefs.GetInt("userCoins"));
+
+
+        GetScoreAndWinScoreDataFunction();
     }
 
     IEnumerator SelectionScreenAnim()
@@ -124,6 +129,49 @@ public class MasterKingGameSelectionScreen : MonoBehaviour
     public void OnClickChangePawword()
     {
         StartCoroutine(ChangePasswordData());
+    }
+
+    public void GetScoreAndWinScoreDataFunction()
+    {
+        StartCoroutine(GetScoreAndWinScoreData());
+    }
+
+    public TMP_Text pointText;
+
+    IEnumerator GetScoreAndWinScoreData()
+    {
+        WWWForm form = new();
+
+        form.AddField("user_id", PlayerPrefs.GetInt("userId"));
+        form.AddField("app_token", "temp_token");
+
+        using (UnityWebRequest www = UnityWebRequest.Post(scoreBoardURI, form))
+        {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string strjson = www.downloadHandler.text;
+                scoreBoardData = JsonUtility.FromJson<ScoreBoardData>(strjson);
+
+                switch (scoreBoardData.status)
+                {
+                    case 500:
+                        Debug.Log("Netwrok 500 Error");
+                        break;
+
+                    case 200:
+                       
+                        PlayerPrefs.SetInt("ft_Score", scoreBoardData.main_score);
+
+                        pointText.text = PlayerPrefs.GetInt("ft_Score").ToString();
+                        break;
+                }
+            }
+        }
     }
 }
 

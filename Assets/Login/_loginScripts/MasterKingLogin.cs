@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 [System.Serializable]
 public class result
@@ -23,6 +24,7 @@ public class resultData
     public string phone;
     public int point_count;
 }
+
 public class MasterKingLogin : MonoBehaviour
 {
     public static string contLink = "https://www.godigiinfotech.com/masterking";
@@ -33,34 +35,30 @@ public class MasterKingLogin : MonoBehaviour
 
     public static result res;
 
-    //public Text messageText, messageText1;
-
     public Text loginResponse;
     public GameObject glowEmterBtn;
-    //public GameObject loginScreenPanel;
+    public GameObject loginScreenPanel;
 
     private void Start()
     {
-        StartCoroutine(LoginScreenAnim());
-        Input.multiTouchEnabled = false;
-        //loginScreenPanel.SetActive(false);
+        StartCoroutine(StartAnim());
         glowEmterBtn.SetActive(false);
+    }
 
+    IEnumerator StartAnim()
+    {
+        loginScreenPanel.SetActive(true);
+        yield return new WaitForSeconds(0.11f);
+        loginScreenPanel.SetActive(false);
+        
         if (PlayerPrefs.GetInt("isloggedIn") == 1)
         {
             SceneManager.LoadScene("GameSelection");
         }
         else
         {
-            return;
+            yield return null;
         }
-    }
-
-    IEnumerator LoginScreenAnim()
-    {
-        //loginScreenPanel.SetActive(true);
-        yield return new WaitForSeconds(0.45f);
-        //loginScreenPanel.SetActive(false);
     }
 
     public void Login()
@@ -86,12 +84,8 @@ public class MasterKingLogin : MonoBehaviour
             }
             else
             {
-                //loginScreenPanel.SetActive(true);
                 string strjson = www.downloadHandler.text;
-
-                Debug.Log(strjson);
                 res = JsonUtility.FromJson<result>(strjson);
-                Debug.Log(res);
 
                 switch (res.status)
                 {
@@ -100,7 +94,6 @@ public class MasterKingLogin : MonoBehaviour
                         yield return new WaitForSeconds(2f);
                         loginResponse.text = "";
                         glowEmterBtn.SetActive(false);
-                        //loginScreenPanel.SetActive(false);
                         break;
 
                     case 200:
@@ -108,13 +101,8 @@ public class MasterKingLogin : MonoBehaviour
                         PlayerPrefs.SetInt("isloggedIn", 1);
                         PlayerPrefs.SetInt("userId", res.data.id);
                         PlayerPrefs.SetInt("userCoins", res.data.point_count);
-
-                        Debug.Log(PlayerPrefs.GetInt("userId"));
-                        Debug.Log(PlayerPrefs.GetInt("userCoins"));
-
                         SceneManager.LoadScene("GameSelection");
 
-                        //loginScreenPanel.SetActive(false);
                         break;
                 }
             }
@@ -137,13 +125,11 @@ public class MasterKingLogin : MonoBehaviour
             }
             else
             {
-                Debug.Log("Post Request Complete!" + www.downloadHandler.text);
                 string strjson = www.downloadHandler.text;
                 res = JsonUtility.FromJson<result>(strjson);
-                Debug.Log(res.status);
+
                 if (res.status == 200)
                 {
-                    Debug.Log("LoggedIn" + res.message);
                     SceneManager.LoadScene("GameScreen");
                 }
             }
