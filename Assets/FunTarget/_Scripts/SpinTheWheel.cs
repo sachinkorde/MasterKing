@@ -37,14 +37,14 @@ public class SpinTheWheel : MonoBehaviour
         //Winningnumber = Random.Range(0, totalNumbers);
         float AngleOfRotation;
         AngleOfRotation = (NumberOfRotation * -360) + float.Parse(NumberAngle[Winningnumber]);
-        StartCoroutine(Spin(0, AngleOfRotation, 7));
+        StartCoroutine(Spin(0, AngleOfRotation, 5));
     }
 
     private IEnumerator Spin(float fromAngle, float toAngle, float withinSeconds)
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.SpeenWheelRotate);
         var passedTime = 0f;
-
+        
         while (passedTime < withinSeconds)
         {
             if (!spinCenter.GetCurrentAnimatorStateInfo(0).IsName("run_spin"))
