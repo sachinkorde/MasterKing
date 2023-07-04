@@ -32,6 +32,7 @@ public class MasterKingGameSelectionScreen : MonoBehaviour
 
     private void Start()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         StartCoroutine(SelectionScreenAnim());
 
         Debug.Log(PlayerPrefs.GetInt("userId"));

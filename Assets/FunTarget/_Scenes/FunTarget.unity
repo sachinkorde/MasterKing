@@ -340,7 +340,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
   m_sharedMaterial: {fileID: -8614114493768483767, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
@@ -540,19 +540,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 27674660}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 452000786}
-        m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
-        m_MethodName: SetYourBet_Data7
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 7
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &27674663
 Animator:
   serializedVersion: 7
@@ -588,33 +576,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 3
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: SetYourBet_Data7
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 27674662}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 2
+  - eventID: 3
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: StopBetData0
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 27674662}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -821,19 +809,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 50567089}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 452000786}
-        m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
-        m_MethodName: SetYourBet_Data4
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &50567092
 Animator:
   serializedVersion: 7
@@ -869,33 +845,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 3
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: SetYourBet_Data4
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 50567091}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 2
+  - eventID: 3
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: StopBetData0
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 50567091}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -936,7 +912,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -7.0550003, y: 11.615001, z: 8.509001}
   m_AnchorMin: {x: 0.20366915, y: 0.471263}
   m_AnchorMax: {x: 0.26700002, y: 0.65086854}
-  m_AnchoredPosition: {x: -4.2001953, y: 0.1000061}
+  m_AnchoredPosition: {x: -4.2000732, y: 0.1000061}
   m_SizeDelta: {x: 0.9090042, y: 10.690277}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &59931747
@@ -1062,7 +1038,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.45
+  m_fontSize: 23.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1998,19 +1974,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 149853196}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 452000786}
-        m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
-        m_MethodName: SetYourBet_Data3
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &149853199
 Animator:
   serializedVersion: 7
@@ -2046,33 +2010,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 3
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: SetYourBet_Data3
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 149853198}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 2
+  - eventID: 3
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: StopBetData0
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 149853198}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -2683,7 +2647,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5000
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: de8d4412d1c624583a308ca870516079, type: 2}
   m_sharedMaterial: {fileID: 1933200335694433479, guid: de8d4412d1c624583a308ca870516079, type: 2}
@@ -2710,7 +2674,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.1
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3835,19 +3799,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 341501905}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 452000786}
-        m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
-        m_MethodName: SetYourBet_Data1
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &341501905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3899,33 +3851,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 3
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: SetYourBet_Data1
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 341501904}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 2
+  - eventID: 3
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: StopBetData0
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 341501904}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -4298,7 +4250,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
   m_sharedMaterial: {fileID: -8614114493768483767, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
@@ -4419,7 +4371,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.128}
   m_AnchorMax: {x: 1, y: 0.346864}
-  m_AnchoredPosition: {x: 0, y: 43.000057}
+  m_AnchoredPosition: {x: 0, y: 43.00006}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &414907850
@@ -4859,12 +4811,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2695d745ff0a467db912cf68b757680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spinTheWheel: {fileID: 1200923296}
+  funTargetAPIManager: {fileID: 1321358050}
   isCallWinNumAPI: 0
   isGetWinNum: 0
   isTake: 0
   isDataNull: 0
   isFunCounter: 0
   isDataSendOnClick: 0
+  countdownStarted: 0
   btnHider: {fileID: 242249583}
   scoreTxt: {fileID: 292347440}
   winText: {fileID: 1063299773}
@@ -4882,16 +4837,17 @@ MonoBehaviour:
   bet0_text: {fileID: 509655043}
   showAllAmt: {fileID: 1410121680}
   last10WinText:
-  - {fileID: 478462201}
-  - {fileID: 1291701546}
-  - {fileID: 26197932}
-  - {fileID: 1421838537}
-  - {fileID: 1854306785}
-  - {fileID: 1286634924}
-  - {fileID: 809429371}
-  - {fileID: 409974283}
-  - {fileID: 1174043740}
   - {fileID: 1869390740}
+  - {fileID: 1174043740}
+  - {fileID: 409974283}
+  - {fileID: 809429371}
+  - {fileID: 1286634924}
+  - {fileID: 1854306785}
+  - {fileID: 1421838537}
+  - {fileID: 26197932}
+  - {fileID: 1291701546}
+  - {fileID: 478462201}
+  timeLeft: 60
   clickbetData: 0
   tempBetData: 0
   clickCounter: 0
@@ -4917,6 +4873,7 @@ MonoBehaviour:
   tempClick_Data9: 0
   allAmt: 0
   lastTransactionId: 0
+  winNumToShow: 
 --- !u!4 &452000787
 Transform:
   m_ObjectHideFlags: 0
@@ -4990,7 +4947,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
   m_sharedMaterial: {fileID: -8614114493768483767, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
@@ -5201,7 +5158,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5000
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: de8d4412d1c624583a308ca870516079, type: 2}
   m_sharedMaterial: {fileID: 1933200335694433479, guid: de8d4412d1c624583a308ca870516079, type: 2}
@@ -5228,7 +5185,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.1
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5566,7 +5523,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5000
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: de8d4412d1c624583a308ca870516079, type: 2}
   m_sharedMaterial: {fileID: 1933200335694433479, guid: de8d4412d1c624583a308ca870516079, type: 2}
@@ -5593,7 +5550,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.1
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6170,7 +6127,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5000
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: de8d4412d1c624583a308ca870516079, type: 2}
   m_sharedMaterial: {fileID: 1933200335694433479, guid: de8d4412d1c624583a308ca870516079, type: 2}
@@ -6197,7 +6154,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.1
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6529,19 +6486,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 606625179}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 452000786}
-        m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
-        m_MethodName: SetYourBet_Data2
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &606625179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6593,33 +6538,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 3
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: SetYourBet_Data2
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 606625178}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 2
+  - eventID: 3
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: StopBetData0
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 606625178}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -8162,7 +8107,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -8186,19 +8131,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 782656595}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 452000786}
-        m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
-        m_MethodName: SetYourBet_Data0
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 10
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &782656598
 Animator:
   serializedVersion: 7
@@ -8234,33 +8167,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 3
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: SetYourBet_Data0
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 782656597}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 2
+  - eventID: 3
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: StopBetData0
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 782656597}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -8401,7 +8334,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
   m_sharedMaterial: {fileID: -8614114493768483767, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
@@ -8520,7 +8453,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5266b087d7763f549aff5977e6010505, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 634e73b71dbf40143aea84ea02799d45, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -8664,7 +8597,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5000
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: de8d4412d1c624583a308ca870516079, type: 2}
   m_sharedMaterial: {fileID: 1933200335694433479, guid: de8d4412d1c624583a308ca870516079, type: 2}
@@ -8691,7 +8624,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.1
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9195,7 +9128,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5000
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: de8d4412d1c624583a308ca870516079, type: 2}
   m_sharedMaterial: {fileID: 1933200335694433479, guid: de8d4412d1c624583a308ca870516079, type: 2}
@@ -9222,7 +9155,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.1
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11076,7 +11009,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
   m_sharedMaterial: {fileID: -8614114493768483767, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
@@ -11708,7 +11641,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5000
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: de8d4412d1c624583a308ca870516079, type: 2}
   m_sharedMaterial: {fileID: 1933200335694433479, guid: de8d4412d1c624583a308ca870516079, type: 2}
@@ -11735,7 +11668,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.1
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -12055,7 +11988,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
   m_sharedMaterial: {fileID: -8614114493768483767, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
@@ -12267,7 +12200,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
   m_sharedMaterial: {fileID: -8614114493768483767, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
@@ -13211,7 +13144,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
   m_sharedMaterial: {fileID: -8614114493768483767, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
@@ -13775,19 +13708,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1484078405}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 452000786}
-        m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
-        m_MethodName: SetYourBet_Data9
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 9
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &1484078408
 Animator:
   serializedVersion: 7
@@ -13823,33 +13744,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 3
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: SetYourBet_Data9
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 1484078407}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 2
+  - eventID: 3
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: StopBetData0
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 1484078407}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -14976,19 +14897,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1606589062}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 452000786}
-        m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
-        m_MethodName: SetYourBet_Data8
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 8
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &1606589065
 Animator:
   serializedVersion: 7
@@ -15024,33 +14933,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 3
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: SetYourBet_Data8
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 1606589064}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 2
+  - eventID: 3
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: StopBetData0
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 1606589064}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -15584,7 +15493,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5000
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: de8d4412d1c624583a308ca870516079, type: 2}
   m_sharedMaterial: {fileID: 1933200335694433479, guid: de8d4412d1c624583a308ca870516079, type: 2}
@@ -15611,7 +15520,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.1
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -16132,19 +16041,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1744854596}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 452000786}
-        m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
-        m_MethodName: SetYourBet_Data5
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &1744854599
 Animator:
   serializedVersion: 7
@@ -16180,33 +16077,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 3
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: SetYourBet_Data5
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 1744854598}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 2
+  - eventID: 3
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: StopBetData0
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 1744854598}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -16481,7 +16378,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.337}
   m_AnchorMin: {x: 0.32432628, y: 0.6458161}
   m_AnchorMax: {x: 0.34633687, y: 0.71800005}
-  m_AnchoredPosition: {x: -0.17492676, y: 1.4507141}
+  m_AnchoredPosition: {x: -0.17492676, y: 1.4494629}
   m_SizeDelta: {x: 33.617264, y: 22.539581}
   m_Pivot: {x: 0.5751118, y: 0.5005767}
 --- !u!114 &1821900200
@@ -16580,7 +16477,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
   m_sharedMaterial: {fileID: -8614114493768483767, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
@@ -16863,7 +16760,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
   m_sharedMaterial: {fileID: -8614114493768483767, guid: 3ababd53aca1c43109af3bdab132d6d2, type: 2}
@@ -16998,7 +16895,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5000
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: de8d4412d1c624583a308ca870516079, type: 2}
   m_sharedMaterial: {fileID: 1933200335694433479, guid: de8d4412d1c624583a308ca870516079, type: 2}
@@ -17025,7 +16922,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.1
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -18064,19 +17961,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2042978490}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 452000786}
-        m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
-        m_MethodName: SetYourBet_Data6
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 6
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &2042978493
 Animator:
   serializedVersion: 7
@@ -18112,33 +17997,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 3
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: SetYourBet_Data6
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 2042978492}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 2
+  - eventID: 3
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
+        - m_Target: {fileID: 452000786}
+          m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+          m_MethodName: StopBetData0
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 2042978492}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -18545,7 +18430,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5000
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: de8d4412d1c624583a308ca870516079, type: 2}
   m_sharedMaterial: {fileID: 1933200335694433479, guid: de8d4412d1c624583a308ca870516079, type: 2}
@@ -18572,7 +18457,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.1
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

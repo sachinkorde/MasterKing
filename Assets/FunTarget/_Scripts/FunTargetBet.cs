@@ -3,9 +3,16 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using UnityEngine.EventSystems;
 
 public class FunTargetBet : MonoBehaviour
 {
+    public SpinTheWheel spinTheWheel;
+    public FunTargetAPIManager funTargetAPIManager;
+
     bool isCancelSpecificBet = false;
     public bool isCallWinNumAPI = false;
     public bool isGetWinNum = false;
@@ -13,6 +20,7 @@ public class FunTargetBet : MonoBehaviour
     public bool isDataNull = false;
     public bool isFunCounter = false;
     public bool isDataSendOnClick = false;
+    public bool countdownStarted = false;
 
     public GameObject btnHider;
 
@@ -22,6 +30,8 @@ public class FunTargetBet : MonoBehaviour
     public TMP_Text bottomPanelMsg;
     [SerializeField] private TMP_Text bet1_text, bet2_text, bet3_text, bet4_text, bet5_text, bet6_text, bet7_text, bet8_text, bet9_text, bet0_text, showAllAmt;
     public TMP_Text[] last10WinText;
+
+    public float timeLeft = 59f;
 
     public int clickbetData = 0;
     public int tempBetData = 0;
@@ -60,10 +70,13 @@ public class FunTargetBet : MonoBehaviour
     public int allAmt = 0;
     public int lastTransactionId;
 
+    public List<int> winNumToShow = new();
+
     private void Start()
     {
-        ResetBetData();
-
+        //ResetBetData();
+        //funTargetAPIManager.GetResultFun();
+        //PrevoiusBetStatus();
         /*Debug.Log(PlayerPrefs.GetInt("data0"));
         Debug.Log(PlayerPrefs.GetInt("data1"));
         Debug.Log(PlayerPrefs.GetInt("data2"));
@@ -74,6 +87,29 @@ public class FunTargetBet : MonoBehaviour
         Debug.Log(PlayerPrefs.GetInt("data7"));
         Debug.Log(PlayerPrefs.GetInt("data8"));
         Debug.Log(PlayerPrefs.GetInt("data9"));*/
+
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+    }
+
+    public void PrevoiusBetStatus()
+    {
+        if (isTake)
+        {
+            bet1_text.text = PlayerPrefs.GetInt("data1").ToString();
+            bet2_text.text = PlayerPrefs.GetInt("data2").ToString();
+            bet3_text.text = PlayerPrefs.GetInt("data3").ToString();
+            bet4_text.text = PlayerPrefs.GetInt("data4").ToString();
+            bet5_text.text = PlayerPrefs.GetInt("data5").ToString();
+            bet6_text.text = PlayerPrefs.GetInt("data6").ToString();
+            bet7_text.text = PlayerPrefs.GetInt("data7").ToString();
+            bet8_text.text = PlayerPrefs.GetInt("data7").ToString();
+            bet8_text.text = PlayerPrefs.GetInt("data9").ToString();
+            bet0_text.text = PlayerPrefs.GetInt("data0").ToString();
+        }
+        else
+        {
+            ResetBetData();
+        }
     }
 
     public void CancelAllBet()
@@ -112,602 +148,196 @@ public class FunTargetBet : MonoBehaviour
         bottomPanelMsg.gameObject.SetActive(true);
     }
 
+    private int currentIndex = 0;
+
+    public void ShowWinNumInLast10Data()
+    {
+        //winNumToShow.Add(spinTheWheel.Winningnumber);
+
+        if (winNumToShow.Count < last10WinText.Length)
+        {
+            winNumToShow.Add(spinTheWheel.Winningnumber);
+        }
+        else
+        {
+            winNumToShow[currentIndex] = spinTheWheel.Winningnumber;
+            currentIndex = (currentIndex + 1) % last10WinText.Length;
+        }
+
+        for (int i = 0; i < last10WinText.Length; i++)
+        {
+            if (i < winNumToShow.Count)
+            {
+                last10WinText[i].text = winNumToShow[i].ToString();
+            }
+            else
+            {
+                last10WinText[i].text = "";
+            }
+        }
+
+        Debug.Log("Showing win text data calllllllllllllllll");
+    }
+
     #region OnClick Bet Numbers
-    public void SetYourBet_Data0() // on set bet on numbers 0
+    bool isPressingData = false;
+
+    public void StopBetData0()
+    {
+        isPressingData = false;
+    }
+
+    public IEnumerator SetYourBet(int dataIndex, TMP_Text betText, int betClickCounter, int tempClickData)
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-        int limtSet = allAmt + clickbetData;
+        int limitSet = allAmt + clickbetData;
 
-        if (!isTake)
+        while (isPressingData)
         {
-            if (!isCancelSpecificBet)
+            if (!isTake)
             {
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
+                if (!isCancelSpecificBet)
                 {
-                    if (clickbetData > 0)
+                    if (PlayerPrefs.GetInt("ft_Score") >= limitSet)
                     {
-                        if (betClickCounter_Data0 == 0)
+                        if (clickbetData > 0)
                         {
-                            PlayerPrefs.SetInt("data0", clickbetData);
-                            bet0_text.text = clickbetData.ToString();
-                            betClickCounter_Data0++;
-                            tempClick_Data0 = clickbetData;
+                            if (betClickCounter == 0)
+                            {
+                                betText.text = clickbetData.ToString();
+                                tempClickData = clickbetData;
+                            }
+                            else if (betClickCounter == 1)
+                            {
+                                tempClickData += clickbetData;
+                                betClickCounter++;
+                            }
+                            else if (betClickCounter > 1)
+                            {
+                                tempClickData += clickbetData;
+                            }
+                            betClickCounter++;
+                            PlayerPrefs.SetInt("data" + dataIndex, tempClickData);
+                            betText.text = tempClickData.ToString();
                         }
-                        else if (betClickCounter_Data0 == 1)
+                        else
                         {
-                            tempClick_Data0 += clickbetData;
-                            PlayerPrefs.SetInt("data0", tempClick_Data0);
-                            bet0_text.text = tempClick_Data0.ToString();
-                            betClickCounter_Data0++;
-                            tempClick_Data0 = clickbetData;
-                        }
-                        else if (betClickCounter_Data0 > 1)
-                        {
-                            tempClick_Data0 += clickbetData;
-                            PlayerPrefs.SetInt("data0", tempClick_Data0);
-                            bet0_text.text = tempClick_Data0.ToString();
+                            betText.text = "";
                         }
                     }
                     else
                     {
-                        bet0_text.text = "";
+                        bottomPanelMsg.text = "Insufficient Fund";
                     }
                 }
                 else
                 {
-                    bottomPanelMsg.text = "Insufficient Fund";
+                    isCancelSpecificBet = false;
+                    betText.text = "";
+                    betClickCounter = 0;
+                    tempClickData = 0;
+                    clickbetData = 0;
+                    PlayerPrefs.SetInt("data" + dataIndex, clickbetData);
                 }
             }
             else
             {
-                isCancelSpecificBet = false;
-                bet0_text.text = "";
-                betClickCounter_Data0 = 0;
-                tempClick_Data0 = 0;
-                clickbetData = 0;
-                PlayerPrefs.SetInt("data0", clickbetData);
+                PlayBottomAnim();
             }
+
+            AllDataAmount();
+            yield return new WaitForSeconds(0.35f);
         }
-        else
+    }
+
+    public void SetYourBet_Data0() // on set bet on numbers 0
+    {
+        if (!isPressingData)
         {
-            PlayBottomAnim();
+            isPressingData = true;
+            StartCoroutine(SetYourBet(0, bet0_text, betClickCounter_Data0, tempClick_Data0));
         }
-
-
-        AllDataAmount();
     }
 
     public void SetYourBet_Data1() // on set bet on numbers 1
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-        int limtSet = allAmt + clickbetData;
-        if (!isTake)
+        if (!isPressingData)
         {
-            if (!isCancelSpecificBet)
-            {
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
-                {
-                    if (clickbetData > 0)
-                    {
-                        if (betClickCounter_Data1 == 0)
-                        {
-                            bet1_text.text = clickbetData.ToString();
-                            tempClick_Data1 = clickbetData;
-                        }
-                        else if (betClickCounter_Data1 == 1)
-                        {
-                            tempClick_Data1 += clickbetData;
-                            betClickCounter_Data1++;
-                        }
-                        else if (betClickCounter_Data1 > 1)
-                        {
-                            tempClick_Data1 += clickbetData;
-                        }
-                        betClickCounter_Data1++;
-                        PlayerPrefs.SetInt("data1", tempClick_Data1);
-                        bet1_text.text = tempClick_Data1.ToString();
-                    }
-                    else
-                    {
-                        bet1_text.text = "";
-                    }
-                }
-                else
-                {
-                    bottomPanelMsg.text = "Insufficient Fund";
-                }
-            }
-            else
-            {
-                isCancelSpecificBet = false;
-                bet1_text.text = "";
-                betClickCounter_Data1 = 0;
-                tempClick_Data1 = 0;
-                clickbetData = 0;
-                PlayerPrefs.SetInt("data1", clickbetData);
-            }
+            isPressingData = true;
+            StartCoroutine(SetYourBet(1, bet1_text, betClickCounter_Data1, tempClick_Data1));
         }
-        else
-        {
-            PlayBottomAnim();
-        }
-
-        AllDataAmount();
     }
 
     public void SetYourBet_Data2() // on set bet on numbers 2
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-        int limtSet = allAmt + clickbetData;
-
-        if (!isTake)
+        if (!isPressingData)
         {
-            if (!isCancelSpecificBet)
-            {
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
-                {
-                    if (clickbetData > 0)
-                    {
-                        if (betClickCounter_Data2 == 0)
-                        {
-                            bet2_text.text = clickbetData.ToString();
-                            tempClick_Data2 = clickbetData;
-                        }
-                        else if (betClickCounter_Data2 == 1)
-                        {
-                            tempClick_Data2 += clickbetData;
-                            betClickCounter_Data2++;
-                        }
-                        else if (betClickCounter_Data2 > 1)
-                        {
-                            tempClick_Data2 += clickbetData;
-                        }
-                        betClickCounter_Data2++;
-                        PlayerPrefs.SetInt("data2", tempClick_Data2);
-                        bet2_text.text = tempClick_Data2.ToString();
-                    }
-                    else
-                    {
-                        bet2_text.text = "";
-                    }
-                }
-                else
-                {
-                    bottomPanelMsg.text = "Insufficient Fund";
-                }
-            }
-            else
-            {
-                isCancelSpecificBet = false;
-                bet2_text.text = "";
-                betClickCounter_Data2 = 0;
-                tempClick_Data2 = 0;
-                clickbetData = 0;
-                PlayerPrefs.SetInt("data2", clickbetData);
-            }
+            isPressingData = true;
+            StartCoroutine(SetYourBet(2, bet2_text, betClickCounter_Data2, tempClick_Data2));
         }
-        else
-        {
-            PlayBottomAnim();
-        }
-
-
-        AllDataAmount();
     }
 
     public void SetYourBet_Data3() // on set bet on numbers 3
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-        int limtSet = allAmt + clickbetData;
-
-        if (!isTake)
+        if (!isPressingData)
         {
-            if (!isCancelSpecificBet)
-            {
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
-                {
-                    if (clickbetData > 0)
-                    {
-                        if (betClickCounter_Data3 == 0)
-                        {
-                            bet3_text.text = clickbetData.ToString();
-                            tempClick_Data3 = clickbetData;
-                        }
-                        else if (betClickCounter_Data3 == 1)
-                        {
-                            tempClick_Data3 += clickbetData;
-                            betClickCounter_Data3++;
-                        }
-                        else if (betClickCounter_Data3 > 1)
-                        {
-                            tempClick_Data3 += clickbetData;
-                        }
-                        betClickCounter_Data3++;
-                        PlayerPrefs.SetInt("data3", tempClick_Data3);
-                        bet3_text.text = tempClick_Data3.ToString();
-                    }
-                    else
-                    {
-                        bet3_text.text = "";
-                    }
-                }
-                else
-                {
-                    bottomPanelMsg.text = "Insufficient Fund";
-                }
-            }
-            else
-            {
-                isCancelSpecificBet = false;
-                bet3_text.text = "";
-                betClickCounter_Data3 = 0;
-                tempClick_Data3 = 0;
-                clickbetData = 0;
-                PlayerPrefs.SetInt("data3", clickbetData);
-            }
+            isPressingData = true;
+            StartCoroutine(SetYourBet(3, bet3_text, betClickCounter_Data3, tempClick_Data3));
         }
-        else
-        {
-            PlayBottomAnim();
-        }
-
-
-        AllDataAmount();
     }
 
     public void SetYourBet_Data4() // on set bet on numbers 4
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-        int limtSet = allAmt + clickbetData;
-
-        if (!isTake)
+        if (!isPressingData)
         {
-            if (!isCancelSpecificBet)
-            {
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
-                {
-                    if (clickbetData > 0)
-                    {
-                        if (betClickCounter_Data4 == 0)
-                        {
-                            bet4_text.text = clickbetData.ToString();
-                            tempClick_Data4 = clickbetData;
-                        }
-                        else if (betClickCounter_Data4 == 1)
-                        {
-                            tempClick_Data4 += clickbetData;
-                            betClickCounter_Data4++;
-                        }
-                        else if (betClickCounter_Data4 > 1)
-                        {
-                            tempClick_Data4 += clickbetData;
-                        }
-                        betClickCounter_Data4++;
-                        PlayerPrefs.SetInt("data4", tempClick_Data4);
-                        bet4_text.text = tempClick_Data4.ToString();
-                    }
-                    else
-                    {
-                        bet4_text.text = "";
-                    }
-                }
-                else
-                {
-                    bottomPanelMsg.text = "Insufficient Fund";
-                }
-            }
-            else
-            {
-                isCancelSpecificBet = false;
-                bet4_text.text = "";
-                betClickCounter_Data4 = 0;
-                tempClick_Data4 = 0;
-                clickbetData = 0;
-                PlayerPrefs.SetInt("data4", clickbetData);
-            }
+            isPressingData = true;
+            StartCoroutine(SetYourBet(4, bet4_text, betClickCounter_Data4, tempClick_Data4));
         }
-        else
-        {
-            PlayBottomAnim();
-        }
-
-
-        AllDataAmount();
     }
 
     public void SetYourBet_Data5() // on set bet on numbers 5
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-        int limtSet = allAmt + clickbetData;
-
-        if (!isTake)
+        if (!isPressingData)
         {
-            if (!isCancelSpecificBet)
-            {
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
-                {
-                    if (clickbetData > 0)
-                    {
-                        if (betClickCounter_Data5 == 0)
-                        {
-                            bet5_text.text = clickbetData.ToString();
-                            tempClick_Data5 = clickbetData;
-                        }
-                        else if (betClickCounter_Data5 == 1)
-                        {
-                            tempClick_Data5 += clickbetData;
-                            betClickCounter_Data5++;
-                        }
-                        else if (betClickCounter_Data5 > 1)
-                        {
-                            tempClick_Data5 += clickbetData;
-                        }
-                        betClickCounter_Data5++;
-                        PlayerPrefs.SetInt("data5", tempClick_Data5);
-                        bet5_text.text = tempClick_Data5.ToString();
-                    }
-                    else
-                    {
-                        bet5_text.text = "";
-                    }
-                }
-                else
-                {
-                    bottomPanelMsg.text = "Insufficient Fund";
-                }
-            }
-            else
-            {
-                isCancelSpecificBet = false;
-                bet5_text.text = "";
-                betClickCounter_Data5 = 0;
-                tempClick_Data5 = 0;
-                clickbetData = 0;
-                PlayerPrefs.SetInt("data5", clickbetData);
-            }
+            isPressingData = true;
+            StartCoroutine(SetYourBet(5, bet5_text, betClickCounter_Data5, tempClick_Data5));
         }
-        else
-        {
-            PlayBottomAnim();
-        }
-
-        AllDataAmount();
     }
 
     public void SetYourBet_Data6() // on set bet on numbers 6
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-        int limtSet = allAmt + clickbetData;
-
-        if (!isTake)
+        if (!isPressingData)
         {
-            if (!isCancelSpecificBet)
-            {
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
-                {
-                    if (clickbetData > 0)
-                    {
-                        if (betClickCounter_Data6 == 0)
-                        {
-                            bet6_text.text = clickbetData.ToString();
-                            tempClick_Data6 = clickbetData;
-                        }
-                        else if (betClickCounter_Data6 == 1)
-                        {
-                            tempClick_Data6 += clickbetData;
-                            betClickCounter_Data6++;
-                        }
-                        else if (betClickCounter_Data6 > 1)
-                        {
-                            tempClick_Data6 += clickbetData;
-                        }
-                        betClickCounter_Data6++;
-                        PlayerPrefs.SetInt("data6", tempClick_Data6);
-                        bet6_text.text = tempClick_Data6.ToString();
-                    }
-                    else
-                    {
-                        bet6_text.text = "";
-                    }
-                }
-                else
-                {
-                    bottomPanelMsg.text = "Insufficient Fund";
-                }
-            }
-            else
-            {
-                isCancelSpecificBet = false;
-                bet6_text.text = "";
-                betClickCounter_Data6 = 0;
-                tempClick_Data6 = 0;
-                clickbetData = 0;
-                PlayerPrefs.SetInt("data6", clickbetData);
-            }
+            isPressingData = true;
+            StartCoroutine(SetYourBet(6, bet6_text, betClickCounter_Data6, tempClick_Data6));
         }
-        else
-        {
-            PlayBottomAnim();
-        }
-
-        AllDataAmount();
     }
 
     public void SetYourBet_Data7() // on set bet on numbers 7
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-        int limtSet = allAmt + clickbetData;
-
-        if (!isTake)
+        if (!isPressingData)
         {
-            if (!isCancelSpecificBet)
-            {
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
-                {
-                    if (clickbetData > 0)
-                    {
-                        if (betClickCounter_Data7 == 0)
-                        {
-                            bet7_text.text = clickbetData.ToString();
-                            tempClick_Data7 = clickbetData;
-                        }
-                        else if (betClickCounter_Data7 == 1)
-                        {
-                            tempClick_Data7 += clickbetData;
-                            betClickCounter_Data7++;
-                        }
-                        else if (betClickCounter_Data7 > 1)
-                        {
-                            tempClick_Data7 += clickbetData;
-                        }
-                        betClickCounter_Data7++;
-                        PlayerPrefs.SetInt("data7", tempClick_Data7);
-                        bet7_text.text = tempClick_Data7.ToString();
-                    }
-                    else
-                    {
-                        bet7_text.text = "";
-                    }
-                }
-                else
-                {
-                    bottomPanelMsg.text = "Insufficient Fund";
-                }
-            }
-            else
-            {
-                isCancelSpecificBet = false;
-                bet7_text.text = "";
-                betClickCounter_Data7 = 0;
-                tempClick_Data7 = 0;
-                clickbetData = 0;
-                PlayerPrefs.SetInt("data7", clickbetData);
-            }
+            isPressingData = true;
+            StartCoroutine(SetYourBet(7, bet7_text, betClickCounter_Data7, tempClick_Data7));
         }
-        else
-        {
-            PlayBottomAnim();
-        }
-
-        AllDataAmount();
     }
 
     public void SetYourBet_Data8() // on set bet on numbers 8
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-        int limtSet = allAmt + clickbetData;
-
-        if (!isTake)
+        if (!isPressingData)
         {
-            if (!isCancelSpecificBet)
-            {
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
-                {
-                    if (clickbetData > 0)
-                    {
-                        if (betClickCounter_Data8 == 0)
-                        {
-                            bet8_text.text = clickbetData.ToString();
-                            tempClick_Data8 = clickbetData;
-                        }
-                        else if (betClickCounter_Data8 == 1)
-                        {
-                            tempClick_Data8 += clickbetData;
-                            betClickCounter_Data8++;
-                        }
-                        else if (betClickCounter_Data8 > 1)
-                        {
-                            tempClick_Data8 += clickbetData;
-                        }
-                        betClickCounter_Data8++;
-                        PlayerPrefs.SetInt("data8", tempClick_Data8);
-                        bet8_text.text = tempClick_Data8.ToString();
-                    }
-                    else
-                    {
-                        bet8_text.text = "";
-                    }
-                }
-                else
-                {
-                    bottomPanelMsg.text = "Insufficient Fund";
-                }
-            }
-            else
-            {
-                isCancelSpecificBet = false;
-                bet8_text.text = "";
-                betClickCounter_Data8 = 0;
-                tempClick_Data8 = 0;
-                clickbetData = 0;
-                PlayerPrefs.SetInt("data8", clickbetData);
-            }
+            isPressingData = true;
+            StartCoroutine(SetYourBet(8, bet8_text, betClickCounter_Data8, tempClick_Data8));
         }
-        else
-        {
-            PlayBottomAnim();
-        }
-
-        AllDataAmount();
     }
 
     public void SetYourBet_Data9() // on set bet on numbers 9
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-        int limtSet = allAmt + clickbetData;
-
-        if (!isTake)
+        if (!isPressingData)
         {
-            if (!isCancelSpecificBet)
-            {
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
-                {
-                    if (clickbetData > 0)
-                    {
-                        if (betClickCounter_Data9 == 0)
-                        {
-                            bet9_text.text = clickbetData.ToString();
-                            tempClick_Data9 = clickbetData;
-                        }
-                        else if (betClickCounter_Data9 == 1)
-                        {
-                            tempClick_Data9 += clickbetData;
-                            betClickCounter_Data9++;
-                        }
-                        else if (betClickCounter_Data9 > 1)
-                        {
-                            tempClick_Data9 += clickbetData;
-                        }
-                        betClickCounter_Data9++;
-                        PlayerPrefs.SetInt("data9", tempClick_Data9);
-                        bet9_text.text = tempClick_Data9.ToString();
-                    }
-                    else
-                    {
-                        bet9_text.text = "";
-                    }
-                }
-                else
-                {
-                    bottomPanelMsg.text = "Insufficient Fund";
-                }
-            }
-            else
-            {
-                isCancelSpecificBet = false;
-                bet9_text.text = "";
-                betClickCounter_Data9 = 0;
-                tempClick_Data9 = 0;
-                clickbetData = 0;
-                PlayerPrefs.SetInt("data9", clickbetData);
-            }
+            isPressingData = true;
+            StartCoroutine(SetYourBet(9, bet9_text, betClickCounter_Data9, tempClick_Data9));
         }
-        else
-        {
-            PlayBottomAnim();
-        }
-
-        AllDataAmount();
     }
 
     void AllDataAmount()
@@ -859,7 +489,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void LoadToGameSelection()
     {
-        ResetBetData();
+        //ResetBetData();
         SceneManager.LoadScene("GameSelection");
     }
 
@@ -878,6 +508,17 @@ public class FunTargetBet : MonoBehaviour
         {
             //buttonExit.transform.localScale = new Vector2(1f, 1f);
             buttonExit.transform.localScale = new Vector3(1.15f, 1.15f);
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // Handle the back button press here
+            // You can perform any necessary actions or navigation logic
+
+            SceneManager.LoadScene("GameSelection");
         }
     }
 }

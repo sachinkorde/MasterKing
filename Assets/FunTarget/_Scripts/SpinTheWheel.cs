@@ -33,11 +33,11 @@ public class SpinTheWheel : MonoBehaviour
     {
         SpinWheel.SetActive(true);
         SpinWheel.transform.localEulerAngles = Vector3.zero;
-        NumberOfRotation = Random.Range(4, 10);
+        NumberOfRotation = Random.Range(7, 10);
         //Winningnumber = Random.Range(0, totalNumbers);
         float AngleOfRotation;
         AngleOfRotation = (NumberOfRotation * -360) + float.Parse(NumberAngle[Winningnumber]);
-        StartCoroutine(Spin(0, AngleOfRotation, 5));
+        StartCoroutine(Spin(0, AngleOfRotation, 7));
     }
 
     private IEnumerator Spin(float fromAngle, float toAngle, float withinSeconds)
@@ -66,12 +66,14 @@ public class SpinTheWheel : MonoBehaviour
         if (!funTargetBet.isDataNull)
         {
             funTargetAPIManager.GetResultFun();
-            funTargetBet.ResetBetData();
+            //funTargetBet.ResetBetData();
+            //funTargetBet.PrevoiusBetStatus();
         }
 
         yield return new WaitForSeconds(0.5f);
 
-        funTargetAPIManager.GetLast10WinNumbers();
+        //funTargetAPIManager.GetLast10WinNumbers();
+        funTargetBet.ShowWinNumInLast10Data();
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Loading);
 
         yield return new WaitForSeconds(1.0f);

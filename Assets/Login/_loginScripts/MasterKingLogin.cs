@@ -39,6 +39,7 @@ public class MasterKingLogin : MonoBehaviour
 
     private void Start()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         StartCoroutine(StartAnim());
         glowEmterBtn.SetActive(false);
     }
