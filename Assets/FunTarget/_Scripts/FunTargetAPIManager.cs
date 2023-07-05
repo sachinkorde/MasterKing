@@ -21,7 +21,7 @@ public class FunTargetAPIManager : MonoBehaviour
     public static TimerData timerData;
     public static TakeAPI takeAPI;
     public static Last_10_WinningNum last_10_WinningNum;
-    public static LasttransactionId lasttransactionId;
+    public static TransactionData lasttransactionId;
     public static BettingData bettingData;
     public static GetDbWinNum getDbWinNum;
     public static GetResultData getResultData;
@@ -33,7 +33,7 @@ public class FunTargetAPIManager : MonoBehaviour
         PlayerPrefs.SetInt("userId", 1020);
         userID = PlayerPrefs.GetInt("userId").ToString();
 
-        GetResultFun();
+        OnLoadStartGetResultFun();
     }
 
     private void Start()
@@ -47,7 +47,6 @@ public class FunTargetAPIManager : MonoBehaviour
     }
 
     #region GettimerData get_Timer
-    int minutes;
     int seconds;
     int preSec;
 
@@ -55,12 +54,10 @@ public class FunTargetAPIManager : MonoBehaviour
     {
         funTargetBet.countdownStarted = true;
 
-        while (true)
+        while (funTargetBet.countdownStarted)
         {
             funTargetBet.timeLeft -= Time.deltaTime;
-
             preSec = seconds;
-            //minutes = (int)Mathf.Floor(funTargetBet.timeLeft / 60);
             seconds = (int)Mathf.Floor(funTargetBet.timeLeft % 60);
 
             if (seconds < 10)
@@ -69,10 +66,9 @@ public class FunTargetAPIManager : MonoBehaviour
             }
             else
             {
-                funTargetBet.timerText.text = "00" + ":" + ":" + seconds;
+                funTargetBet.timerText.text = "00" + ":" + seconds;
             }
             
-
             if (seconds < preSec)
             {
                 FT_SoundManager.instance.timerAudio.Play();
@@ -100,12 +96,11 @@ public class FunTargetAPIManager : MonoBehaviour
 
             if (funTargetBet.timeLeft <= 0f)
             {
-                // Reset the timer to 60 seconds
+                funTargetBet.timerText.text = "00" + ":" + "00";
                 funTargetBet.countdownStarted = false;
                 StopCoroutine(StartCountdown());
                 spinTheWheel.StartSpinButtonClick();
                 FT_SoundManager.instance.timerAudio.Stop();
-                yield return null;
             }
 
             yield return null;
@@ -114,10 +109,9 @@ public class FunTargetAPIManager : MonoBehaviour
 
     public void StartTimerAgain()
     {
-        StartCoroutine(StartCountdown());
+        funTargetBet.countdownStarted = true;
         funTargetBet.timeLeft = 60;
-        //StartCoroutine(GetTimeData());
-        //GetLast10WinNumbers();
+        StartCoroutine(StartCountdown());
     }
 
     /* IEnumerator GetTimeData()
@@ -378,7 +372,7 @@ public class FunTargetAPIManager : MonoBehaviour
                 string strjson = www.downloadHandler.text;
                 Debug.Log(strjson);
 
-                lasttransactionId = JsonUtility.FromJson<LasttransactionId>(strjson);
+                lasttransactionId = JsonUtility.FromJson<TransactionData>(strjson);
 
                 switch (lasttransactionId.status)
                 {
@@ -401,6 +395,12 @@ public class FunTargetAPIManager : MonoBehaviour
 
     public void OnClickSendBetData()
     {
+        if (funTargetBet.isTake)
+        {
+            funTargetBet.PlayBottomAnim();
+            return;
+        }
+
         funTargetBet.btnHider.SetActive(true);
         funTargetBet.bottomPanelMsg.text = "Bet Cannot be Accepted..!";
         StartCoroutine(SendBettingData());
@@ -527,12 +527,12 @@ public class FunTargetAPIManager : MonoBehaviour
     #endregion
 
     #region GetResult Data
-    public void GetResultFun()
+    public void OnLoadStartGetResultFun()
     {
-        StartCoroutine(GetResultData());
+        StartCoroutine(OnLoadStartGetResultData());
     }
 
-    IEnumerator GetResultData()
+    IEnumerator OnLoadStartGetResultData()
     {
         Debug.Log(PlayerPrefs.GetInt("last_transaction_id") + "    last trrnasaction idddddddddddddddddddddd");
         WWWForm form = new();
@@ -565,15 +565,76 @@ public class FunTargetAPIManager : MonoBehaviour
                         Debug.Log(getResultData.betting_data[0].main_score);
                         Debug.Log(getResultData.betting_data[0].winner_score);
 
-                        funTargetBet.scoreTxt.text = getResultData.betting_data[0].main_score.ToString();
-                        funTargetBet.winText.text = getResultData.betting_data[0].winner_score.ToString();
-
-                        if (getResultData.betting_data[0].winner_score > 0)
+                        if (getResultData.betting_data[0].status == 10)
+                        {
+                            Debug.Log("Winning score daaaaaaaaaaaaaaaaataaaaaaaaaaaaa are 0");
+                            //funTargetBet.bottomPanelMsg.text = "Sorry.. You are Not Win Pleae Play Again...!";
+                            funTargetBet.isTake = false;
+                            funTargetBet.ResetBetData();
+                        }
+                        else if(getResultData.betting_data[0].winner_score > 0)
                         {
                             funTargetBet.isTake = true;
 
                             Debug.Log("Take winning score it is greater than 0");
                             funTargetBet.PrevoiusBetStatus();
+                            funTargetBet.scoreTxt.text = getResultData.betting_data[0].main_score.ToString();
+                            funTargetBet.winText.text = getResultData.betting_data[0].winner_score.ToString();
+                            funTargetBet.bottomPanelMsg.text = "Please Take your Win Amount And Play";
+                        }
+
+                        break;
+                }
+            }
+        }
+    }
+
+    public void GetResultFunInGame()
+    {
+        StartCoroutine(GetResultDataAfterGame());
+    }
+
+    IEnumerator GetResultDataAfterGame()
+    {
+        Debug.Log(PlayerPrefs.GetInt("last_transaction_id") + "    last trrnasaction idddddddddddddddddddddd");
+        WWWForm form = new();
+
+        form.AddField("user_id", userID);
+        form.AddField("app_token", "temp_token");
+        form.AddField("id", PlayerPrefs.GetInt("last_transaction_id"));
+
+        using (UnityWebRequest www = UnityWebRequest.Post(get_result, form))
+        {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string strjson = www.downloadHandler.text;
+                getResultData = JsonUtility.FromJson<GetResultData>(strjson);
+
+                Debug.Log(strjson);
+
+                switch (getResultData.status)
+                {
+                    case 500:
+                        Debug.Log(www.error);
+                        break;
+
+                    case 200:
+                        Debug.Log(getResultData.betting_data[0].main_score);
+                        Debug.Log(getResultData.betting_data[0].winner_score);
+
+                        if(getResultData.betting_data[0].winner_score > 0)
+                        {
+                            funTargetBet.isTake = true;
+
+                            Debug.Log("Take winning score it is greater than 0");
+                            funTargetBet.PrevoiusBetStatus();
+                            funTargetBet.scoreTxt.text = getResultData.betting_data[0].main_score.ToString();
+                            funTargetBet.winText.text = getResultData.betting_data[0].winner_score.ToString();
                             funTargetBet.bottomPanelMsg.text = "Please Take your Win Amount And Play";
                         }
                         else
@@ -590,4 +651,124 @@ public class FunTargetAPIManager : MonoBehaviour
         }
     }
     #endregion
+}
+
+[System.Serializable]
+public class ScoreBoardData
+{
+    public int status;
+    public string message;
+    public int main_score;
+    public int wining_score;
+}
+
+[System.Serializable]
+public class TimerData
+{
+    public int status;
+    public string message;
+    public int timer;
+}
+
+[System.Serializable]
+public class Last_Transaction_id_FT
+{
+    public int status;
+    public string message;
+    public int last_transaction_id;
+    public int collection_status;
+    public int transaction_status;
+    public int wining_score;
+}
+
+[System.Serializable]
+public class TakeAPI
+{
+    public string message;
+    public int success;
+    public int main_score;
+    public int wining_score;
+}
+
+[System.Serializable]
+public class Last_10_WinningFt
+{
+    public int status;
+    public string message;
+}
+
+[System.Serializable]
+public class Last_10_WinningNum
+{
+    public int status;
+    public string message;
+    public DataItem_WinNum[] last_10_data;
+    public int main_score;
+    public int wining_score;
+}
+
+[System.Serializable]
+public class DataItem_WinNum
+{
+    public int id;
+    public string random_number;
+    public string random_symbol;
+    public string created_at;
+    public string created_by;
+}
+
+[System.Serializable]
+public class GetResultData
+{
+    public int status;
+    public string message;
+    public betting_data[] betting_data;
+}
+
+[System.Serializable]
+public class betting_data
+{
+    public int id;
+    public int user_id;
+    public int data0;
+    public int data1;
+    public int data2;
+    public int data3;
+    public int data4;
+    public int data5;
+    public int data6;
+    public int data7;
+    public int data8;
+    public int data9;
+    public int main_score;
+    public int winner_score;
+    public int wining_number;
+    public int wining_status;
+    public int status;
+}
+
+public class BettingData
+{
+    public int status;
+    public string message;
+    public int transaction_id;
+}
+
+[System.Serializable]
+public class TransactionData
+{
+    public int status;
+    public string message;
+    public string last_transaction_id;
+    public int collection_status;
+    public string transaction_status;
+    public string wining_score;
+}
+
+[System.Serializable]
+public class GetDbWinNum
+{
+    public int status;
+    public string message;
+    public int winning_number;
 }

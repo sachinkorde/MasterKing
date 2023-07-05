@@ -65,14 +65,11 @@ public class SpinTheWheel : MonoBehaviour
 
         if (!funTargetBet.isDataNull)
         {
-            funTargetAPIManager.GetResultFun();
-            //funTargetBet.ResetBetData();
-            //funTargetBet.PrevoiusBetStatus();
+            funTargetAPIManager.GetResultFunInGame();
         }
 
         yield return new WaitForSeconds(0.5f);
 
-        //funTargetAPIManager.GetLast10WinNumbers();
         funTargetBet.ShowWinNumInLast10Data();
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Loading);
 
