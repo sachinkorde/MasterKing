@@ -34,14 +34,16 @@ public class MasterKingLogin : MonoBehaviour
     public static result res;
 
     public Text loginResponse;
-    public GameObject glowEmterBtn;
+    public GameObject glowEnterBtn;
+    public GameObject glowCloseBtn;
     public GameObject loginScreenPanel;
 
     private void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         StartCoroutine(StartAnim());
-        glowEmterBtn.SetActive(false);
+        glowEnterBtn.SetActive(false);
+        glowCloseBtn.SetActive(false);
     }
 
     IEnumerator StartAnim()
@@ -50,20 +52,20 @@ public class MasterKingLogin : MonoBehaviour
         yield return new WaitForSeconds(0.11f);
         loginScreenPanel.SetActive(false);
         
-        if (PlayerPrefs.GetInt("isloggedIn") == 1)
+        /*if (PlayerPrefs.GetInt("isloggedIn") == 1)
         {
             SceneManager.LoadScene("GameSelection");
         }
         else
         {
             yield return null;
-        }
+        }*/
     }
 
     public void Login()
     {
         StartCoroutine(LoginGame());
-        glowEmterBtn.SetActive(true);
+        glowEnterBtn.SetActive(true);
     }
 
     public IEnumerator LoginGame()
@@ -92,7 +94,7 @@ public class MasterKingLogin : MonoBehaviour
                         loginResponse.text = res.message;
                         yield return new WaitForSeconds(2f);
                         loginResponse.text = "";
-                        glowEmterBtn.SetActive(false);
+                        glowEnterBtn.SetActive(false);
                         break;
 
                     case 200:
@@ -108,7 +110,14 @@ public class MasterKingLogin : MonoBehaviour
         }
     }
 
-    public IEnumerator AutoLogin(string username, string pass)
+    public void CloseApp()
+    {
+        glowCloseBtn.SetActive(true);
+        Application.Quit();
+        Debug.Log("Hit on close App");
+    }
+
+    /*public IEnumerator AutoLogin(string username, string pass)
     {
         WWWForm form = new WWWForm();
 
@@ -133,5 +142,5 @@ public class MasterKingLogin : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 }

@@ -69,9 +69,34 @@ public class FunTargetBet : MonoBehaviour
 
     public List<int> winNumToShow = new();
 
+    [SerializeField] private float btnCounterValue = 2.0f;
+
     private void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
+        winNumToShow.Add(PlayerPrefs.GetInt("winNum0"));
+        winNumToShow.Add(PlayerPrefs.GetInt("winNum1"));
+        winNumToShow.Add(PlayerPrefs.GetInt("winNum2"));
+        winNumToShow.Add(PlayerPrefs.GetInt("winNum3"));
+        winNumToShow.Add(PlayerPrefs.GetInt("winNum4"));
+        winNumToShow.Add(PlayerPrefs.GetInt("winNum5"));
+        winNumToShow.Add(PlayerPrefs.GetInt("winNum6"));
+        winNumToShow.Add(PlayerPrefs.GetInt("winNum7"));
+        winNumToShow.Add(PlayerPrefs.GetInt("winNum8"));
+        winNumToShow.Add(PlayerPrefs.GetInt("winNum9"));
+
+        last10WinText[0].text = PlayerPrefs.GetInt("winNum0").ToString();
+        last10WinText[1].text = PlayerPrefs.GetInt("winNum1").ToString();
+        last10WinText[2].text = PlayerPrefs.GetInt("winNum2").ToString();
+        last10WinText[3].text = PlayerPrefs.GetInt("winNum3").ToString();
+        last10WinText[4].text = PlayerPrefs.GetInt("winNum4").ToString();
+        last10WinText[5].text = PlayerPrefs.GetInt("winNum5").ToString();
+        last10WinText[6].text = PlayerPrefs.GetInt("winNum6").ToString();
+        last10WinText[7].text = PlayerPrefs.GetInt("winNum7").ToString();
+        last10WinText[8].text = PlayerPrefs.GetInt("winNum8").ToString();
+        last10WinText[9].text = PlayerPrefs.GetInt("winNum9").ToString();
+
     }
 
     public void PrevoiusBetStatus()
@@ -163,11 +188,11 @@ public class FunTargetBet : MonoBehaviour
         {
             if (i < winNumToShow.Count)
             {
-                last10WinText[i].text = winNumToShow[i].ToString();
-            }
-            else
-            {
-                last10WinText[i].text = "";
+                PlayerPrefs.SetInt("winNum"+ i, winNumToShow[i]);
+                last10WinText[i].text = PlayerPrefs.GetInt("winNum" + i).ToString();
+
+                Debug.Log(PlayerPrefs.GetInt("winNum" + i) +  "    saved Nummmmmm");
+
             }
         }
     }
@@ -182,12 +207,31 @@ public class FunTargetBet : MonoBehaviour
 
     private bool isButtonPressed = false;
 
+    public void CommonMsgOnBet()
+    {
+        if (isTake)
+        {
+            PlayBottomAnim();
+            return;
+        }
+
+        if (clickbetData == 0)
+        {
+            bottomPanelMsg.text = "Please Select Any Bet Amount";
+            return;
+        }
+        else
+        {
+            bottomPanelMsg.text = "";
+        }
+    }
+
     private IEnumerator IncrementBetValue0()
     {
         int limtSet = allAmt + clickbetData;
         while (isButtonPressed)
         {
-            if (clickbetData + tempClick_Data0 <= 5000)
+            if (clickbetData + tempClick_Data0 <= 5000 && clickbetData > 0)
             {
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
@@ -205,19 +249,13 @@ public class FunTargetBet : MonoBehaviour
             {
                 bottomPanelMsg.text = "Limit 5000 to each Number";
             }
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(btnCounterValue);
         }
     }
 
     public void SetYourBet_Data0()
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-
-        if (isTake)
-        {
-            PlayBottomAnim();
-            return;
-        }
 
         if (isCancelSpecificBet)
         {
@@ -231,6 +269,8 @@ public class FunTargetBet : MonoBehaviour
             return;
         }
 
+        CommonMsgOnBet();
+
         StartCoroutine(IncrementBetValue0());
     }
 
@@ -239,7 +279,7 @@ public class FunTargetBet : MonoBehaviour
         int limtSet = allAmt + clickbetData;
         while (isButtonPressed)
         {
-            if (clickbetData + tempClick_Data1 <= 5000)
+            if (clickbetData + tempClick_Data1 <= 5000 && clickbetData > 0)
             {
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
@@ -258,19 +298,13 @@ public class FunTargetBet : MonoBehaviour
                 bottomPanelMsg.text = "Limit 5000 to each Number";
             }
             AllDataAmount();
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(btnCounterValue);
         }
     }
 
     public void SetYourBet_Data1() // on set bet on numbers 1
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-
-        if (isTake)
-        {
-            PlayBottomAnim();
-            return;
-        }
 
         if (isCancelSpecificBet)
         {
@@ -284,6 +318,8 @@ public class FunTargetBet : MonoBehaviour
             return;
         }
 
+        CommonMsgOnBet();
+
         StartCoroutine(IncrementBetValue1());
     }
 
@@ -292,7 +328,7 @@ public class FunTargetBet : MonoBehaviour
         int limtSet = allAmt + clickbetData;
         while (isButtonPressed)
         {
-            if (clickbetData + tempClick_Data2 <= 5000)
+            if (clickbetData + tempClick_Data2 <= 5000 && clickbetData > 0)
             {
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
@@ -311,19 +347,13 @@ public class FunTargetBet : MonoBehaviour
                 bottomPanelMsg.text = "Limit 5000 to each Number";
             }
             AllDataAmount();
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(btnCounterValue);
         }
     }
 
     public void SetYourBet_Data2() // on set bet on numbers 2
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-
-        if (isTake)
-        {
-            PlayBottomAnim();
-            return;
-        }
 
         if (isCancelSpecificBet)
         {
@@ -337,6 +367,8 @@ public class FunTargetBet : MonoBehaviour
             return;
         }
 
+        CommonMsgOnBet();
+
         StartCoroutine(IncrementBetValue2());
     }
 
@@ -345,7 +377,7 @@ public class FunTargetBet : MonoBehaviour
         int limtSet = allAmt + clickbetData;
         while (isButtonPressed)
         {
-            if (clickbetData + tempClick_Data3 <= 5000)
+            if (clickbetData + tempClick_Data3 <= 5000 && clickbetData > 0)
             {
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
@@ -364,19 +396,13 @@ public class FunTargetBet : MonoBehaviour
                 bottomPanelMsg.text = "Limit 5000 to each Number";
             }
             AllDataAmount();
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(btnCounterValue);
         }
     }
 
     public void SetYourBet_Data3() // on set bet on numbers 3
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-
-        if (isTake)
-        {
-            PlayBottomAnim();
-            return;
-        }
 
         if (isCancelSpecificBet)
         {
@@ -390,6 +416,8 @@ public class FunTargetBet : MonoBehaviour
             return;
         }
 
+        CommonMsgOnBet();
+
         StartCoroutine(IncrementBetValue3());
     }
 
@@ -398,7 +426,7 @@ public class FunTargetBet : MonoBehaviour
         int limtSet = allAmt + clickbetData;
         while (isButtonPressed)
         {
-            if (clickbetData + tempClick_Data4 <= 5000)
+            if (clickbetData + tempClick_Data4 <= 5000 && clickbetData > 0)
             {
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
@@ -417,19 +445,13 @@ public class FunTargetBet : MonoBehaviour
                 bottomPanelMsg.text = "Limit 5000 to each Number";
             }
             AllDataAmount();
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(btnCounterValue);
         }
     }
 
     public void SetYourBet_Data4() // on set bet on numbers 4
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-
-        if (isTake)
-        {
-            PlayBottomAnim();
-            return;
-        }
 
         if (isCancelSpecificBet)
         {
@@ -443,6 +465,8 @@ public class FunTargetBet : MonoBehaviour
             return;
         }
 
+        CommonMsgOnBet();
+
         StartCoroutine(IncrementBetValue4());
     }
 
@@ -451,7 +475,7 @@ public class FunTargetBet : MonoBehaviour
         int limtSet = allAmt + clickbetData;
         while (isButtonPressed)
         {
-            if (clickbetData + tempClick_Data5 <= 5000)
+            if (clickbetData + tempClick_Data5 <= 5000 && clickbetData > 0)
             {
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
@@ -470,19 +494,13 @@ public class FunTargetBet : MonoBehaviour
                 bottomPanelMsg.text = "Limit 5000 to each Number";
             }
             AllDataAmount();
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(btnCounterValue);
         }
     }
 
     public void SetYourBet_Data5() // on set bet on numbers 5
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-
-        if (isTake)
-        {
-            PlayBottomAnim();
-            return;
-        }
 
         if (isCancelSpecificBet)
         {
@@ -496,6 +514,8 @@ public class FunTargetBet : MonoBehaviour
             return;
         }
 
+        CommonMsgOnBet();
+
         StartCoroutine(IncrementBetValue5());
     }
 
@@ -504,7 +524,7 @@ public class FunTargetBet : MonoBehaviour
         int limtSet = allAmt + clickbetData;
         while (isButtonPressed)
         {
-            if (clickbetData + tempClick_Data6 <= 5000)
+            if (clickbetData + tempClick_Data6 <= 5000 && clickbetData > 0)
             {
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
@@ -523,19 +543,13 @@ public class FunTargetBet : MonoBehaviour
                 bottomPanelMsg.text = "Limit 5000 to each Number";
             }
             AllDataAmount();
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(btnCounterValue);
         }
     }
 
     public void SetYourBet_Data6() // on set bet on numbers 6
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-
-        if (isTake)
-        {
-            PlayBottomAnim();
-            return;
-        }
 
         if (isCancelSpecificBet)
         {
@@ -549,6 +563,8 @@ public class FunTargetBet : MonoBehaviour
             return;
         }
 
+        CommonMsgOnBet();
+
         StartCoroutine(IncrementBetValue6());
     }
 
@@ -557,7 +573,7 @@ public class FunTargetBet : MonoBehaviour
         int limtSet = allAmt + clickbetData;
         while (isButtonPressed)
         {
-            if (clickbetData + tempClick_Data7 <= 5000)
+            if (clickbetData + tempClick_Data7 <= 5000 && clickbetData > 0)
             {
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
@@ -576,19 +592,13 @@ public class FunTargetBet : MonoBehaviour
                 bottomPanelMsg.text = "Limit 5000 to each Number";
             }
             AllDataAmount();
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(btnCounterValue);
         }
     }
 
     public void SetYourBet_Data7() // on set bet on numbers 7
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-
-        if (isTake)
-        {
-            PlayBottomAnim();
-            return;
-        }
 
         if (isCancelSpecificBet)
         {
@@ -602,6 +612,8 @@ public class FunTargetBet : MonoBehaviour
             return;
         }
 
+        CommonMsgOnBet();
+
         StartCoroutine(IncrementBetValue7());
     }
 
@@ -610,7 +622,7 @@ public class FunTargetBet : MonoBehaviour
         int limtSet = allAmt + clickbetData;
         while (isButtonPressed)
         {
-            if (clickbetData + tempClick_Data8 <= 5000)
+            if (clickbetData + tempClick_Data8 <= 5000 && clickbetData > 0)
             {
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
@@ -629,19 +641,13 @@ public class FunTargetBet : MonoBehaviour
                 bottomPanelMsg.text = "Limit 5000 to each Number";
             }
             AllDataAmount();
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(btnCounterValue);
         }
     }
 
     public void SetYourBet_Data8() // on set bet on numbers 8
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-
-        if (isTake)
-        {
-            PlayBottomAnim();
-            return;
-        }
 
         if (isCancelSpecificBet)
         {
@@ -655,6 +661,8 @@ public class FunTargetBet : MonoBehaviour
             return;
         }
 
+        CommonMsgOnBet();
+
         StartCoroutine(IncrementBetValue8());
     }
 
@@ -663,7 +671,7 @@ public class FunTargetBet : MonoBehaviour
         int limtSet = allAmt + clickbetData;
         while (isButtonPressed)
         {
-            if (clickbetData + tempClick_Data9 <= 5000)
+            if (clickbetData + tempClick_Data9 <= 5000 && clickbetData > 0)
             {
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
@@ -682,19 +690,13 @@ public class FunTargetBet : MonoBehaviour
                 bottomPanelMsg.text = "Limit 5000 to each Number";
             }
             AllDataAmount();
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(btnCounterValue);
         }
     }
 
     public void SetYourBet_Data9() // on set bet on numbers 9
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-
-        if (isTake)
-        {
-            PlayBottomAnim();
-            return;
-        }
 
         if (isCancelSpecificBet)
         {
@@ -707,6 +709,8 @@ public class FunTargetBet : MonoBehaviour
             AllDataAmount();
             return;
         }
+
+        CommonMsgOnBet();
 
         StartCoroutine(IncrementBetValue9());
     }

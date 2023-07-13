@@ -640,7 +640,7 @@ public class FunTargetAPIManager : MonoBehaviour
                         else
                         {
                             Debug.Log("Winning score data are 0");
-                            funTargetBet.bottomPanelMsg.text = "Sorry.. You are Not Win Pleae Play Again...!";
+                            funTargetBet.bottomPanelMsg.text = "Sorry.. You are Not Win Please Play Again...!";
                             funTargetBet.isTake = false;
                             funTargetBet.ResetBetData();
                         }

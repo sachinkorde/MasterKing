@@ -174,6 +174,12 @@ public class MasterKingGameSelectionScreen : MonoBehaviour
             }
         }
     }
+
+    public void LogOutGame()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("Login");
+    }
 }
 
 [System.Serializable]
