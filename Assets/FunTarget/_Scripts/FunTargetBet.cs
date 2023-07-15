@@ -68,8 +68,9 @@ public class FunTargetBet : MonoBehaviour
     public int lastTransactionId;
 
     public List<int> winNumToShow = new();
+    public List<Animator> betBtn = new();
 
-    [SerializeField] private float btnCounterValue = 2.0f;
+    [SerializeField] private float btnCounterValue = 0.2f;
 
     private void Start()
     {
@@ -123,7 +124,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void CancelAllBet()
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.btnClick);
 
         if (isTake)
         {
@@ -233,6 +234,11 @@ public class FunTargetBet : MonoBehaviour
         {
             if (clickbetData + tempClick_Data0 <= 5000 && clickbetData > 0)
             {
+                if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
+                {
+                    FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
+                }
+
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
                     tempClick_Data0 += clickbetData;
@@ -255,7 +261,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void SetYourBet_Data0()
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
         if (isCancelSpecificBet)
         {
@@ -272,6 +278,15 @@ public class FunTargetBet : MonoBehaviour
         CommonMsgOnBet();
 
         StartCoroutine(IncrementBetValue0());
+
+        if (clickbetData > 0)
+        {
+            betBtn[0].SetTrigger("btnClick");
+        }
+        else
+        {
+            betBtn[0].SetTrigger("idle");
+        }
     }
 
     private IEnumerator IncrementBetValue1()
@@ -281,6 +296,11 @@ public class FunTargetBet : MonoBehaviour
         {
             if (clickbetData + tempClick_Data1 <= 5000 && clickbetData > 0)
             {
+                if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
+                {
+                    FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
+                }
+
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
                     tempClick_Data1 += clickbetData;
@@ -304,7 +324,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void SetYourBet_Data1() // on set bet on numbers 1
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
         if (isCancelSpecificBet)
         {
@@ -321,6 +341,15 @@ public class FunTargetBet : MonoBehaviour
         CommonMsgOnBet();
 
         StartCoroutine(IncrementBetValue1());
+
+        if (clickbetData > 0)
+        {
+            betBtn[1].SetTrigger("btnClick");
+        }
+        else
+        {
+            betBtn[1].SetTrigger("idle");
+        }
     }
 
     private IEnumerator IncrementBetValue2()
@@ -330,6 +359,11 @@ public class FunTargetBet : MonoBehaviour
         {
             if (clickbetData + tempClick_Data2 <= 5000 && clickbetData > 0)
             {
+                if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
+                {
+                    FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
+                }
+
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
                     tempClick_Data2 += clickbetData;
@@ -353,7 +387,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void SetYourBet_Data2() // on set bet on numbers 2
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
         if (isCancelSpecificBet)
         {
@@ -370,6 +404,15 @@ public class FunTargetBet : MonoBehaviour
         CommonMsgOnBet();
 
         StartCoroutine(IncrementBetValue2());
+
+        if (clickbetData > 0)
+        {
+            betBtn[2].SetTrigger("btnClick");
+        }
+        else
+        {
+            betBtn[2].SetTrigger("idle");
+        }
     }
 
     private IEnumerator IncrementBetValue3()
@@ -379,6 +422,11 @@ public class FunTargetBet : MonoBehaviour
         {
             if (clickbetData + tempClick_Data3 <= 5000 && clickbetData > 0)
             {
+                if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
+                {
+                    FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
+                }
+
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
                     tempClick_Data3 += clickbetData;
@@ -402,7 +450,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void SetYourBet_Data3() // on set bet on numbers 3
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
         if (isCancelSpecificBet)
         {
@@ -413,12 +461,22 @@ public class FunTargetBet : MonoBehaviour
             clickbetData = 0;
             PlayerPrefs.SetInt("data3", clickbetData);
             AllDataAmount();
+            betBtn[3].SetTrigger("idle");
             return;
         }
 
         CommonMsgOnBet();
 
         StartCoroutine(IncrementBetValue3());
+
+        if (clickbetData > 0)
+        {
+            betBtn[3].SetTrigger("btnClick");
+        }
+        else
+        {
+            betBtn[3].SetTrigger("idle");
+        }
     }
 
     private IEnumerator IncrementBetValue4()
@@ -428,6 +486,11 @@ public class FunTargetBet : MonoBehaviour
         {
             if (clickbetData + tempClick_Data4 <= 5000 && clickbetData > 0)
             {
+                if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
+                {
+                    FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
+                }
+
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
                     tempClick_Data4 += clickbetData;
@@ -451,7 +514,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void SetYourBet_Data4() // on set bet on numbers 4
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
         if (isCancelSpecificBet)
         {
@@ -468,6 +531,15 @@ public class FunTargetBet : MonoBehaviour
         CommonMsgOnBet();
 
         StartCoroutine(IncrementBetValue4());
+
+        if (clickbetData > 0)
+        {
+            betBtn[4].SetTrigger("btnClick");
+        }
+        else
+        {
+            betBtn[4].SetTrigger("idle");
+        }
     }
 
     private IEnumerator IncrementBetValue5()
@@ -477,6 +549,11 @@ public class FunTargetBet : MonoBehaviour
         {
             if (clickbetData + tempClick_Data5 <= 5000 && clickbetData > 0)
             {
+                if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
+                {
+                    FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
+                }
+
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
                     tempClick_Data5 += clickbetData;
@@ -500,7 +577,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void SetYourBet_Data5() // on set bet on numbers 5
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
         if (isCancelSpecificBet)
         {
@@ -517,6 +594,15 @@ public class FunTargetBet : MonoBehaviour
         CommonMsgOnBet();
 
         StartCoroutine(IncrementBetValue5());
+
+        if (clickbetData > 0)
+        {
+            betBtn[5].SetTrigger("btnClick");
+        }
+        else
+        {
+            betBtn[5].SetTrigger("idle");
+        }
     }
 
     private IEnumerator IncrementBetValue6()
@@ -526,6 +612,11 @@ public class FunTargetBet : MonoBehaviour
         {
             if (clickbetData + tempClick_Data6 <= 5000 && clickbetData > 0)
             {
+                if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
+                {
+                    FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
+                }
+
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
                     tempClick_Data6 += clickbetData;
@@ -549,7 +640,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void SetYourBet_Data6() // on set bet on numbers 6
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
         if (isCancelSpecificBet)
         {
@@ -566,6 +657,15 @@ public class FunTargetBet : MonoBehaviour
         CommonMsgOnBet();
 
         StartCoroutine(IncrementBetValue6());
+
+        if (clickbetData > 0)
+        {
+            betBtn[6].SetTrigger("btnClick");
+        }
+        else
+        {
+            betBtn[6].SetTrigger("idle");
+        }
     }
 
     private IEnumerator IncrementBetValue7()
@@ -575,6 +675,11 @@ public class FunTargetBet : MonoBehaviour
         {
             if (clickbetData + tempClick_Data7 <= 5000 && clickbetData > 0)
             {
+                if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
+                {
+                    FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
+                }
+
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
                     tempClick_Data7 += clickbetData;
@@ -598,7 +703,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void SetYourBet_Data7() // on set bet on numbers 7
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
         if (isCancelSpecificBet)
         {
@@ -615,6 +720,15 @@ public class FunTargetBet : MonoBehaviour
         CommonMsgOnBet();
 
         StartCoroutine(IncrementBetValue7());
+
+        if (clickbetData > 0)
+        {
+            betBtn[7].SetTrigger("btnClick");
+        }
+        else
+        {
+            betBtn[7].SetTrigger("idle");
+        }
     }
 
     private IEnumerator IncrementBetValue8()
@@ -624,6 +738,11 @@ public class FunTargetBet : MonoBehaviour
         {
             if (clickbetData + tempClick_Data8 <= 5000 && clickbetData > 0)
             {
+                if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
+                {
+                    FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
+                }
+
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
                     tempClick_Data8 += clickbetData;
@@ -647,7 +766,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void SetYourBet_Data8() // on set bet on numbers 8
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
         if (isCancelSpecificBet)
         {
@@ -664,6 +783,15 @@ public class FunTargetBet : MonoBehaviour
         CommonMsgOnBet();
 
         StartCoroutine(IncrementBetValue8());
+
+        if (clickbetData > 0)
+        {
+            betBtn[8].SetTrigger("btnClick");
+        }
+        else
+        {
+            betBtn[8].SetTrigger("idle");
+        }
     }
 
     private IEnumerator IncrementBetValue9()
@@ -673,6 +801,11 @@ public class FunTargetBet : MonoBehaviour
         {
             if (clickbetData + tempClick_Data9 <= 5000 && clickbetData > 0)
             {
+                if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
+                {
+                    FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
+                }
+
                 if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
                 {
                     tempClick_Data9 += clickbetData;
@@ -696,7 +829,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void SetYourBet_Data9() // on set bet on numbers 9
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
         if (isCancelSpecificBet)
         {
@@ -713,6 +846,15 @@ public class FunTargetBet : MonoBehaviour
         CommonMsgOnBet();
 
         StartCoroutine(IncrementBetValue9());
+
+        if (clickbetData > 0)
+        {
+            betBtn[9].SetTrigger("btnClick");
+        }
+        else
+        {
+            betBtn[9].SetTrigger("idle");
+        }
     }
 
     public void OnButtonDown()

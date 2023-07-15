@@ -14,6 +14,8 @@ public enum FT_GameClips
     SpeenWheelRotate,
     WheelStart,
     WheelEnd,
+    Bet,
+    btnClick
 }
 
 [System.Serializable]

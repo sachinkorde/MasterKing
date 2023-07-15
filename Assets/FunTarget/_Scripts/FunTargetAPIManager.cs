@@ -41,7 +41,7 @@ public class FunTargetAPIManager : MonoBehaviour
         GetScoreAndWinScoreDataFunction();
         //StartCoroutine(GetTimeData());
         //GetResultFun();
-        StartTimerAgain();
+        //StartTimerAgain();
         funTargetBet.btnHider.SetActive(false);
         //GetLast10WinNumbers();
     }
@@ -99,7 +99,8 @@ public class FunTargetAPIManager : MonoBehaviour
                 funTargetBet.timerText.text = "00" + ":" + "00";
                 funTargetBet.countdownStarted = false;
                 StopCoroutine(StartCountdown());
-                spinTheWheel.StartSpinButtonClick();
+                //spinTheWheel.StartSpinButtonClick();
+                spinTheWheel.WheelSpinHere();
                 FT_SoundManager.instance.timerAudio.Stop();
             }
 

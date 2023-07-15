@@ -29,7 +29,7 @@ public class SpinTheWheel : MonoBehaviour
         resultarr[a] = result;
     }
 
-    public void StartSpinButtonClick()
+    /*public void StartSpinButtonClick()
     {
         SpinWheel.SetActive(true);
         SpinWheel.transform.localEulerAngles = Vector3.zero;
@@ -38,7 +38,7 @@ public class SpinTheWheel : MonoBehaviour
         float AngleOfRotation;
         AngleOfRotation = (NumberOfRotation * -360) + float.Parse(NumberAngle[Winningnumber]);
         StartCoroutine(Spin(0, AngleOfRotation, 7));
-    }
+    }*/
 
     private IEnumerator Spin(float fromAngle, float toAngle, float withinSeconds)
     {
@@ -85,5 +85,88 @@ public class SpinTheWheel : MonoBehaviour
         funTargetBet.isDataSendOnClick = false;
         funTargetBet.isFunCounter = false;
         SpinWheel.transform.localEulerAngles = Vector3.zero;
+    }
+
+    public Animator wheelTheAnimator;
+
+    public void WheelSpinHere()
+    {
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.SpeenWheelRotate);
+        spinCenter.SetTrigger("runSpin");
+        wheelTheAnimator.SetTrigger("wheelrotation");
+
+        float clipLength = FT_SoundManager.instance.ft_AudioSorce.clip.length;
+        Invoke(nameof(SpinTheWheelTest), clipLength);
+    }
+
+    public void SpinTheWheelTest()
+    {
+        spinCenter.SetTrigger("idle");
+        switch (Winningnumber)
+        {
+            case 0:
+                wheelTheAnimator.SetTrigger("0");
+                break;
+            case 1:
+                wheelTheAnimator.SetTrigger("1");
+                break;
+            case 2: 
+                wheelTheAnimator.SetTrigger("2");
+                break;
+            case 3:
+                wheelTheAnimator.SetTrigger("3");
+                break;
+            case 4:
+                wheelTheAnimator.SetTrigger("4");
+                break;
+            case 5:
+                wheelTheAnimator.SetTrigger("5");
+                break;
+            case 6:
+                wheelTheAnimator.SetTrigger("6");
+                break;
+            case 7:
+                wheelTheAnimator.SetTrigger("7");
+                break;
+            case 8:
+                wheelTheAnimator.SetTrigger("8");
+                break;
+            case 9:
+                wheelTheAnimator.SetTrigger("9");
+                break;
+        }
+        FT_SoundManager.instance.ft_AudioSorce.Stop();
+    }
+
+    void ShowResult()
+    {
+        if (!funTargetBet.isDataNull)
+        {
+            funTargetAPIManager.GetResultFunInGame();
+        }
+
+        if (funTargetBet.isTake)
+        {
+            FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Win);
+        }
+        else
+        {
+            FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Loose);
+        }
+
+        funTargetBet.ShowWinNumInLast10Data();
+        //if Here is winner play win sound or play loose soundclip
+        //FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Loading);
+        Invoke(nameof(StartGameAgain), 0.65f);
+    }
+
+    void StartGameAgain()
+    {
+        funTargetAPIManager.StartTimerAgain();
+
+        funTargetBet.btnHider.SetActive(false);
+        funTargetBet.isDataSendOnClick = false;
+        funTargetBet.isFunCounter = false;
+        funTargetBet.isCallWinNumAPI = false;
     }
 }
