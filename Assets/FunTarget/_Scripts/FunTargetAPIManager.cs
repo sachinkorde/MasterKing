@@ -41,81 +41,22 @@ public class FunTargetAPIManager : MonoBehaviour
         GetScoreAndWinScoreDataFunction();
         //StartCoroutine(GetTimeData());
         //GetResultFun();
-        //StartTimerAgain();
+        StartTimerAgain();
         funTargetBet.btnHider.SetActive(false);
         //GetLast10WinNumbers();
     }
 
     #region GettimerData get_Timer
-    int seconds;
-    int preSec;
-
-    private IEnumerator StartCountdown()
-    {
-        funTargetBet.countdownStarted = true;
-
-        while (funTargetBet.countdownStarted)
-        {
-            funTargetBet.timeLeft -= Time.deltaTime;
-            preSec = seconds;
-            seconds = (int)Mathf.Floor(funTargetBet.timeLeft % 60);
-
-            if (seconds < 10)
-            {
-                funTargetBet.timerText.text = "00" + ":" + "0" + seconds;
-            }
-            else
-            {
-                funTargetBet.timerText.text = "00" + ":" + seconds;
-            }
-            
-            if (seconds < preSec)
-            {
-                FT_SoundManager.instance.timerAudio.Play();
-            }
-
-            if (funTargetBet.timeLeft < 10)
-            {
-                if (!funTargetBet.isFunCounter)
-                {
-                    UpdateWinNum();
-
-                    Debug.Log(funTargetBet.timeLeft + "    time values senddddd");
-                    funTargetBet.btnHider.SetActive(true);
-                    funTargetBet.bottomPanelMsg.text = "Bet cannot be Accepted";
-
-                    if (!funTargetBet.isTake)
-                    {
-                        SendBetData();
-                    }
-                    
-                    funTargetBet.isFunCounter = true;
-                    Debug.Log(funTargetBet.isFunCounter + "    timer data send Valuessssssssssssssssss");
-                }
-            }
-
-            if (funTargetBet.timeLeft <= 0f)
-            {
-                funTargetBet.timerText.text = "00" + ":" + "00";
-                funTargetBet.countdownStarted = false;
-                StopCoroutine(StartCountdown());
-                //spinTheWheel.StartSpinButtonClick();
-                spinTheWheel.WheelSpinHere();
-                FT_SoundManager.instance.timerAudio.Stop();
-            }
-
-            yield return null;
-        }
-    }
-
+    
     public void StartTimerAgain()
     {
         funTargetBet.countdownStarted = true;
-        funTargetBet.timeLeft = 60;
-        StartCoroutine(StartCountdown());
+        //funTargetBet.timeLeft = 60;
+        //StartCoroutine(StartCountdown());
+        StartCoroutine(GetTimeData());
     }
 
-    /* IEnumerator GetTimeData()
+    IEnumerator GetTimeData()
     {
         using (UnityWebRequest www = UnityWebRequest.Get(get_Timer))
         {
@@ -144,14 +85,18 @@ public class FunTargetAPIManager : MonoBehaviour
                             //counter = true;
                             funTargetBet.timerText.text = "00:0" + timerData.timer.ToString();
 
-                            if(!funTargetBet.isFunCounter)
+                            if (!funTargetBet.isFunCounter)
                             {
                                 UpdateWinNum();
 
-                                Debug.Log(timerData.timer + "    time values senddddd");
                                 funTargetBet.btnHider.SetActive(true);
                                 funTargetBet.bottomPanelMsg.text = "Bet cannot be Accepted";
-                                SendBetData();
+
+                                if (!funTargetBet.isTake)
+                                {
+                                    SendBetData();
+                                }
+                                
                                 funTargetBet.isFunCounter = true;
                                 Debug.Log(funTargetBet.isFunCounter + "    timer data send Valuessssssssssssssssss");
                             }
@@ -168,7 +113,11 @@ public class FunTargetAPIManager : MonoBehaviour
 
                         if (timerData.timer == 0)
                         {
-                            spinTheWheel.StartSpinButtonClick();
+                            //spinTheWheel.StartSpinButtonClick();
+                            funTargetBet.timerText.text = "00" + ":" + "00";
+                            funTargetBet.countdownStarted = false;
+
+                            spinTheWheel.WheelSpinHere();
                             StopCoroutine(GetTimeData());
                             FT_SoundManager.instance.timerAudio.Stop();
                         }
@@ -185,7 +134,7 @@ public class FunTargetAPIManager : MonoBehaviour
                 }
             }
         }
-    }*/
+    }
     #endregion
 
     #region TakeAPI transfer_main_wallet
@@ -654,6 +603,7 @@ public class FunTargetAPIManager : MonoBehaviour
     #endregion
 }
 
+#region Json Parser code
 [System.Serializable]
 public class ScoreBoardData
 {
@@ -773,3 +723,5 @@ public class GetDbWinNum
     public string message;
     public int winning_number;
 }
+
+#endregion

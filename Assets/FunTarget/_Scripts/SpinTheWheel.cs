@@ -102,40 +102,68 @@ public class SpinTheWheel : MonoBehaviour
     public void SpinTheWheelTest()
     {
         spinCenter.SetTrigger("idle");
+
+        for (int i = 0; i < funTargetBet.betBtn.Count; i++)
+        {
+            funTargetBet.betBtn[i].SetTrigger("idle");
+        }
+
         switch (Winningnumber)
         {
             case 0:
                 wheelTheAnimator.SetTrigger("0");
+                funTargetBet.betBtn[0].SetTrigger("btnClick");
                 break;
+
             case 1:
                 wheelTheAnimator.SetTrigger("1");
+                funTargetBet.betBtn[1].SetTrigger("btnClick");
                 break;
+
             case 2: 
                 wheelTheAnimator.SetTrigger("2");
+                funTargetBet.betBtn[2].SetTrigger("btnClick");
                 break;
+
             case 3:
                 wheelTheAnimator.SetTrigger("3");
+                funTargetBet.betBtn[3].SetTrigger("btnClick");
                 break;
+
             case 4:
                 wheelTheAnimator.SetTrigger("4");
+                funTargetBet.betBtn[4].SetTrigger("btnClick");
                 break;
+
             case 5:
                 wheelTheAnimator.SetTrigger("5");
+                funTargetBet.betBtn[5].SetTrigger("btnClick");
                 break;
+
             case 6:
                 wheelTheAnimator.SetTrigger("6");
+                funTargetBet.betBtn[6].SetTrigger("btnClick");
                 break;
+
             case 7:
                 wheelTheAnimator.SetTrigger("7");
+                funTargetBet.betBtn[7].SetTrigger("btnClick");
                 break;
+
             case 8:
                 wheelTheAnimator.SetTrigger("8");
+                funTargetBet.betBtn[8].SetTrigger("btnClick");
                 break;
+
             case 9:
                 wheelTheAnimator.SetTrigger("9");
+                funTargetBet.betBtn[9].SetTrigger("btnClick");
                 break;
         }
+
         FT_SoundManager.instance.ft_AudioSorce.Stop();
+
+        Invoke(nameof(ShowResult), 0.5f);
     }
 
     void ShowResult()
@@ -157,7 +185,7 @@ public class SpinTheWheel : MonoBehaviour
         funTargetBet.ShowWinNumInLast10Data();
         //if Here is winner play win sound or play loose soundclip
         //FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Loading);
-        Invoke(nameof(StartGameAgain), 0.65f);
+        Invoke(nameof(StartGameAgain), 0.5f);
     }
 
     void StartGameAgain()
