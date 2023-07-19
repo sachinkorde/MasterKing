@@ -102,20 +102,6 @@ public class FunTargetBet : MonoBehaviour
 
     }
 
-    public void LoadPreviousBetOnClick()
-    {
-        bet1_text.text = PlayerPrefs.GetInt("data1").ToString();
-        bet2_text.text = PlayerPrefs.GetInt("data2").ToString();
-        bet3_text.text = PlayerPrefs.GetInt("data3").ToString();
-        bet4_text.text = PlayerPrefs.GetInt("data4").ToString();
-        bet5_text.text = PlayerPrefs.GetInt("data5").ToString();
-        bet6_text.text = PlayerPrefs.GetInt("data6").ToString();
-        bet7_text.text = PlayerPrefs.GetInt("data7").ToString();
-        bet8_text.text = PlayerPrefs.GetInt("data7").ToString();
-        bet8_text.text = PlayerPrefs.GetInt("data9").ToString();
-        bet0_text.text = PlayerPrefs.GetInt("data0").ToString();
-    }
-
     public void PrevoiusBetStatus()
     {
         if (isTake)
@@ -127,7 +113,7 @@ public class FunTargetBet : MonoBehaviour
             bet5_text.text = PlayerPrefs.GetInt("data5").ToString();
             bet6_text.text = PlayerPrefs.GetInt("data6").ToString();
             bet7_text.text = PlayerPrefs.GetInt("data7").ToString();
-            bet8_text.text = PlayerPrefs.GetInt("data7").ToString();
+            bet8_text.text = PlayerPrefs.GetInt("data8").ToString();
             bet8_text.text = PlayerPrefs.GetInt("data9").ToString();
             bet0_text.text = PlayerPrefs.GetInt("data0").ToString();
             showAllAmt.text = PlayerPrefs.GetInt("SetAllAmt").ToString();
@@ -136,6 +122,23 @@ public class FunTargetBet : MonoBehaviour
         {
             ResetBetData();
         }
+    }
+
+    public void OnClickLoadPreviousData()
+    {
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+
+        bet1_text.text = PlayerPrefs.GetInt("data1").ToString();
+        bet2_text.text = PlayerPrefs.GetInt("data2").ToString();
+        bet3_text.text = PlayerPrefs.GetInt("data3").ToString();
+        bet4_text.text = PlayerPrefs.GetInt("data4").ToString();
+        bet5_text.text = PlayerPrefs.GetInt("data5").ToString();
+        bet6_text.text = PlayerPrefs.GetInt("data6").ToString();
+        bet7_text.text = PlayerPrefs.GetInt("data7").ToString();
+        bet8_text.text = PlayerPrefs.GetInt("data8").ToString();
+        bet8_text.text = PlayerPrefs.GetInt("data9").ToString();
+        bet0_text.text = PlayerPrefs.GetInt("data0").ToString();
+        showAllAmt.text = PlayerPrefs.GetInt("SetAllAmt").ToString();
     }
 
     public void CancelAllBet()
@@ -160,6 +163,7 @@ public class FunTargetBet : MonoBehaviour
         }
 
         isCancelSpecificBet = true;
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
     }
 
     public void PlayBottomAnim()
@@ -207,9 +211,6 @@ public class FunTargetBet : MonoBehaviour
             {
                 PlayerPrefs.SetInt("winNum"+ i, winNumToShow[i]);
                 last10WinText[i].text = PlayerPrefs.GetInt("winNum" + i).ToString();
-
-                Debug.Log(PlayerPrefs.GetInt("winNum" + i) +  "    saved Nummmmmm");
-
             }
         }
     }
@@ -271,6 +272,7 @@ public class FunTargetBet : MonoBehaviour
             {
                 bottomPanelMsg.text = "Limit 5000 to each Number";
             }
+            AllDataAmount();
             yield return new WaitForSeconds(btnCounterValue);
         }
     }
@@ -1036,6 +1038,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void LoadToGameSelection()
     {
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
         SceneManager.LoadScene("GameSelection");
     }
 
@@ -1059,6 +1062,7 @@ public class FunTargetBet : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
             SceneManager.LoadScene("GameSelection");
         }
     }

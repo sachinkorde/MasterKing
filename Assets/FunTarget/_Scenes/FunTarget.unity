@@ -1699,8 +1699,6 @@ GameObject:
   - component: {fileID: 120262298}
   - component: {fileID: 120262297}
   - component: {fileID: 120262299}
-  - component: {fileID: 120262300}
-  - component: {fileID: 120262301}
   m_Layer: 5
   m_Name: CancelBet_Btn
   m_TagString: Untagged
@@ -1724,10 +1722,10 @@ RectTransform:
   m_Father: {fileID: 14539365}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.163, y: 0.476}
-  m_AnchorMax: {x: 0.29860097, y: 0.577}
-  m_AnchoredPosition: {x: -2, y: -0.13989258}
-  m_SizeDelta: {x: -0.98999023, y: -2.4700003}
+  m_AnchorMin: {x: 0.16179807, y: 0.47841546}
+  m_AnchorMax: {x: 0.29679808, y: 0.57458454}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &120262297
 MonoBehaviour:
@@ -1823,96 +1821,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &120262300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 120262295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 120262299}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 3
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 120262299}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!114 &120262301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 120262295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 120262299}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 3
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 120262299}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &127915985
 GameObject:
   m_ObjectHideFlags: 0
@@ -3155,7 +3063,6 @@ GameObject:
   - component: {fileID: 244919180}
   - component: {fileID: 244919179}
   - component: {fileID: 244919178}
-  - component: {fileID: 244919177}
   m_Layer: 5
   m_Name: PreviousBet_Btn
   m_TagString: Untagged
@@ -3181,54 +3088,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.87380284, y: 0.47841546}
   m_AnchorMax: {x: 1, y: 0.57458454}
-  m_AnchoredPosition: {x: 0, y: -0.13989258}
-  m_SizeDelta: {x: 15.01001, y: -0.47000122}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 15, y: 0}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &244919177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244919175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 244919179}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 3
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 244919179}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!95 &244919178
 Animator:
   serializedVersion: 5
@@ -3294,9 +3156,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1321358050}
-        m_TargetAssemblyTypeName: FunTargetAPIManager, Assembly-CSharp
-        m_MethodName: OnClickSendBetData
+      - m_Target: {fileID: 452000786}
+        m_TargetAssemblyTypeName: FunTargetBet, Assembly-CSharp
+        m_MethodName: OnClickLoadPreviousData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7194,7 +7056,6 @@ GameObject:
   - component: {fileID: 681522516}
   - component: {fileID: 681522515}
   - component: {fileID: 681522514}
-  - component: {fileID: 681522517}
   m_Layer: 5
   m_Name: CancleSpecificBet
   m_TagString: Untagged
@@ -7317,51 +7178,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 681522511}
   m_CullTransparentMesh: 0
---- !u!114 &681522517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 681522511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 681522514}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 3
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 681522514}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &689858392
 GameObject:
   m_ObjectHideFlags: 0
@@ -9275,16 +9091,16 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1869390739}
-  - {fileID: 1174043739}
-  - {fileID: 409974282}
-  - {fileID: 809429370}
-  - {fileID: 1286634923}
-  - {fileID: 1854306784}
-  - {fileID: 1421838536}
-  - {fileID: 26197931}
-  - {fileID: 1291701545}
   - {fileID: 478462200}
+  - {fileID: 1291701545}
+  - {fileID: 26197931}
+  - {fileID: 1421838536}
+  - {fileID: 1854306784}
+  - {fileID: 1286634923}
+  - {fileID: 809429370}
+  - {fileID: 409974282}
+  - {fileID: 1174043739}
+  - {fileID: 1869390739}
   m_Father: {fileID: 1726580444}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10231,7 +10047,6 @@ GameObject:
   - component: {fileID: 1036280479}
   - component: {fileID: 1036280478}
   - component: {fileID: 1036280481}
-  - component: {fileID: 1036280482}
   m_Layer: 5
   m_Name: Betok_Btn
   m_TagString: Untagged
@@ -10257,8 +10072,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.87380284, y: 0.47841546}
   m_AnchorMax: {x: 1, y: 0.57458454}
-  m_AnchoredPosition: {x: 0, y: -0.13989258}
-  m_SizeDelta: {x: 15.01001, y: -0.47000122}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 15, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1036280478
 MonoBehaviour:
@@ -10375,51 +10190,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1036280482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1036280476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownExit
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 1036280478}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 3
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1321358050}
-          m_TargetAssemblyTypeName: FunTargetManager, Assembly-CSharp
-          m_MethodName: OnMouseDownEnter
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 1036280478}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &1056194551
 GameObject:
   m_ObjectHideFlags: 0
@@ -11163,8 +10933,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.476}
   m_AnchorMax: {x: 0.124000005, y: 0.577}
-  m_AnchoredPosition: {x: -17.629883, y: -0.14013672}
-  m_SizeDelta: {x: 18.01, y: -2.4700003}
+  m_AnchoredPosition: {x: -15, y: 0}
+  m_SizeDelta: {x: 15, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1133336874
 MonoBehaviour:
@@ -12817,6 +12587,7 @@ MonoBehaviour:
   last_10_ft: https://godigiinfotech.com/masterking/api/last_10_ft
   get_Timer: https://godigiinfotech.com/masterking/api/get_timer
   gt_WinningNumFromDb: https://godigiinfotech.com/masterking/api/get_winning_number
+  newScore: 0
 --- !u!1 &1334945738
 GameObject:
   m_ObjectHideFlags: 0
@@ -14562,7 +14333,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 12.6640005}
   m_AnchorMin: {x: 0.028133832, y: 0.5393193}
   m_AnchorMax: {x: 0.09619701, y: 0.725831}
-  m_AnchoredPosition: {x: 2.3911133, y: 4.0477905}
+  m_AnchoredPosition: {x: 2.3910522, y: 4.0477905}
   m_SizeDelta: {x: -4.782837, y: 8.684593}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1556806118
@@ -16732,7 +16503,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.337}
   m_AnchorMin: {x: 0.32432628, y: 0.6458161}
   m_AnchorMax: {x: 0.34633687, y: 0.71800005}
-  m_AnchoredPosition: {x: -0.17504883, y: 1.4485626}
+  m_AnchoredPosition: {x: -0.17504883, y: 1.4483643}
   m_SizeDelta: {x: 33.617264, y: 22.539581}
   m_Pivot: {x: 0.5751118, y: 0.5005767}
 --- !u!114 &1821900200

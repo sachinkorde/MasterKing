@@ -1,5 +1,4 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -56,6 +55,9 @@ public class FunTargetAPIManager : MonoBehaviour
         StartCoroutine(GetTimeData());
     }
 
+    int seconds;
+    int preSec;
+
     IEnumerator GetTimeData()
     {
         using (UnityWebRequest www = UnityWebRequest.Get(get_Timer))
@@ -77,8 +79,14 @@ public class FunTargetAPIManager : MonoBehaviour
                         Debug.Log(www.error);
 
                         break;
-
                     case 200:
+                        preSec = seconds;
+                        seconds = timerData.timer;
+
+                        if (seconds < preSec)
+                        {
+                            FT_SoundManager.instance.timerAudio.Play();
+                        }
 
                         if (timerData.timer < 10)
                         {
@@ -98,7 +106,7 @@ public class FunTargetAPIManager : MonoBehaviour
                                 }
                                 
                                 funTargetBet.isFunCounter = true;
-                                Debug.Log(funTargetBet.isFunCounter + "    timer data send Valuessssssssssssssssss");
+                                Debug.Log(funTargetBet.isFunCounter + "    timer data less than 10" +   timerData.timer);
                             }
                             else
                             {
@@ -123,11 +131,6 @@ public class FunTargetAPIManager : MonoBehaviour
                         }
                         else
                         {
-                            if (!FT_SoundManager.instance.timerAudio.isPlaying)
-                            {
-                                FT_SoundManager.instance.timerAudio.Play();
-                            }
-
                             StartCoroutine(GetTimeData());
                         }
                         break;
@@ -142,7 +145,7 @@ public class FunTargetAPIManager : MonoBehaviour
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
         StartCoroutine(TransferToMainVallet());
-        funTargetBet.takeBtn.enabled = false;
+        
         //GetScoreAndWinScoreDataFunction();
     }
 
@@ -172,15 +175,40 @@ public class FunTargetAPIManager : MonoBehaviour
                         break;
 
                     case 200:
+
                         funTargetBet.isTake = false;
+                        funTargetBet.takeBtn.enabled = false;
+                        //oldScore = PlayerPrefs.GetInt("ft_Score");
+                        savedWinScore = takeAPI.wining_score;
+                        //InvokeRepeating(nameof(UpdateScoreCounter), 0.5f, 1);
+
                         funTargetBet.scoreTxt.text = takeAPI.main_score.ToString();
                         funTargetBet.winText.text = "0";
+
+                        //funTargetBet.winText.text = takeAPI.wining_score.ToString();
+                        /*Debug.Log(newScore);
+                        Debug.Log(oldScore);
+                        Debug.Log(savedWinScore);*/
+
                         funTargetBet.PrevoiusBetStatus();
 
                         break;
                 }
             }
         }
+    }
+    int oldScore;
+    int savedWinScore;
+    void UpdateScoreCounter()
+    {
+        if (newScore > oldScore && savedWinScore > 0)
+        {
+            oldScore++;
+            savedWinScore--;
+        }
+
+        funTargetBet.scoreTxt.text = oldScore.ToString();
+        funTargetBet.winText.text = savedWinScore.ToString();
     }
     #endregion
 
@@ -332,7 +360,7 @@ public class FunTargetAPIManager : MonoBehaviour
             funTargetBet.PlayBottomAnim();
             return;
         }
-
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
         funTargetBet.btnHider.SetActive(true);
         funTargetBet.bottomPanelMsg.text = "Bet Cannot be Accepted..!";
         StartCoroutine(SendBettingData());
@@ -370,17 +398,6 @@ public class FunTargetAPIManager : MonoBehaviour
         form.AddField("data_content[data9]", PlayerPrefs.GetInt("data9"));
         form.AddField("wining_number", sendWinNum);
 
-
-        Debug.Log(PlayerPrefs.GetInt("data0"));
-        Debug.Log(PlayerPrefs.GetInt("data1"));
-        Debug.Log(PlayerPrefs.GetInt("data2"));
-        Debug.Log(PlayerPrefs.GetInt("data3"));
-        Debug.Log(PlayerPrefs.GetInt("data4"));
-        Debug.Log(PlayerPrefs.GetInt("data5"));
-        Debug.Log(PlayerPrefs.GetInt("data6"));
-        Debug.Log(PlayerPrefs.GetInt("data7"));
-        Debug.Log(PlayerPrefs.GetInt("data8"));
-        Debug.Log(PlayerPrefs.GetInt("data9"));
         using (UnityWebRequest www = UnityWebRequest.Post(betting_data, form))
         {
             yield return www.SendWebRequest();
@@ -422,6 +439,7 @@ public class FunTargetAPIManager : MonoBehaviour
     public void UpdateWinNum()
     {
         funTargetBet.isCallWinNumAPI = true;
+        //funTargetBet.isFunCounter = true;
         StartCoroutine(GetWinNumFromDb());
     }
 
@@ -448,7 +466,7 @@ public class FunTargetAPIManager : MonoBehaviour
                         break;
 
                     case 200:
-                        Debug.Log(getDbWinNum.winning_number + "     ggggggggggggggggggGet Winningngngn Nummmmmmmmmm");
+                        Debug.Log(getDbWinNum.winning_number + "     Get Winning Num");
                         funTargetBet.isGetWinNum = true;
                         spinTheWheel.Winningnumber = getDbWinNum.winning_number;
                         break;
@@ -526,6 +544,8 @@ public class FunTargetAPIManager : MonoBehaviour
         StartCoroutine(GetResultDataAfterGame());
     }
 
+    public float newScore;
+
     IEnumerator GetResultDataAfterGame()
     {
         Debug.Log(PlayerPrefs.GetInt("last_transaction_id") + "    last trrnasaction idddddddddddddddddddddd");
@@ -562,10 +582,13 @@ public class FunTargetAPIManager : MonoBehaviour
                         if(getResultData.betting_data[0].winner_score > 0)
                         {
                             funTargetBet.isTake = true;
-
+                            funTargetBet.takeBtn.enabled = true;
+                            FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Win);
                             Debug.Log("Take winning score it is greater than 0");
                             funTargetBet.PrevoiusBetStatus();
-                            funTargetBet.scoreTxt.text = getResultData.betting_data[0].main_score.ToString();
+
+                            newScore = getResultData.betting_data[0].main_score;
+                            //funTargetBet.scoreTxt.text = getResultData.betting_data[0].main_score.ToString();
                             funTargetBet.winText.text = getResultData.betting_data[0].winner_score.ToString();
                             funTargetBet.bottomPanelMsg.text = "Please Take your Win Amount And Play";
                         }
@@ -574,6 +597,8 @@ public class FunTargetAPIManager : MonoBehaviour
                             Debug.Log("Winning score data are 0");
                             funTargetBet.bottomPanelMsg.text = "Sorry.. You are Not Win Please Play Again...!";
                             funTargetBet.isTake = false;
+                            FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Loose);
+                            funTargetBet.takeBtn.enabled = false;
                             funTargetBet.ResetBetData();
                         }
 
@@ -673,8 +698,8 @@ public class betting_data
     public int data7;
     public int data8;
     public int data9;
-    public int main_score;
-    public int winner_score;
+    public float main_score;
+    public float winner_score;
     public int wining_number;
     public int wining_status;
     public int status;

@@ -173,39 +173,30 @@ public class SpinTheWheel : MonoBehaviour
             funTargetAPIManager.GetResultFunInGame();
         }
 
-        if (funTargetBet.isTake)
-        {
-            FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Win);
-            funTargetBet.takeBtn.enabled = true;
-        }
-        else
-        {
-            FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Loose);
-            funTargetBet.takeBtn.enabled = false;
-        }
-
+        PreviousBtnAnimation();
+        
         funTargetBet.ShowWinNumInLast10Data();
-        //if Here is winner play win sound or play loose soundclip
-        //FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Loading);
         Invoke(nameof(StartGameAgain), 0.5f);
     }
 
     void StartGameAgain()
     {
         funTargetAPIManager.StartTimerAgain();
-
         funTargetBet.btnHider.SetActive(false);
         funTargetBet.isDataSendOnClick = false;
         funTargetBet.isFunCounter = false;
         funTargetBet.isCallWinNumAPI = false;
-        StartCoroutine(PreviousBtnAnimation());
     }
 
-    IEnumerator PreviousBtnAnimation()
+    void PreviousBtnAnimation()
     {
         funTargetBet.previousBtn.gameObject.SetActive(true);
         funTargetBet.betokBtn.gameObject.SetActive(false);
-        yield return new WaitForSeconds(7.0f);
+        Invoke(nameof(DisablePreviousBtn), 7.0f);
+    }
+
+    void DisablePreviousBtn()
+    {
         funTargetBet.previousBtn.gameObject.SetActive(false);
         funTargetBet.betokBtn.gameObject.SetActive(true);
     }
