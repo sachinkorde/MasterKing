@@ -92,7 +92,7 @@ public class MasterKingLogin : MonoBehaviour
                 {
                     case 500:
                         loginResponse.text = res.message;
-                        yield return new WaitForSeconds(2f);
+                        yield return new WaitForSeconds(4.5f);
                         loginResponse.text = "";
                         glowEnterBtn.SetActive(false);
                         break;

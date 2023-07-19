@@ -71,6 +71,8 @@ public class FunTargetBet : MonoBehaviour
     public List<Animator> betBtn = new();
 
     [SerializeField] private float btnCounterValue = 0.2f;
+    public Button takeBtn;
+    public Button previousBtn, betokBtn;
 
     private void Start()
     {
@@ -98,6 +100,20 @@ public class FunTargetBet : MonoBehaviour
         last10WinText[8].text = PlayerPrefs.GetInt("winNum8").ToString();
         last10WinText[9].text = PlayerPrefs.GetInt("winNum9").ToString();
 
+    }
+
+    public void LoadPreviousBetOnClick()
+    {
+        bet1_text.text = PlayerPrefs.GetInt("data1").ToString();
+        bet2_text.text = PlayerPrefs.GetInt("data2").ToString();
+        bet3_text.text = PlayerPrefs.GetInt("data3").ToString();
+        bet4_text.text = PlayerPrefs.GetInt("data4").ToString();
+        bet5_text.text = PlayerPrefs.GetInt("data5").ToString();
+        bet6_text.text = PlayerPrefs.GetInt("data6").ToString();
+        bet7_text.text = PlayerPrefs.GetInt("data7").ToString();
+        bet8_text.text = PlayerPrefs.GetInt("data7").ToString();
+        bet8_text.text = PlayerPrefs.GetInt("data9").ToString();
+        bet0_text.text = PlayerPrefs.GetInt("data0").ToString();
     }
 
     public void PrevoiusBetStatus()
@@ -887,7 +903,11 @@ public class FunTargetBet : MonoBehaviour
     #region on click on bet 1,5,10,50,100,500,1000,5000
     public void SelectBetAmt(int betAmt) // on click on bet 1,5,10,50,100,500,1000,5000
     {
+        previousBtn.gameObject.SetActive(false);
+        betokBtn.gameObject.SetActive(true);
+
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+
         switch (betAmt)
         {
             case 1:

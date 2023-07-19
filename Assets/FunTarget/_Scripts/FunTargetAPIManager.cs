@@ -142,6 +142,7 @@ public class FunTargetAPIManager : MonoBehaviour
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
         StartCoroutine(TransferToMainVallet());
+        funTargetBet.takeBtn.enabled = false;
         //GetScoreAndWinScoreDataFunction();
     }
 
@@ -171,30 +172,11 @@ public class FunTargetAPIManager : MonoBehaviour
                         break;
 
                     case 200:
-                        Debug.Log(takeAPI.message);
-                        Debug.Log(takeAPI.main_score);
-                        Debug.Log(takeAPI.wining_score);
-                        Debug.Log(takeAPI.message);
                         funTargetBet.isTake = false;
-
-                        Debug.Log(takeAPI.message);
                         funTargetBet.scoreTxt.text = takeAPI.main_score.ToString();
                         funTargetBet.winText.text = "0";
-
                         funTargetBet.PrevoiusBetStatus();
 
-                        /*if (takeAPI.message != "Data not found.")
-                        {
-                            
-                        }
-                        else
-                        {
-                            Debug.Log(takeAPI.message);
-                            yield return null;
-                        }*/
-
-
-                        //funTargetBet.isTake = false;
                         break;
                 }
             }

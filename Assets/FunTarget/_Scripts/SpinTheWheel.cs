@@ -176,10 +176,12 @@ public class SpinTheWheel : MonoBehaviour
         if (funTargetBet.isTake)
         {
             FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Win);
+            funTargetBet.takeBtn.enabled = true;
         }
         else
         {
             FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Loose);
+            funTargetBet.takeBtn.enabled = false;
         }
 
         funTargetBet.ShowWinNumInLast10Data();
@@ -196,5 +198,15 @@ public class SpinTheWheel : MonoBehaviour
         funTargetBet.isDataSendOnClick = false;
         funTargetBet.isFunCounter = false;
         funTargetBet.isCallWinNumAPI = false;
+        StartCoroutine(PreviousBtnAnimation());
+    }
+
+    IEnumerator PreviousBtnAnimation()
+    {
+        funTargetBet.previousBtn.gameObject.SetActive(true);
+        funTargetBet.betokBtn.gameObject.SetActive(false);
+        yield return new WaitForSeconds(7.0f);
+        funTargetBet.previousBtn.gameObject.SetActive(false);
+        funTargetBet.betokBtn.gameObject.SetActive(true);
     }
 }
