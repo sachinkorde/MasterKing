@@ -100,10 +100,7 @@ public class FunTargetAPIManager : MonoBehaviour
                                 funTargetBet.btnHider.SetActive(true);
                                 funTargetBet.bottomPanelMsg.text = "Bet cannot be Accepted";
 
-                                if (!funTargetBet.isTake)
-                                {
-                                    SendBetData();
-                                }
+                                
                                 
                                 funTargetBet.isFunCounter = true;
                                 Debug.Log(funTargetBet.isFunCounter + "    timer data less than 10" +   timerData.timer);
@@ -118,6 +115,10 @@ public class FunTargetAPIManager : MonoBehaviour
                             funTargetBet.timerText.text = "00:" + timerData.timer.ToString();
                         }
 
+                        if(timerData.timer < 9 && !funTargetBet.isTake)
+                        {
+                            SendBetData();
+                        }
 
                         if (timerData.timer == 0)
                         {
@@ -197,8 +198,8 @@ public class FunTargetAPIManager : MonoBehaviour
             }
         }
     }
-    int oldScore;
-    int savedWinScore;
+    float oldScore;
+    float savedWinScore;
     void UpdateScoreCounter()
     {
         if (newScore > oldScore && savedWinScore > 0)
@@ -244,11 +245,11 @@ public class FunTargetAPIManager : MonoBehaviour
                         break;
 
                     case 200:
-                        Debug.Log(scoreBoardData.main_score);
+                        Debug.Log(scoreBoardData.main_score +   "  main score value");
                         Debug.Log(scoreBoardData.wining_score   +   "     winning score data is available");
 
-                        funTargetBet.scoreTxt.text = scoreBoardData.main_score.ToString();
-                        PlayerPrefs.SetInt("ft_Score", scoreBoardData.main_score);
+                        funTargetBet.scoreTxt.text = scoreBoardData.main_score + ".00";
+                        PlayerPrefs.SetFloat("ft_Score", scoreBoardData.main_score);
                         break;
                 }
             }
@@ -398,6 +399,9 @@ public class FunTargetAPIManager : MonoBehaviour
         form.AddField("data_content[data9]", PlayerPrefs.GetInt("data9"));
         form.AddField("wining_number", sendWinNum);
 
+
+        Debug.Log(sendWinNum + "    updated win num send to server");
+
         using (UnityWebRequest www = UnityWebRequest.Post(betting_data, form))
         {
             yield return www.SendWebRequest();
@@ -469,6 +473,10 @@ public class FunTargetAPIManager : MonoBehaviour
                         Debug.Log(getDbWinNum.winning_number + "     Get Winning Num");
                         funTargetBet.isGetWinNum = true;
                         spinTheWheel.Winningnumber = getDbWinNum.winning_number;
+
+
+                        Debug.Log(getDbWinNum.winning_number + "     win num from db");
+                        Debug.Log(spinTheWheel.Winningnumber + "     saved win num from db");
                         break;
                 }
             }
@@ -616,7 +624,7 @@ public class ScoreBoardData
 {
     public int status;
     public string message;
-    public int main_score;
+    public float main_score;
     public int wining_score;
 }
 
@@ -644,7 +652,7 @@ public class TakeAPI
 {
     public string message;
     public int success;
-    public int main_score;
+    public float main_score;
     public int wining_score;
 }
 

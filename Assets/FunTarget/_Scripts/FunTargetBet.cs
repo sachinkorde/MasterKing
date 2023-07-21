@@ -256,7 +256,7 @@ public class FunTargetBet : MonoBehaviour
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
                 {
                     tempClick_Data0 += clickbetData;
                     PlayerPrefs.SetInt("data0", tempClick_Data0);
@@ -319,7 +319,7 @@ public class FunTargetBet : MonoBehaviour
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
                 {
                     tempClick_Data1 += clickbetData;
                     PlayerPrefs.SetInt("data1", tempClick_Data1);
@@ -382,7 +382,7 @@ public class FunTargetBet : MonoBehaviour
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
                 {
                     tempClick_Data2 += clickbetData;
                     PlayerPrefs.SetInt("data2", tempClick_Data2);
@@ -445,7 +445,7 @@ public class FunTargetBet : MonoBehaviour
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
                 {
                     tempClick_Data3 += clickbetData;
                     PlayerPrefs.SetInt("data3", tempClick_Data3);
@@ -509,7 +509,7 @@ public class FunTargetBet : MonoBehaviour
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
                 {
                     tempClick_Data4 += clickbetData;
                     PlayerPrefs.SetInt("data4", tempClick_Data4);
@@ -572,7 +572,7 @@ public class FunTargetBet : MonoBehaviour
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
                 {
                     tempClick_Data5 += clickbetData;
                     PlayerPrefs.SetInt("data5", tempClick_Data5);
@@ -635,7 +635,7 @@ public class FunTargetBet : MonoBehaviour
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
                 {
                     tempClick_Data6 += clickbetData;
                     PlayerPrefs.SetInt("data6", tempClick_Data6);
@@ -698,7 +698,7 @@ public class FunTargetBet : MonoBehaviour
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
                 {
                     tempClick_Data7 += clickbetData;
                     PlayerPrefs.SetInt("data7", tempClick_Data7);
@@ -761,7 +761,7 @@ public class FunTargetBet : MonoBehaviour
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
                 {
                     tempClick_Data8 += clickbetData;
                     PlayerPrefs.SetInt("data8", tempClick_Data8);
@@ -824,7 +824,7 @@ public class FunTargetBet : MonoBehaviour
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetInt("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
                 {
                     tempClick_Data9 += clickbetData;
                     PlayerPrefs.SetInt("data9", tempClick_Data9);
@@ -896,8 +896,8 @@ public class FunTargetBet : MonoBehaviour
 
         showAllAmt.text = allAmt.ToString();
 
-        int tempShowScore = 0;
-        tempShowScore = PlayerPrefs.GetInt("ft_Score") - allAmt;
+        float tempShowScore = 0;
+        tempShowScore = PlayerPrefs.GetFloat("ft_Score") - allAmt;
         scoreTxt.text = tempShowScore.ToString();
     }
     #endregion
@@ -958,7 +958,7 @@ public class FunTargetBet : MonoBehaviour
 
     public void OnClickBetAmt(int betAmt_click)
     {
-        if (PlayerPrefs.GetInt("ft_Score") > betAmt_click)
+        if (PlayerPrefs.GetFloat("ft_Score") > betAmt_click)
         {
             tempBetData = betAmt_click;
         }

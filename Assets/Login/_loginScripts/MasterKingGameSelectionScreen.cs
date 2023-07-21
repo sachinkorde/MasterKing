@@ -165,9 +165,9 @@ public class MasterKingGameSelectionScreen : MonoBehaviour
 
                     case 200:
                        
-                        PlayerPrefs.SetInt("ft_Score", scoreBoardData.main_score);
+                        PlayerPrefs.SetFloat("ft_Score", scoreBoardData.main_score);
 
-                        pointText.text = PlayerPrefs.GetInt("ft_Score").ToString();
+                        pointText.text = PlayerPrefs.GetFloat("ft_Score").ToString();
                         break;
                 }
             }
