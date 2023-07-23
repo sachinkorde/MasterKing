@@ -10,24 +10,28 @@ public class SpinTheWheel : MonoBehaviour
     public GameObject SpinWheel;
     public Animator spinCenter;
 
-    public int totalNumbers;
     public int Winningnumber;
-    int NumberOfRotation = 4;
+
+    public Animator wheelTheAnimator;
+
+    #region unUsed
+    /*int NumberOfRotation = 4;
+    public int totalNumbers;
     public int[] result, resultarr;
 
-    public string[] NumberValue, NumberAngle;
+    public string[] NumberValue, NumberAngle;*/
 
-    private void Start()
-    {
-        instance = this;
-        resultarr = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        result = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    }
+    /*private void Start()
+{
+    instance = this;
+    resultarr = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    result = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+}
 
-    public void SendData(int a, int result)
-    {
-        resultarr[a] = result;
-    }
+public void SendData(int a, int result)
+{
+    resultarr[a] = result;
+}*/
 
     /*public void StartSpinButtonClick()
     {
@@ -40,7 +44,7 @@ public class SpinTheWheel : MonoBehaviour
         StartCoroutine(Spin(0, AngleOfRotation, 7));
     }*/
 
-    private IEnumerator Spin(float fromAngle, float toAngle, float withinSeconds)
+    /*private IEnumerator Spin(float fromAngle, float toAngle, float withinSeconds)
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.SpeenWheelRotate);
         var passedTime = 0f;
@@ -85,9 +89,8 @@ public class SpinTheWheel : MonoBehaviour
         funTargetBet.isDataSendOnClick = false;
         funTargetBet.isFunCounter = false;
         SpinWheel.transform.localEulerAngles = Vector3.zero;
-    }
-
-    public Animator wheelTheAnimator;
+    }*/
+    #endregion
 
     public void WheelSpinHere()
     {
@@ -96,10 +99,10 @@ public class SpinTheWheel : MonoBehaviour
         wheelTheAnimator.SetTrigger("wheelrotation");
 
         float clipLength = FT_SoundManager.instance.ft_AudioSorce.clip.length;
-        Invoke(nameof(SpinTheWheelTest), clipLength);
+        Invoke(nameof(SpinTheWheelAnim), clipLength);
     }
 
-    public void SpinTheWheelTest()
+    public void SpinTheWheelAnim()
     {
         spinCenter.SetTrigger("idle");
 
@@ -173,8 +176,6 @@ public class SpinTheWheel : MonoBehaviour
             funTargetAPIManager.GetResultFunInGame();
         }
 
-        PreviousBtnAnimation();
-        
         funTargetBet.ShowWinNumInLast10Data();
         Invoke(nameof(StartGameAgain), 0.5f);
     }
@@ -186,18 +187,8 @@ public class SpinTheWheel : MonoBehaviour
         funTargetBet.isDataSendOnClick = false;
         funTargetBet.isFunCounter = false;
         funTargetBet.isCallWinNumAPI = false;
-    }
-
-    void PreviousBtnAnimation()
-    {
-        funTargetBet.previousBtn.gameObject.SetActive(true);
-        funTargetBet.betokBtn.gameObject.SetActive(false);
-        Invoke(nameof(DisablePreviousBtn), 7.0f);
-    }
-
-    void DisablePreviousBtn()
-    {
-        funTargetBet.previousBtn.gameObject.SetActive(false);
-        funTargetBet.betokBtn.gameObject.SetActive(true);
+        funTargetBet.isBetOk = false;
+        funTargetBet.allAmtClickCounter = 0;
+        PlayerPrefs.SetInt("BetDataSend", 0);
     }
 }

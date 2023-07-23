@@ -1,9 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
-using System.Collections;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class FunTargetBet : MonoBehaviour
 {
@@ -18,6 +18,7 @@ public class FunTargetBet : MonoBehaviour
     public bool isFunCounter = false;
     public bool isDataSendOnClick = false;
     public bool countdownStarted = false;
+    public bool isBetOk = false;
 
     public GameObject btnHider;
 
@@ -66,6 +67,7 @@ public class FunTargetBet : MonoBehaviour
 
     public int allAmt = 0;
     public int lastTransactionId;
+    public int allAmtClickCounter = 0;
 
     public List<int> winNumToShow = new();
     public List<Animator> betBtn = new();
@@ -77,34 +79,75 @@ public class FunTargetBet : MonoBehaviour
     private void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        WinDaTa();
+    }
 
-        winNumToShow.Add(PlayerPrefs.GetInt("winNum0"));
-        winNumToShow.Add(PlayerPrefs.GetInt("winNum1"));
-        winNumToShow.Add(PlayerPrefs.GetInt("winNum2"));
-        winNumToShow.Add(PlayerPrefs.GetInt("winNum3"));
-        winNumToShow.Add(PlayerPrefs.GetInt("winNum4"));
-        winNumToShow.Add(PlayerPrefs.GetInt("winNum5"));
-        winNumToShow.Add(PlayerPrefs.GetInt("winNum6"));
-        winNumToShow.Add(PlayerPrefs.GetInt("winNum7"));
-        winNumToShow.Add(PlayerPrefs.GetInt("winNum8"));
-        winNumToShow.Add(PlayerPrefs.GetInt("winNum9"));
+    void WinDaTa()
+    {
+        if(PlayerPrefs.GetInt("winNum0") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum0"));
+            last10WinText[0].text = PlayerPrefs.GetInt("winNum0").ToString();
+        }
 
-        last10WinText[0].text = PlayerPrefs.GetInt("winNum0").ToString();
-        last10WinText[1].text = PlayerPrefs.GetInt("winNum1").ToString();
-        last10WinText[2].text = PlayerPrefs.GetInt("winNum2").ToString();
-        last10WinText[3].text = PlayerPrefs.GetInt("winNum3").ToString();
-        last10WinText[4].text = PlayerPrefs.GetInt("winNum4").ToString();
-        last10WinText[5].text = PlayerPrefs.GetInt("winNum5").ToString();
-        last10WinText[6].text = PlayerPrefs.GetInt("winNum6").ToString();
-        last10WinText[7].text = PlayerPrefs.GetInt("winNum7").ToString();
-        last10WinText[8].text = PlayerPrefs.GetInt("winNum8").ToString();
-        last10WinText[9].text = PlayerPrefs.GetInt("winNum9").ToString();
+        if (PlayerPrefs.GetInt("winNum1") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum1"));
+            last10WinText[1].text = PlayerPrefs.GetInt("winNum1").ToString();
+        }
 
+        if (PlayerPrefs.GetInt("winNum2") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum2"));
+            last10WinText[2].text = PlayerPrefs.GetInt("winNum2").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum3") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum3"));
+            last10WinText[3].text = PlayerPrefs.GetInt("winNum3").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum4") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum4"));
+            last10WinText[4].text = PlayerPrefs.GetInt("winNum4").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum5") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum5"));
+            last10WinText[5].text = PlayerPrefs.GetInt("winNum5").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum6") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum6"));
+            last10WinText[6].text = PlayerPrefs.GetInt("winNum6").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum7") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum7"));
+            last10WinText[7].text = PlayerPrefs.GetInt("winNum7").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum8") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum8"));
+            last10WinText[8].text = PlayerPrefs.GetInt("winNum8").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum9") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum9"));
+            last10WinText[9].text = PlayerPrefs.GetInt("winNum9").ToString();
+        }
     }
 
     public void PrevoiusBetStatus()
     {
-        if (isTake)
+        if (isTake || isBetOk)
         {
             bet1_text.text = PlayerPrefs.GetInt("data1").ToString();
             bet2_text.text = PlayerPrefs.GetInt("data2").ToString();
@@ -114,9 +157,10 @@ public class FunTargetBet : MonoBehaviour
             bet6_text.text = PlayerPrefs.GetInt("data6").ToString();
             bet7_text.text = PlayerPrefs.GetInt("data7").ToString();
             bet8_text.text = PlayerPrefs.GetInt("data8").ToString();
-            bet8_text.text = PlayerPrefs.GetInt("data9").ToString();
+            bet9_text.text = PlayerPrefs.GetInt("data9").ToString();
             bet0_text.text = PlayerPrefs.GetInt("data0").ToString();
-            showAllAmt.text = PlayerPrefs.GetInt("SetAllAmt").ToString();
+            //showAllAmt.text = PlayerPrefs.GetInt("SetAllAmt") + ".00";
+            AllDataAmount();
         }
         else
         {
@@ -136,9 +180,10 @@ public class FunTargetBet : MonoBehaviour
         bet6_text.text = PlayerPrefs.GetInt("data6").ToString();
         bet7_text.text = PlayerPrefs.GetInt("data7").ToString();
         bet8_text.text = PlayerPrefs.GetInt("data8").ToString();
-        bet8_text.text = PlayerPrefs.GetInt("data9").ToString();
+        bet9_text.text = PlayerPrefs.GetInt("data9").ToString();
         bet0_text.text = PlayerPrefs.GetInt("data0").ToString();
-        showAllAmt.text = PlayerPrefs.GetInt("SetAllAmt").ToString();
+        //showAllAmt.text = PlayerPrefs.GetInt("SetAllAmt") + ".00";
+        AllDataAmount();
     }
 
     public void CancelAllBet()
@@ -242,11 +287,40 @@ public class FunTargetBet : MonoBehaviour
         {
             bottomPanelMsg.text = "";
         }
+
+        if(allAmtClickCounter == 0)
+        {
+            showAllAmt.text = "";
+            ResetOnNewBet();
+        }
+
+        previousBtn.gameObject.SetActive(false);
+        betokBtn.gameObject.SetActive(true);
+    }
+
+    public void ResetOnNewBet()
+    {
+        allAmtClickCounter++;
+        PlayerPrefs.SetInt("data0", 0);
+        PlayerPrefs.SetInt("data1", 0);
+        PlayerPrefs.SetInt("data2", 0);
+        PlayerPrefs.SetInt("data3", 0);
+        PlayerPrefs.SetInt("data4", 0);
+        PlayerPrefs.SetInt("data5", 0);
+        PlayerPrefs.SetInt("data6", 0);
+        PlayerPrefs.SetInt("data7", 0);
+        PlayerPrefs.SetInt("data8", 0);
+        PlayerPrefs.SetInt("data9", 0);
+
+        PlayerPrefs.SetInt("SetAllAmt", 0);
     }
 
     private IEnumerator IncrementBetValue0()
     {
         int limtSet = allAmt + clickbetData;
+
+        //tempClick_Data0 = int.Parse(bet0_text.text);
+
         while (isButtonPressed)
         {
             if (clickbetData + tempClick_Data0 <= 5000 && clickbetData > 0)
@@ -894,11 +968,11 @@ public class FunTargetBet : MonoBehaviour
                  PlayerPrefs.GetInt("data8") + PlayerPrefs.GetInt("data9");
 
 
-        showAllAmt.text = allAmt.ToString();
-
+        showAllAmt.text = allAmt + ".00";
+        PlayerPrefs.SetInt("SetAllAmt", allAmt);
         float tempShowScore = 0;
         tempShowScore = PlayerPrefs.GetFloat("ft_Score") - allAmt;
-        scoreTxt.text = tempShowScore.ToString();
+        scoreTxt.text = tempShowScore + ".00";
     }
     #endregion
 
@@ -972,19 +1046,6 @@ public class FunTargetBet : MonoBehaviour
     #region Resetbet Data
     public void ResetBetData()
     {
-        PlayerPrefs.SetInt("data0", 0);
-        PlayerPrefs.SetInt("data1", 0);
-        PlayerPrefs.SetInt("data2", 0);
-        PlayerPrefs.SetInt("data3", 0);
-        PlayerPrefs.SetInt("data4", 0);
-        PlayerPrefs.SetInt("data5", 0);
-        PlayerPrefs.SetInt("data6", 0);
-        PlayerPrefs.SetInt("data7", 0);
-        PlayerPrefs.SetInt("data8", 0);
-        PlayerPrefs.SetInt("data9", 0);
-
-        PlayerPrefs.SetInt("SetAllAmt", 0);
-
         clickbetData = 0;
         tempBetData = 0;
         clickCounter = 0;

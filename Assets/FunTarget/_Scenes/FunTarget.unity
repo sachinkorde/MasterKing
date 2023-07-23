@@ -4577,7 +4577,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.128}
   m_AnchorMax: {x: 1, y: 0.346864}
-  m_AnchoredPosition: {x: 0, y: 35.782944}
+  m_AnchoredPosition: {x: 0, y: 35.78293}
   m_SizeDelta: {x: 0, y: 37.671}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &414907850
@@ -4908,16 +4908,16 @@ MonoBehaviour:
   bet0_text: {fileID: 509655043}
   showAllAmt: {fileID: 1410121680}
   last10WinText:
-  - {fileID: 1869390740}
-  - {fileID: 1174043740}
-  - {fileID: 409974283}
-  - {fileID: 809429371}
-  - {fileID: 1286634924}
-  - {fileID: 1854306785}
-  - {fileID: 1421838537}
-  - {fileID: 26197932}
-  - {fileID: 1291701546}
   - {fileID: 478462201}
+  - {fileID: 1291701546}
+  - {fileID: 26197932}
+  - {fileID: 1421838537}
+  - {fileID: 1854306785}
+  - {fileID: 1286634924}
+  - {fileID: 809429371}
+  - {fileID: 409974283}
+  - {fileID: 1174043740}
+  - {fileID: 1869390740}
   timeLeft: 60
   clickbetData: 0
   tempBetData: 0

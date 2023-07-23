@@ -16,10 +16,11 @@ public class result
 public class resultData
 {
     public int id;
-    public string user_id;
+    public int account_number;
     public string name;
     public string email;
     public string phone;
+    public string type;
     public int point_count;
 }
 
@@ -72,7 +73,7 @@ public class MasterKingLogin : MonoBehaviour
     {
         WWWForm form = new();
 
-        form.AddField("user_id", userLogin.text);
+        form.AddField("account_number", userLogin.text);
         form.AddField("password", passLogin.text);
         form.AddField("app_token", "temp_token");
 
@@ -101,8 +102,10 @@ public class MasterKingLogin : MonoBehaviour
 
                         PlayerPrefs.SetInt("isloggedIn", 1);
                         PlayerPrefs.SetInt("userId", res.data.id);
+                        PlayerPrefs.SetInt("userAcc", res.data.account_number);
                         PlayerPrefs.SetInt("userCoins", res.data.point_count);
                         SceneManager.LoadScene("GameSelection");
+                        loginResponse.text = res.message + "\n";
 
                         break;
                 }
@@ -114,7 +117,6 @@ public class MasterKingLogin : MonoBehaviour
     {
         glowCloseBtn.SetActive(true);
         Application.Quit();
-        Debug.Log("Hit on close App");
     }
 
     /*public IEnumerator AutoLogin(string username, string pass)

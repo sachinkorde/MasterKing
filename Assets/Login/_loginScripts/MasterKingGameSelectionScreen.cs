@@ -7,42 +7,29 @@ using TMPro;
 
 public class MasterKingGameSelectionScreen : MonoBehaviour
 {
-    //[SerializeField] private Text userId;
+    public static ChagnePassword chngPass;
+    public static ScoreBoardData scoreBoardData;
 
-    public bool isenter = false;
-
-    public static string userScore = string.Empty;
+    public string scoreBoardURI = "https://godigiinfotech.com/masterking/api/ft_scoreboard";
 
     public GameObject Pop_ChangePassword;
-    public GameObject blockImg;
     public GameObject gameSelectionPanel;
 
     public InputField newPassword;
     public InputField oldPassword;
 
-    public static ChagnePassword chngPass;
-
     public TMP_Text responceText;
     public TMP_Text userIdTxt;
     public TMP_Text userCoinTxt;
     public TMP_Text passwordChangeResponce;
-    public static ScoreBoardData scoreBoardData;
-    public string scoreBoardURI = "https://godigiinfotech.com/masterking/api/ft_scoreboard";
 
     private void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         StartCoroutine(SelectionScreenAnim());
 
-        Debug.Log(PlayerPrefs.GetInt("userId"));
-        Debug.Log(PlayerPrefs.GetInt("userCoins"));
-
-        userIdTxt.text = PlayerPrefs.GetInt("userId").ToString();
+        userIdTxt.text = PlayerPrefs.GetInt("userAcc").ToString();
         userCoinTxt.text = PlayerPrefs.GetInt("userCoins").ToString();
-
-        Debug.Log(PlayerPrefs.GetInt("userId"));
-        Debug.Log(PlayerPrefs.GetInt("userCoins"));
-
 
         GetScoreAndWinScoreDataFunction();
     }
@@ -61,7 +48,7 @@ public class MasterKingGameSelectionScreen : MonoBehaviour
 
     public IEnumerator ChangePasswordData()
     {
-        WWWForm form = new WWWForm();
+        WWWForm form = new();
 
         form.AddField("user_id", PlayerPrefs.GetInt("userId"));
         form.AddField("app_token", "temp_token");
