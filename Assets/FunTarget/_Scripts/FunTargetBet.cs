@@ -11,8 +11,6 @@ public class FunTargetBet : MonoBehaviour
     public FunTargetAPIManager funTargetAPIManager;
 
     bool isCancelSpecificBet = false;
-    public bool isCallWinNumAPI = false;
-    public bool isGetWinNum = false;
     public bool isTake = false;
     public bool isDataNull = false;
     public bool isFunCounter = false;
@@ -26,10 +24,11 @@ public class FunTargetBet : MonoBehaviour
     public TMP_Text winText;
     public TMP_Text timerText;
     public TMP_Text bottomPanelMsg;
-    [SerializeField] private TMP_Text bet1_text, bet2_text, bet3_text, bet4_text, bet5_text, bet6_text, bet7_text, bet8_text, bet9_text, bet0_text, showAllAmt;
-    public TMP_Text[] last10WinText;
+    public TMP_Text bet1_text, bet2_text, bet3_text, bet4_text, 
+                    bet5_text, bet6_text, bet7_text, bet8_text, 
+                    bet9_text, bet0_text, showAllAmt;
 
-    public float timeLeft = 59f;
+    public TMP_Text[] last10WinText;
 
     public int clickbetData = 0;
     public int tempBetData = 0;
@@ -66,7 +65,6 @@ public class FunTargetBet : MonoBehaviour
     public int tempClick_Data9 = 0;
 
     public int allAmt = 0;
-    public int lastTransactionId;
     public int allAmtClickCounter = 0;
 
     public List<int> winNumToShow = new();
@@ -79,87 +77,23 @@ public class FunTargetBet : MonoBehaviour
     private void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        WinDaTa();
-    }
-
-    void WinDaTa()
-    {
-        if(PlayerPrefs.GetInt("winNum0") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum0"));
-            last10WinText[0].text = PlayerPrefs.GetInt("winNum0").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum1") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum1"));
-            last10WinText[1].text = PlayerPrefs.GetInt("winNum1").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum2") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum2"));
-            last10WinText[2].text = PlayerPrefs.GetInt("winNum2").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum3") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum3"));
-            last10WinText[3].text = PlayerPrefs.GetInt("winNum3").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum4") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum4"));
-            last10WinText[4].text = PlayerPrefs.GetInt("winNum4").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum5") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum5"));
-            last10WinText[5].text = PlayerPrefs.GetInt("winNum5").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum6") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum6"));
-            last10WinText[6].text = PlayerPrefs.GetInt("winNum6").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum7") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum7"));
-            last10WinText[7].text = PlayerPrefs.GetInt("winNum7").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum8") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum8"));
-            last10WinText[8].text = PlayerPrefs.GetInt("winNum8").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum9") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum9"));
-            last10WinText[9].text = PlayerPrefs.GetInt("winNum9").ToString();
-        }
+        //WinDaTa();
     }
 
     public void PrevoiusBetStatus()
     {
         if (isTake || isBetOk)
         {
-            bet1_text.text = PlayerPrefs.GetInt("data1").ToString();
-            bet2_text.text = PlayerPrefs.GetInt("data2").ToString();
-            bet3_text.text = PlayerPrefs.GetInt("data3").ToString();
-            bet4_text.text = PlayerPrefs.GetInt("data4").ToString();
-            bet5_text.text = PlayerPrefs.GetInt("data5").ToString();
-            bet6_text.text = PlayerPrefs.GetInt("data6").ToString();
-            bet7_text.text = PlayerPrefs.GetInt("data7").ToString();
-            bet8_text.text = PlayerPrefs.GetInt("data8").ToString();
-            bet9_text.text = PlayerPrefs.GetInt("data9").ToString();
-            bet0_text.text = PlayerPrefs.GetInt("data0").ToString();
-            //showAllAmt.text = PlayerPrefs.GetInt("SetAllAmt") + ".00";
+            bet1_text.text = PlayerPrefs.GetString(Const.data1);
+            bet2_text.text = PlayerPrefs.GetString(Const.data2);
+            bet3_text.text = PlayerPrefs.GetString(Const.data3);
+            bet4_text.text = PlayerPrefs.GetString(Const.data4);
+            bet5_text.text = PlayerPrefs.GetString(Const.data5);
+            bet6_text.text = PlayerPrefs.GetString(Const.data6);
+            bet7_text.text = PlayerPrefs.GetString(Const.data7);
+            bet8_text.text = PlayerPrefs.GetString(Const.data8);
+            bet9_text.text = PlayerPrefs.GetString(Const.data9);
+            bet0_text.text = PlayerPrefs.GetString(Const.data0);
             AllDataAmount();
         }
         else
@@ -171,19 +105,7 @@ public class FunTargetBet : MonoBehaviour
     public void OnClickLoadPreviousData()
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-
-        bet1_text.text = PlayerPrefs.GetInt("data1").ToString();
-        bet2_text.text = PlayerPrefs.GetInt("data2").ToString();
-        bet3_text.text = PlayerPrefs.GetInt("data3").ToString();
-        bet4_text.text = PlayerPrefs.GetInt("data4").ToString();
-        bet5_text.text = PlayerPrefs.GetInt("data5").ToString();
-        bet6_text.text = PlayerPrefs.GetInt("data6").ToString();
-        bet7_text.text = PlayerPrefs.GetInt("data7").ToString();
-        bet8_text.text = PlayerPrefs.GetInt("data8").ToString();
-        bet9_text.text = PlayerPrefs.GetInt("data9").ToString();
-        bet0_text.text = PlayerPrefs.GetInt("data0").ToString();
-        //showAllAmt.text = PlayerPrefs.GetInt("SetAllAmt") + ".00";
-        AllDataAmount();
+        funTargetAPIManager.OnClickLoadPreviousBet();
     }
 
     public void CancelAllBet()
@@ -301,54 +223,18 @@ public class FunTargetBet : MonoBehaviour
     public void ResetOnNewBet()
     {
         allAmtClickCounter++;
-        PlayerPrefs.SetInt("data0", 0);
-        PlayerPrefs.SetInt("data1", 0);
-        PlayerPrefs.SetInt("data2", 0);
-        PlayerPrefs.SetInt("data3", 0);
-        PlayerPrefs.SetInt("data4", 0);
-        PlayerPrefs.SetInt("data5", 0);
-        PlayerPrefs.SetInt("data6", 0);
-        PlayerPrefs.SetInt("data7", 0);
-        PlayerPrefs.SetInt("data8", 0);
-        PlayerPrefs.SetInt("data9", 0);
+        PlayerPrefs.SetString(Const.data0, "");
+        PlayerPrefs.SetString(Const.data1, "");
+        PlayerPrefs.SetString(Const.data2, "");
+        PlayerPrefs.SetString(Const.data3, "");
+        PlayerPrefs.SetString(Const.data4, "");
+        PlayerPrefs.SetString(Const.data5, "");
+        PlayerPrefs.SetString(Const.data6, "");
+        PlayerPrefs.SetString(Const.data7, "");
+        PlayerPrefs.SetString(Const.data8, "");
+        PlayerPrefs.SetString(Const.data9, "");
 
-        PlayerPrefs.SetInt("SetAllAmt", 0);
-    }
-
-    private IEnumerator IncrementBetValue0()
-    {
-        int limtSet = allAmt + clickbetData;
-
-        //tempClick_Data0 = int.Parse(bet0_text.text);
-
-        while (isButtonPressed)
-        {
-            if (clickbetData + tempClick_Data0 <= 5000 && clickbetData > 0)
-            {
-                if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
-                {
-                    FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
-                }
-
-                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
-                {
-                    tempClick_Data0 += clickbetData;
-                    PlayerPrefs.SetInt("data0", tempClick_Data0);
-                    bet0_text.text = tempClick_Data0.ToString();
-                    betClickCounter_Data0++;
-                }
-                else
-                {
-                    bottomPanelMsg.text = "Insufficient Fund";
-                }
-            }
-            else
-            {
-                bottomPanelMsg.text = "Limit 5000 to each Number";
-            }
-            AllDataAmount();
-            yield return new WaitForSeconds(btnCounterValue);
-        }
+        PlayerPrefs.SetString(Const.SetAllAmt, "");
     }
 
     public void SetYourBet_Data0()
@@ -362,7 +248,7 @@ public class FunTargetBet : MonoBehaviour
             betClickCounter_Data0 = 0;
             tempClick_Data0 = 0;
             clickbetData = 0;
-            PlayerPrefs.SetInt("data0", clickbetData);
+            PlayerPrefs.SetString(Const.data0, "");
             AllDataAmount();
             return;
         }
@@ -371,7 +257,7 @@ public class FunTargetBet : MonoBehaviour
 
         StartCoroutine(IncrementBetValue0());
 
-        if (clickbetData > 0)
+        if (clickbetData > 0 || bet0_text.text != "")
         {
             betBtn[0].SetTrigger("btnClick");
         }
@@ -381,24 +267,27 @@ public class FunTargetBet : MonoBehaviour
         }
     }
 
-    private IEnumerator IncrementBetValue1()
+    private IEnumerator IncrementBetValue0()
     {
         int limtSet = allAmt + clickbetData;
-        while (isButtonPressed)
+
+        Debug.Log(limtSet + " set limit value");
+        while (isButtonPressed && PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
         {
-            if (clickbetData + tempClick_Data1 <= 5000 && clickbetData > 0)
+            limtSet = allAmt + clickbetData;
+            if (clickbetData + tempClick_Data0 <= 5000 && clickbetData > 0)
             {
                 if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
                 {
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
                 {
-                    tempClick_Data1 += clickbetData;
-                    PlayerPrefs.SetInt("data1", tempClick_Data1);
-                    bet1_text.text = tempClick_Data1.ToString();
-                    betClickCounter_Data1++;
+                    tempClick_Data0 += clickbetData;
+                    PlayerPrefs.SetString(Const.data0, tempClick_Data0.ToString());
+                    bet0_text.text = tempClick_Data0.ToString();
+                    betClickCounter_Data0++;
                 }
                 else
                 {
@@ -425,7 +314,7 @@ public class FunTargetBet : MonoBehaviour
             betClickCounter_Data1 = 0;
             tempClick_Data1 = 0;
             clickbetData = 0;
-            PlayerPrefs.SetInt("data1", clickbetData);
+            PlayerPrefs.SetString(Const.data1, "");
             AllDataAmount();
             return;
         }
@@ -434,7 +323,7 @@ public class FunTargetBet : MonoBehaviour
 
         StartCoroutine(IncrementBetValue1());
 
-        if (clickbetData > 0)
+        if (clickbetData > 0 || bet1_text.text != "")
         {
             betBtn[1].SetTrigger("btnClick");
         }
@@ -444,24 +333,25 @@ public class FunTargetBet : MonoBehaviour
         }
     }
 
-    private IEnumerator IncrementBetValue2()
+    private IEnumerator IncrementBetValue1()
     {
         int limtSet = allAmt + clickbetData;
-        while (isButtonPressed)
+        while (isButtonPressed && PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
         {
-            if (clickbetData + tempClick_Data2 <= 5000 && clickbetData > 0)
+            limtSet = allAmt + clickbetData;
+            if (clickbetData + tempClick_Data1 <= 5000 && clickbetData > 0)
             {
                 if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
                 {
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
                 {
-                    tempClick_Data2 += clickbetData;
-                    PlayerPrefs.SetInt("data2", tempClick_Data2);
-                    bet2_text.text = tempClick_Data2.ToString();
-                    betClickCounter_Data2++;
+                    tempClick_Data1 += clickbetData;
+                    PlayerPrefs.SetString(Const.data1, tempClick_Data1.ToString());
+                    bet1_text.text = tempClick_Data1.ToString();
+                    betClickCounter_Data1++;
                 }
                 else
                 {
@@ -488,7 +378,7 @@ public class FunTargetBet : MonoBehaviour
             betClickCounter_Data2 = 0;
             tempClick_Data2 = 0;
             clickbetData = 0;
-            PlayerPrefs.SetInt("data2", clickbetData);
+            PlayerPrefs.SetString(Const.data2, "");
             AllDataAmount();
             return;
         }
@@ -497,7 +387,7 @@ public class FunTargetBet : MonoBehaviour
 
         StartCoroutine(IncrementBetValue2());
 
-        if (clickbetData > 0)
+        if (clickbetData > 0 || bet2_text.text != "")
         {
             betBtn[2].SetTrigger("btnClick");
         }
@@ -507,24 +397,26 @@ public class FunTargetBet : MonoBehaviour
         }
     }
 
-    private IEnumerator IncrementBetValue3()
+    private IEnumerator IncrementBetValue2()
     {
         int limtSet = allAmt + clickbetData;
-        while (isButtonPressed)
+
+        while (isButtonPressed && PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
         {
-            if (clickbetData + tempClick_Data3 <= 5000 && clickbetData > 0)
+            limtSet = allAmt + clickbetData;
+            if (clickbetData + tempClick_Data2 <= 5000 && clickbetData > 0)
             {
                 if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
                 {
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
                 {
-                    tempClick_Data3 += clickbetData;
-                    PlayerPrefs.SetInt("data3", tempClick_Data3);
-                    bet3_text.text = tempClick_Data3.ToString();
-                    betClickCounter_Data3++;
+                    tempClick_Data2 += clickbetData;
+                    PlayerPrefs.SetString(Const.data2, tempClick_Data2.ToString());
+                    bet2_text.text = tempClick_Data2.ToString();
+                    betClickCounter_Data2++;
                 }
                 else
                 {
@@ -551,7 +443,7 @@ public class FunTargetBet : MonoBehaviour
             betClickCounter_Data3 = 0;
             tempClick_Data3 = 0;
             clickbetData = 0;
-            PlayerPrefs.SetInt("data3", clickbetData);
+            PlayerPrefs.SetString(Const.data3, "");
             AllDataAmount();
             betBtn[3].SetTrigger("idle");
             return;
@@ -561,7 +453,7 @@ public class FunTargetBet : MonoBehaviour
 
         StartCoroutine(IncrementBetValue3());
 
-        if (clickbetData > 0)
+        if (clickbetData > 0 || bet3_text.text != "")
         {
             betBtn[3].SetTrigger("btnClick");
         }
@@ -571,24 +463,26 @@ public class FunTargetBet : MonoBehaviour
         }
     }
 
-    private IEnumerator IncrementBetValue4()
+    private IEnumerator IncrementBetValue3()
     {
         int limtSet = allAmt + clickbetData;
-        while (isButtonPressed)
+
+        while (isButtonPressed && PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
         {
-            if (clickbetData + tempClick_Data4 <= 5000 && clickbetData > 0)
+            limtSet = allAmt + clickbetData;
+            if (clickbetData + tempClick_Data3 <= 5000 && clickbetData > 0)
             {
                 if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
                 {
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
                 {
-                    tempClick_Data4 += clickbetData;
-                    PlayerPrefs.SetInt("data4", tempClick_Data4);
-                    bet4_text.text = tempClick_Data4.ToString();
-                    betClickCounter_Data4++;
+                    tempClick_Data3 += clickbetData;
+                    PlayerPrefs.SetString(Const.data3, tempClick_Data3.ToString());
+                    bet3_text.text = tempClick_Data3.ToString();
+                    betClickCounter_Data3++;
                 }
                 else
                 {
@@ -615,7 +509,7 @@ public class FunTargetBet : MonoBehaviour
             betClickCounter_Data4 = 0;
             tempClick_Data4 = 0;
             clickbetData = 0;
-            PlayerPrefs.SetInt("data4", clickbetData);
+            PlayerPrefs.SetString(Const.data4, "");
             AllDataAmount();
             return;
         }
@@ -624,7 +518,7 @@ public class FunTargetBet : MonoBehaviour
 
         StartCoroutine(IncrementBetValue4());
 
-        if (clickbetData > 0)
+        if (clickbetData > 0 || bet4_text.text != "")
         {
             betBtn[4].SetTrigger("btnClick");
         }
@@ -634,24 +528,26 @@ public class FunTargetBet : MonoBehaviour
         }
     }
 
-    private IEnumerator IncrementBetValue5()
+    private IEnumerator IncrementBetValue4()
     {
         int limtSet = allAmt + clickbetData;
-        while (isButtonPressed)
+
+        while (isButtonPressed && PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
         {
-            if (clickbetData + tempClick_Data5 <= 5000 && clickbetData > 0)
+            limtSet = allAmt + clickbetData;
+            if (clickbetData + tempClick_Data4 <= 5000 && clickbetData > 0)
             {
                 if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
                 {
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
                 {
-                    tempClick_Data5 += clickbetData;
-                    PlayerPrefs.SetInt("data5", tempClick_Data5);
-                    bet5_text.text = tempClick_Data5.ToString();
-                    betClickCounter_Data5++;
+                    tempClick_Data4 += clickbetData;
+                    PlayerPrefs.SetString(Const.data4, tempClick_Data4.ToString());
+                    bet4_text.text = tempClick_Data4.ToString();
+                    betClickCounter_Data4++;
                 }
                 else
                 {
@@ -678,7 +574,7 @@ public class FunTargetBet : MonoBehaviour
             betClickCounter_Data5 = 0;
             tempClick_Data5 = 0;
             clickbetData = 0;
-            PlayerPrefs.SetInt("data5", clickbetData);
+            PlayerPrefs.SetString(Const.data5, "");
             AllDataAmount();
             return;
         }
@@ -687,7 +583,7 @@ public class FunTargetBet : MonoBehaviour
 
         StartCoroutine(IncrementBetValue5());
 
-        if (clickbetData > 0)
+        if (clickbetData > 0 || bet5_text.text != "")
         {
             betBtn[5].SetTrigger("btnClick");
         }
@@ -697,24 +593,25 @@ public class FunTargetBet : MonoBehaviour
         }
     }
 
-    private IEnumerator IncrementBetValue6()
+    private IEnumerator IncrementBetValue5()
     {
         int limtSet = allAmt + clickbetData;
-        while (isButtonPressed)
+        while (isButtonPressed && PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
         {
-            if (clickbetData + tempClick_Data6 <= 5000 && clickbetData > 0)
+            limtSet = allAmt + clickbetData;
+            if (clickbetData + tempClick_Data5 <= 5000 && clickbetData > 0)
             {
                 if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
                 {
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
                 {
-                    tempClick_Data6 += clickbetData;
-                    PlayerPrefs.SetInt("data6", tempClick_Data6);
-                    bet6_text.text = tempClick_Data6.ToString();
-                    betClickCounter_Data6++;
+                    tempClick_Data5 += clickbetData;
+                    PlayerPrefs.SetString(Const.data5, tempClick_Data5.ToString());
+                    bet5_text.text = tempClick_Data5.ToString();
+                    betClickCounter_Data5++;
                 }
                 else
                 {
@@ -741,7 +638,7 @@ public class FunTargetBet : MonoBehaviour
             betClickCounter_Data6 = 0;
             tempClick_Data6 = 0;
             clickbetData = 0;
-            PlayerPrefs.SetInt("data6", clickbetData);
+            PlayerPrefs.SetString(Const.data6, "");
             AllDataAmount();
             return;
         }
@@ -750,7 +647,7 @@ public class FunTargetBet : MonoBehaviour
 
         StartCoroutine(IncrementBetValue6());
 
-        if (clickbetData > 0)
+        if (clickbetData > 0 || bet6_text.text != "")
         {
             betBtn[6].SetTrigger("btnClick");
         }
@@ -760,24 +657,25 @@ public class FunTargetBet : MonoBehaviour
         }
     }
 
-    private IEnumerator IncrementBetValue7()
+    private IEnumerator IncrementBetValue6()
     {
         int limtSet = allAmt + clickbetData;
-        while (isButtonPressed)
+        while (isButtonPressed && PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
         {
-            if (clickbetData + tempClick_Data7 <= 5000 && clickbetData > 0)
+            limtSet = allAmt + clickbetData;
+            if (clickbetData + tempClick_Data6 <= 5000 && clickbetData > 0)
             {
                 if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
                 {
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
                 {
-                    tempClick_Data7 += clickbetData;
-                    PlayerPrefs.SetInt("data7", tempClick_Data7);
-                    bet7_text.text = tempClick_Data7.ToString();
-                    betClickCounter_Data7++;
+                    tempClick_Data6 += clickbetData;
+                    PlayerPrefs.SetString(Const.data6, tempClick_Data6.ToString());
+                    bet6_text.text = tempClick_Data6.ToString();
+                    betClickCounter_Data6++;
                 }
                 else
                 {
@@ -804,7 +702,7 @@ public class FunTargetBet : MonoBehaviour
             betClickCounter_Data7 = 0;
             tempClick_Data7 = 0;
             clickbetData = 0;
-            PlayerPrefs.SetInt("data7", clickbetData);
+            PlayerPrefs.SetString(Const.data7, "");
             AllDataAmount();
             return;
         }
@@ -813,7 +711,7 @@ public class FunTargetBet : MonoBehaviour
 
         StartCoroutine(IncrementBetValue7());
 
-        if (clickbetData > 0)
+        if (clickbetData > 0 || bet7_text.text != "")
         {
             betBtn[7].SetTrigger("btnClick");
         }
@@ -823,24 +721,25 @@ public class FunTargetBet : MonoBehaviour
         }
     }
 
-    private IEnumerator IncrementBetValue8()
+    private IEnumerator IncrementBetValue7()
     {
         int limtSet = allAmt + clickbetData;
-        while (isButtonPressed)
+        while (isButtonPressed && PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
         {
-            if (clickbetData + tempClick_Data8 <= 5000 && clickbetData > 0)
+            limtSet = allAmt + clickbetData;
+            if (clickbetData + tempClick_Data7 <= 5000 && clickbetData > 0)
             {
                 if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
                 {
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
                 {
-                    tempClick_Data8 += clickbetData;
-                    PlayerPrefs.SetInt("data8", tempClick_Data8);
-                    bet8_text.text = tempClick_Data8.ToString();
-                    betClickCounter_Data8++;
+                    tempClick_Data7 += clickbetData;
+                    PlayerPrefs.SetString(Const.data7, tempClick_Data7.ToString());
+                    bet7_text.text = tempClick_Data7.ToString();
+                    betClickCounter_Data7++;
                 }
                 else
                 {
@@ -867,7 +766,7 @@ public class FunTargetBet : MonoBehaviour
             betClickCounter_Data8 = 0;
             tempClick_Data8 = 0;
             clickbetData = 0;
-            PlayerPrefs.SetInt("data8", clickbetData);
+            PlayerPrefs.SetString(Const.data8, "");
             AllDataAmount();
             return;
         }
@@ -876,7 +775,7 @@ public class FunTargetBet : MonoBehaviour
 
         StartCoroutine(IncrementBetValue8());
 
-        if (clickbetData > 0)
+        if (clickbetData > 0 || bet8_text.text != "")
         {
             betBtn[8].SetTrigger("btnClick");
         }
@@ -886,24 +785,26 @@ public class FunTargetBet : MonoBehaviour
         }
     }
 
-    private IEnumerator IncrementBetValue9()
+    private IEnumerator IncrementBetValue8()
     {
         int limtSet = allAmt + clickbetData;
-        while (isButtonPressed)
+
+        while (isButtonPressed && PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
         {
-            if (clickbetData + tempClick_Data9 <= 5000 && clickbetData > 0)
+            limtSet = allAmt + clickbetData;
+            if (clickbetData + tempClick_Data8 <= 5000 && clickbetData > 0)
             {
                 if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
                 {
                     FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
                 }
 
-                if (PlayerPrefs.GetFloat("ft_Score") >= limtSet)
+                if (PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
                 {
-                    tempClick_Data9 += clickbetData;
-                    PlayerPrefs.SetInt("data9", tempClick_Data9);
-                    bet9_text.text = tempClick_Data9.ToString();
-                    betClickCounter_Data9++;
+                    tempClick_Data8 += clickbetData;
+                    PlayerPrefs.SetString(Const.data8, tempClick_Data8.ToString());
+                    bet8_text.text = tempClick_Data8.ToString();
+                    betClickCounter_Data8++;
                 }
                 else
                 {
@@ -930,7 +831,7 @@ public class FunTargetBet : MonoBehaviour
             betClickCounter_Data9 = 0;
             tempClick_Data9 = 0;
             clickbetData = 0;
-            PlayerPrefs.SetInt("data9", clickbetData);
+            PlayerPrefs.SetString(Const.data9, "");
             AllDataAmount();
             return;
         }
@@ -939,13 +840,47 @@ public class FunTargetBet : MonoBehaviour
 
         StartCoroutine(IncrementBetValue9());
 
-        if (clickbetData > 0)
+        if (clickbetData > 0 || bet9_text.text != "")
         {
             betBtn[9].SetTrigger("btnClick");
         }
         else
         {
             betBtn[9].SetTrigger("idle");
+        }
+    }
+
+    private IEnumerator IncrementBetValue9()
+    {
+        int limtSet = allAmt + clickbetData;
+        while (isButtonPressed && PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
+        {
+            limtSet = allAmt + clickbetData;
+            if (clickbetData + tempClick_Data9 <= 5000 && clickbetData > 0)
+            {
+                if (!FT_SoundManager.instance.ft_AudioSorce.isPlaying)
+                {
+                    FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
+                }
+
+                if (PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
+                {
+                    tempClick_Data9 += clickbetData;
+                    PlayerPrefs.SetString(Const.data9, tempClick_Data9.ToString());
+                    bet9_text.text = tempClick_Data9.ToString();
+                    betClickCounter_Data9++;
+                }
+                else
+                {
+                    bottomPanelMsg.text = "Insufficient Fund";
+                }
+            }
+            else
+            {
+                bottomPanelMsg.text = "Limit 5000 to each Number";
+            }
+            AllDataAmount();
+            yield return new WaitForSeconds(btnCounterValue);
         }
     }
 
@@ -961,22 +896,21 @@ public class FunTargetBet : MonoBehaviour
 
     void AllDataAmount()
     {
-        allAmt = PlayerPrefs.GetInt("data0") + PlayerPrefs.GetInt("data1") +
-                 PlayerPrefs.GetInt("data2") + PlayerPrefs.GetInt("data3") +
-                 PlayerPrefs.GetInt("data4") + PlayerPrefs.GetInt("data5") +
-                 PlayerPrefs.GetInt("data6") + PlayerPrefs.GetInt("data7") +
-                 PlayerPrefs.GetInt("data8") + PlayerPrefs.GetInt("data9");
+        allAmt = tempClick_Data0 + tempClick_Data1 + tempClick_Data2 + tempClick_Data3
+               + tempClick_Data4 + tempClick_Data5 + tempClick_Data6 + tempClick_Data7 
+               + tempClick_Data8 + tempClick_Data9;
 
 
         showAllAmt.text = allAmt + ".00";
-        PlayerPrefs.SetInt("SetAllAmt", allAmt);
-        float tempShowScore = 0;
-        tempShowScore = PlayerPrefs.GetFloat("ft_Score") - allAmt;
+        PlayerPrefs.SetString("SetAllAmt", allAmt.ToString());
+        float tempShowScore;
+        tempShowScore = PlayerPrefs.GetFloat(Const.ft_score) - allAmt;
         scoreTxt.text = tempShowScore + ".00";
     }
     #endregion
 
     #region on click on bet 1,5,10,50,100,500,1000,5000
+
     public void SelectBetAmt(int betAmt) // on click on bet 1,5,10,50,100,500,1000,5000
     {
         previousBtn.gameObject.SetActive(false);
@@ -1032,7 +966,13 @@ public class FunTargetBet : MonoBehaviour
 
     public void OnClickBetAmt(int betAmt_click)
     {
-        if (PlayerPrefs.GetFloat("ft_Score") > betAmt_click)
+        if (PlayerPrefs.GetInt(Const.startNewGame) == 0)
+        {
+            ResetBetDataOnWinZero();
+            PlayerPrefs.SetInt(Const.startNewGame, 1);
+        }
+
+        if (PlayerPrefs.GetFloat(Const.ft_score) > betAmt_click)
         {
             tempBetData = betAmt_click;
         }
@@ -1094,6 +1034,23 @@ public class FunTargetBet : MonoBehaviour
         bet0_text.text = "";
         showAllAmt.text = "";
 
+        ResetBetDataOnWinZero();
+    }
+
+    void ResetBetDataOnWinZero()
+    {
+        PlayerPrefs.SetString(Const.data0, "");
+        PlayerPrefs.SetString(Const.data1, "");
+        PlayerPrefs.SetString(Const.data2, "");
+        PlayerPrefs.SetString(Const.data3, "");
+        PlayerPrefs.SetString(Const.data4, "");
+        PlayerPrefs.SetString(Const.data5, "");
+        PlayerPrefs.SetString(Const.data6, "");
+        PlayerPrefs.SetString(Const.data7, "");
+        PlayerPrefs.SetString(Const.data8, "");
+        PlayerPrefs.SetString(Const.data9, "");
+
+        PlayerPrefs.SetString(Const.SetAllAmt, "");
     }
     #endregion
 
@@ -1124,7 +1081,7 @@ public class FunTargetBet : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-            SceneManager.LoadScene("GameSelection");
+            SceneManager.LoadScene(Const.GameSelection);
         }
     }
 }

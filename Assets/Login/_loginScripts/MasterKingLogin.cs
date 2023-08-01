@@ -26,8 +26,9 @@ public class resultData
 
 public class MasterKingLogin : MonoBehaviour
 {
-    public static string contLink = "https://www.godigiinfotech.com/masterking";
-    public string loginAPI = "api/app-login";
+    //public static string contLink = "https://www.godigiinfotech.com/masterking";
+    //public string loginAPI = "api/app-login";
+    private string loginUrl = "https://www.godigiinfotech.com/masterking/api/app-login";
 
     public InputField userLogin;
     public InputField passLogin;
@@ -52,15 +53,6 @@ public class MasterKingLogin : MonoBehaviour
         loginScreenPanel.SetActive(true);
         yield return new WaitForSeconds(0.11f);
         loginScreenPanel.SetActive(false);
-        
-        /*if (PlayerPrefs.GetInt("isloggedIn") == 1)
-        {
-            SceneManager.LoadScene("GameSelection");
-        }
-        else
-        {
-            yield return null;
-        }*/
     }
 
     public void Login()
@@ -77,7 +69,7 @@ public class MasterKingLogin : MonoBehaviour
         form.AddField("password", passLogin.text);
         form.AddField("app_token", "temp_token");
 
-        using (UnityWebRequest www = UnityWebRequest.Post("https://www.godigiinfotech.com/masterking/api/app-login", form))
+        using (UnityWebRequest www = UnityWebRequest.Post(loginUrl, form))
         {
             yield return www.SendWebRequest();
             if (www.result != UnityWebRequest.Result.Success)
@@ -101,12 +93,14 @@ public class MasterKingLogin : MonoBehaviour
                     case 200:
 
                         PlayerPrefs.SetInt("isloggedIn", 1);
-                        PlayerPrefs.SetInt("userId", res.data.id);
-                        PlayerPrefs.SetInt("userAcc", res.data.account_number);
-                        PlayerPrefs.SetInt("userCoins", res.data.point_count);
-                        SceneManager.LoadScene("GameSelection");
-                        loginResponse.text = res.message + "\n";
+                        PlayerPrefs.SetInt(Const.userId, res.data.id);
+                        PlayerPrefs.SetInt(Const.userAcc, res.data.account_number);
+                        PlayerPrefs.SetInt(Const.userCoins, res.data.point_count);
+                        SceneManager.LoadScene(Const.GameSelection);
+                        loginResponse.text = res.message + "";
 
+                        Debug.Log(PlayerPrefs.GetInt(Const.userId) + "  saved userId");
+                        Debug.Log(PlayerPrefs.GetInt(Const.userAcc) + "  saved userAcc");
                         break;
                 }
             }

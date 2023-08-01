@@ -7,10 +7,8 @@ using TMPro;
 
 public class MasterKingGameSelectionScreen : MonoBehaviour
 {
-    public static ChagnePassword chngPass;
-    public static ScoreBoardData scoreBoardData;
-
-    public string scoreBoardURI = "https://godigiinfotech.com/masterking/api/ft_scoreboard";
+    private string scoreBoardURI = "https://godigiinfotech.com/masterking/api/ft_scoreboard";
+    private string changePassUrl = "https://www.godigiinfotech.com/masterking/api/app-change-password";
 
     public GameObject Pop_ChangePassword;
     public GameObject gameSelectionPanel;
@@ -23,13 +21,16 @@ public class MasterKingGameSelectionScreen : MonoBehaviour
     public TMP_Text userCoinTxt;
     public TMP_Text passwordChangeResponce;
 
+    public static ChagnePassword chngPass;
+    public static ScoreBoardData scoreBoardData;
+
     private void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         StartCoroutine(SelectionScreenAnim());
 
-        userIdTxt.text = PlayerPrefs.GetInt("userAcc").ToString();
-        userCoinTxt.text = PlayerPrefs.GetInt("userCoins").ToString();
+        userIdTxt.text = PlayerPrefs.GetInt(Const.userAcc).ToString();
+        //userCoinTxt.text = PlayerPrefs.GetInt(Const.userCoins).ToString();
 
         GetScoreAndWinScoreDataFunction();
     }
@@ -43,19 +44,19 @@ public class MasterKingGameSelectionScreen : MonoBehaviour
 
     public void LoadFunTargetGame()
     {
-        SceneManager.LoadScene("FunTarget");
+        SceneManager.LoadScene(Const.FunTarget);
     }
 
     public IEnumerator ChangePasswordData()
     {
         WWWForm form = new();
 
-        form.AddField("user_id", PlayerPrefs.GetInt("userId"));
+        form.AddField("user_id", PlayerPrefs.GetInt(Const.userId));
         form.AddField("app_token", "temp_token");
         form.AddField("old_password", oldPassword.text);
         form.AddField("new_password", newPassword.text);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("https://www.godigiinfotech.com/masterking/api/app-change-password", form))
+        using (UnityWebRequest www = UnityWebRequest.Post(changePassUrl, form))
         {
             yield return www.SendWebRequest();
             if (www.result != UnityWebRequest.Result.Success)
@@ -92,7 +93,7 @@ public class MasterKingGameSelectionScreen : MonoBehaviour
                         yield return new WaitForSeconds(2.0f);
                         passwordChangeResponce.text = "";
 
-                        SceneManager.LoadScene("Login");
+                        SceneManager.LoadScene(Const.Login);
                         PlayerPrefs.DeleteAll();
                         break;
                 }
@@ -123,13 +124,11 @@ public class MasterKingGameSelectionScreen : MonoBehaviour
         StartCoroutine(GetScoreAndWinScoreData());
     }
 
-    public TMP_Text pointText;
-
     IEnumerator GetScoreAndWinScoreData()
     {
         WWWForm form = new();
 
-        form.AddField("user_id", PlayerPrefs.GetInt("userId"));
+        form.AddField("user_id", PlayerPrefs.GetInt(Const.userId));
         form.AddField("app_token", "temp_token");
 
         using (UnityWebRequest www = UnityWebRequest.Post(scoreBoardURI, form))
@@ -147,14 +146,14 @@ public class MasterKingGameSelectionScreen : MonoBehaviour
                 switch (scoreBoardData.status)
                 {
                     case 500:
-                        Debug.Log("Netwrok 500 Error");
+
+                        Debug.Log(www.error);
+                        SceneManager.LoadScene(Const.Login);
                         break;
 
                     case 200:
-                       
-                        PlayerPrefs.SetFloat("ft_Score", scoreBoardData.main_score);
 
-                        pointText.text = PlayerPrefs.GetFloat("ft_Score").ToString();
+                        userCoinTxt.text = scoreBoardData.main_score.ToString();
                         break;
                 }
             }
