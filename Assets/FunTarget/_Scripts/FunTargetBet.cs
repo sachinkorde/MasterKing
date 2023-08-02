@@ -13,7 +13,7 @@ public class FunTargetBet : MonoBehaviour
     bool isCancelSpecificBet = false;
     public bool isTake = false;
     public bool isDataNull = false;
-    public bool isFunCounter = false;
+    //public bool isFunCounter = false;
     public bool isDataSendOnClick = false;
     public bool countdownStarted = false;
     public bool isBetOk = false;
@@ -78,6 +78,69 @@ public class FunTargetBet : MonoBehaviour
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         //WinDaTa();
+    }
+
+    void WinDaTa()
+    {
+        if (PlayerPrefs.GetInt("winNum0") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum0"));
+            last10WinText[0].text = PlayerPrefs.GetInt("winNum0").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum1") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum1"));
+            last10WinText[1].text = PlayerPrefs.GetInt("winNum1").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum2") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum2"));
+            last10WinText[2].text = PlayerPrefs.GetInt("winNum2").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum3") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum3"));
+            last10WinText[3].text = PlayerPrefs.GetInt("winNum3").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum4") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum4"));
+            last10WinText[4].text = PlayerPrefs.GetInt("winNum4").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum5") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum5"));
+            last10WinText[5].text = PlayerPrefs.GetInt("winNum5").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum6") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum6"));
+            last10WinText[6].text = PlayerPrefs.GetInt("winNum6").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum7") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum7"));
+            last10WinText[7].text = PlayerPrefs.GetInt("winNum7").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum8") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum8"));
+            last10WinText[8].text = PlayerPrefs.GetInt("winNum8").ToString();
+        }
+
+        if (PlayerPrefs.GetInt("winNum9") > 0)
+        {
+            winNumToShow.Add(PlayerPrefs.GetInt("winNum9"));
+            last10WinText[9].text = PlayerPrefs.GetInt("winNum9").ToString();
+        }
     }
 
     public void PrevoiusBetStatus()
@@ -164,11 +227,11 @@ public class FunTargetBet : MonoBehaviour
     {
         if (winNumToShow.Count < last10WinText.Length)
         {
-            winNumToShow.Add(spinTheWheel.Winningnumber);
+            winNumToShow.Add(PlayerPrefs.GetInt(Const.winNumber));
         }
         else
         {
-            winNumToShow[currentIndex] = spinTheWheel.Winningnumber;
+            winNumToShow[currentIndex] = PlayerPrefs.GetInt(Const.winNumber);
             currentIndex = (currentIndex + 1) % last10WinText.Length;
         }
 
@@ -1118,6 +1181,11 @@ public class FunTargetBet : MonoBehaviour
         PlayerPrefs.SetString(Const.data9, "");
 
         PlayerPrefs.SetString(Const.SetAllAmt, "");
+
+        for (int i = 0; i < betBtn.Count; i++)
+        {
+            betBtn[i].SetTrigger("idle");
+        }
     }
     #endregion
 

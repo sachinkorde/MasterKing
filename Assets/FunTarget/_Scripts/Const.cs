@@ -32,4 +32,7 @@ public static class Const
     //public static string isTake = "isTake";
     public static string isWheelRotate = "isWheelRotate";
     public static string startNewGame = "startNewGame";
+
+    //funtarget game WinNum
+    public static string winNumber = "winNumber";
 }

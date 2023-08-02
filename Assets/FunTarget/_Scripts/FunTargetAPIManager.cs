@@ -36,7 +36,7 @@ public class FunTargetAPIManager : MonoBehaviour
     private void Awake()
     {
         userID = PlayerPrefs.GetInt(Const.userId).ToString();
-        LastTranData();
+        ShowResultWithLastTranData();
     }
 
     private void Start()
@@ -47,7 +47,7 @@ public class FunTargetAPIManager : MonoBehaviour
     }
 
     #region Last Transaction Id
-    public void LastTranData()
+    public void ShowResultWithLastTranData()
     {
         StartCoroutine(LastTransactionIdData());
     }
@@ -92,6 +92,118 @@ public class FunTargetAPIManager : MonoBehaviour
         StartCoroutine(OnLoadStartGetResultData());
     }
 
+    void DataHandling()
+    {
+        int allamt;
+        allamt = getResultData.betting_data[0].data1 + getResultData.betting_data[0].data2
+               + getResultData.betting_data[0].data3 + getResultData.betting_data[0].data4
+               + getResultData.betting_data[0].data5 + getResultData.betting_data[0].data6
+               + getResultData.betting_data[0].data7 + getResultData.betting_data[0].data8
+               + getResultData.betting_data[0].data9 + getResultData.betting_data[0].data0;
+
+        funTargetBet.showAllAmt.text = allamt + ".00";
+
+        if (getResultData.betting_data[0].data0 > 0)
+        {
+            funTargetBet.betBtn[0].SetTrigger("btnClick");
+            funTargetBet.bet0_text.text = getResultData.betting_data[0].data0.ToString();
+        }
+        else
+        {
+            funTargetBet.betBtn[0].SetTrigger("idle");
+        }
+
+        if (getResultData.betting_data[0].data1 > 0)
+        {
+            funTargetBet.betBtn[1].SetTrigger("btnClick");
+            funTargetBet.bet1_text.text = getResultData.betting_data[0].data1.ToString();
+        }
+        else
+        {
+            funTargetBet.betBtn[1].SetTrigger("idle");
+        }
+
+        if (getResultData.betting_data[0].data2 > 0)
+        {
+            funTargetBet.betBtn[2].SetTrigger("btnClick");
+            funTargetBet.bet2_text.text = getResultData.betting_data[0].data2.ToString();
+        }
+        else
+        {
+            funTargetBet.betBtn[2].SetTrigger("idle");
+        }
+
+        if (getResultData.betting_data[0].data3 > 0)
+        {
+            funTargetBet.betBtn[3].SetTrigger("btnClick");
+            funTargetBet.bet3_text.text = getResultData.betting_data[0].data3.ToString();
+        }
+        else
+        {
+            funTargetBet.betBtn[3].SetTrigger("idle");
+        }
+
+        if (getResultData.betting_data[0].data4 > 0)
+        {
+            funTargetBet.betBtn[4].SetTrigger("btnClick");
+            funTargetBet.bet4_text.text = getResultData.betting_data[0].data4.ToString();
+        }
+        else
+        {
+            funTargetBet.betBtn[4].SetTrigger("idle");
+        }
+
+        if (getResultData.betting_data[0].data5 > 0)
+        {
+            funTargetBet.betBtn[5].SetTrigger("btnClick");
+            funTargetBet.bet5_text.text = getResultData.betting_data[0].data5.ToString();
+        }
+        else
+        {
+            funTargetBet.betBtn[5].SetTrigger("idle");
+        }
+
+        if (getResultData.betting_data[0].data6 > 0)
+        {
+            funTargetBet.betBtn[6].SetTrigger("btnClick");
+            funTargetBet.bet6_text.text = getResultData.betting_data[0].data6.ToString();
+        }
+        else
+        {
+            funTargetBet.betBtn[6].SetTrigger("idle");
+        }
+
+        if (getResultData.betting_data[0].data7 > 0)
+        {
+            funTargetBet.betBtn[7].SetTrigger("btnClick");
+            funTargetBet.bet7_text.text = getResultData.betting_data[0].data7.ToString();
+        }
+        else
+        {
+            funTargetBet.betBtn[7].SetTrigger("idle");
+        }
+
+        if (getResultData.betting_data[0].data8 > 0)
+        {
+            funTargetBet.betBtn[8].SetTrigger("btnClick");
+            funTargetBet.bet8_text.text = getResultData.betting_data[0].data8.ToString();
+        }
+        else
+        {
+            funTargetBet.betBtn[8].SetTrigger("idle");
+        }
+
+        if (getResultData.betting_data[0].data9 > 0)
+        {
+            funTargetBet.betBtn[9].SetTrigger("btnClick");
+            funTargetBet.bet9_text.text = getResultData.betting_data[0].data9.ToString();
+        }
+        else
+        {
+            funTargetBet.betBtn[9].SetTrigger("idle");
+        }
+    }
+
     IEnumerator OnLoadStartGetResultData()
     {
         WWWForm form = new();
@@ -123,49 +235,41 @@ public class FunTargetAPIManager : MonoBehaviour
                     case 200:
                         Debug.Log("playerprefs wheel rotate :: " + PlayerPrefs.GetInt(Const.isWheelRotate));
 
-                        if (getResultData.betting_data[0].wining_status == 10)
+
+                        if (getResultData.betting_data[0].is_end == 20) // Game Not End
                         {
+                            DataHandling();
                             funTargetBet.isTake = false;
                             funTargetBet.takeBtn.enabled = false;
-                            funTargetBet.ResetBetData();
-
-                            Debug.Log("win status 0... No need to take");
+                            funTargetBet.bottomPanelMsg.text = "Bet Ok";
+                            funTargetBet.btnHider.SetActive(true);
                         }
-                        else if (getResultData.betting_data[0].wining_status == 0)
+                        else if (getResultData.betting_data[0].is_end == 10)
                         {
-                            funTargetBet.isTake = true;
-                            funTargetBet.takeBtn.enabled = true;
-                            int allamt;
-                            allamt = getResultData.betting_data[0].data1 + getResultData.betting_data[0].data2
-                                   + getResultData.betting_data[0].data3 + getResultData.betting_data[0].data4
-                                   + getResultData.betting_data[0].data5 + getResultData.betting_data[0].data6
-                                   + getResultData.betting_data[0].data7 + getResultData.betting_data[0].data8
-                                   + getResultData.betting_data[0].data9 + getResultData.betting_data[0].data0;
-
-                            funTargetBet.bet1_text.text = getResultData.betting_data[0].data1.ToString();
-                            funTargetBet.bet2_text.text = getResultData.betting_data[0].data2.ToString();
-                            funTargetBet.bet3_text.text = getResultData.betting_data[0].data3.ToString();
-                            funTargetBet.bet4_text.text = getResultData.betting_data[0].data4.ToString();
-                            funTargetBet.bet5_text.text = getResultData.betting_data[0].data5.ToString();
-                            funTargetBet.bet6_text.text = getResultData.betting_data[0].data6.ToString();
-                            funTargetBet.bet7_text.text = getResultData.betting_data[0].data7.ToString();
-                            funTargetBet.bet8_text.text = getResultData.betting_data[0].data8.ToString();
-                            funTargetBet.bet9_text.text = getResultData.betting_data[0].data9.ToString();
-                            funTargetBet.bet0_text.text = getResultData.betting_data[0].data0.ToString();
-                            funTargetBet.showAllAmt.text = allamt.ToString();
-
-                            for (int i = 0; i < funTargetBet.betBtn.Count; i++)
+                            if (getResultData.betting_data[0].winner_score == 0) // No need to Take Here
                             {
-                                funTargetBet.betBtn[i].SetTrigger("btnClick");
+                                funTargetBet.isTake = false;
+                                funTargetBet.takeBtn.enabled = false;
+                                funTargetBet.ResetBetData();
+                                funTargetBet.bottomPanelMsg.text = "";
                             }
-
-                            if (PlayerPrefs.GetInt(Const.isWheelRotate) ==  1)
+                            else if (getResultData.betting_data[0].winner_score > 0 &&
+                                     getResultData.betting_data[0].status == 0)
                             {
+                                funTargetBet.isTake = true;
+                                funTargetBet.takeBtn.enabled = true;
                                 funTargetBet.winText.text = getResultData.betting_data[0].winner_score.ToString();
+                                DataHandling();
                                 funTargetBet.bottomPanelMsg.text = "Please Take your Win Amount And Play";
                             }
-                            
-                            Debug.Log("win status 10 and you need to take win amt");
+                            else if (getResultData.betting_data[0].winner_score > 0 &&
+                                     getResultData.betting_data[0].status == 10)
+                            {
+                                funTargetBet.isTake = false;
+                                funTargetBet.takeBtn.enabled = false;
+                                funTargetBet.ResetBetData();
+                                funTargetBet.bottomPanelMsg.text = "";
+                            }
                         }
 
                         break;
@@ -214,21 +318,13 @@ public class FunTargetAPIManager : MonoBehaviour
                         if (timerData.timer < 10)
                         {
                             funTargetBet.timerText.text = "00:0" + timerData.timer.ToString();
+                            funTargetBet.btnHider.SetActive(true);
+                            funTargetBet.bottomPanelMsg.text = "Bet Time Over..!";
 
-                            if (!funTargetBet.isFunCounter)
+                            if (!funTargetBet.isTake && !funTargetBet.isDataSendOnClick)
                             {
-                                funTargetBet.btnHider.SetActive(true);
-                                funTargetBet.bottomPanelMsg.text = "Bet Time Over..!";
-                                funTargetBet.isFunCounter = true;
-
-                                if (!funTargetBet.isTake)
-                                {
-                                    UpdateWinNum();
-                                }
-                            }
-                            else
-                            {
-                                yield return null;
+                                funTargetBet.isDataSendOnClick = true;
+                                UpdateWinNum();
                             }
                         }
                         else
@@ -238,26 +334,15 @@ public class FunTargetAPIManager : MonoBehaviour
 
                         if (timerData.timer <= 1)
                         {
-                            Debug.Log(timerData.timer + " timer value");
-                            
                             isSpin = true;
-
-                            /*if(timerData.timer == 0)
-                            {
-                                funTargetBet.timerText.text = "00" + ":" + "00";
-                                StopCoroutine(GetTimeData());
-                                FT_SoundManager.instance.timerAudio.Stop();
-                            }*/
-                        }
-                        else
-                        {
-                            yield return new WaitForSeconds(0.71f);
-                            StartCoroutine(GetTimeData());
                         }
                         break;
                 }
             }
         }
+
+        yield return new WaitForSeconds(0.71f);
+        StartCoroutine(GetTimeData());
     }
 
     public bool isSpin = false;
@@ -270,9 +355,6 @@ public class FunTargetAPIManager : MonoBehaviour
             spinTheWheel.WheelSpinHere();
             PlayerPrefs.SetInt(Const.startNewGame, 0);
             PlayerPrefs.SetInt(Const.isWheelRotate, 1);
-            Debug.Log(spinTheWheel.Winningnumber + "  after game win Number");
-            winTextTempshow.text = spinTheWheel.Winningnumber.ToString();
-            
             isSpin = false;
         }
     }
@@ -317,7 +399,6 @@ public class FunTargetAPIManager : MonoBehaviour
                         funTargetBet.takeBtn.enabled = false;
                         funTargetBet.scoreTxt.text = takeAPI.main_score + ".00";
                         funTargetBet.winText.text = "";
-                        //PlayerPrefs.SetInt(Const.isTake, 1);
                         PlayerPrefs.SetInt(Const.isWheelRotate, 1);
                         funTargetBet.PrevoiusBetStatus();
                         GetScoreAndWinScoreDataFunction();
@@ -388,16 +469,20 @@ public class FunTargetAPIManager : MonoBehaviour
     #region Sending Betting Data betting_data
     public void OnClickSendBetData()
     {
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+
         if (funTargetBet.isTake)
         {
             funTargetBet.PlayBottomAnim();
             return;
         }
-
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
-        funTargetBet.btnHider.SetActive(true);
-        funTargetBet.bottomPanelMsg.text = "Bet Ok..!";
-        UpdateWinNum();
+        else if (!funTargetBet.isTake)
+        {
+            funTargetBet.btnHider.SetActive(true);
+            funTargetBet.bottomPanelMsg.text = "Bet Ok..!";
+            funTargetBet.isDataSendOnClick = true;
+            UpdateWinNum();
+        }
     }
 
     IEnumerator SendBettingData()
@@ -416,8 +501,9 @@ public class FunTargetAPIManager : MonoBehaviour
         form.AddField("data_content[data7]", PlayerPrefs.GetString(Const.data7));
         form.AddField("data_content[data8]", PlayerPrefs.GetString(Const.data8));
         form.AddField("data_content[data9]", PlayerPrefs.GetString(Const.data9));
-        form.AddField("wining_number", spinTheWheel.Winningnumber);
+        form.AddField("wining_number", PlayerPrefs.GetInt(Const.winNumber));
 
+        Debug.Log("  spin win Num  : " + PlayerPrefs.GetInt(Const.winNumber));
         using (UnityWebRequest www = UnityWebRequest.Post(betting_data, form))
         {
             yield return www.SendWebRequest();
@@ -500,19 +586,20 @@ public class FunTargetAPIManager : MonoBehaviour
 
                     case 200:
 
-                        spinTheWheel.Winningnumber = getDbWinNum.winning_number;
+                         
 
+                        PlayerPrefs.SetInt(Const.winNumber, getDbWinNum.winning_number);
 
-                        Debug.Log("  spin win Num  : " + spinTheWheel.Winningnumber);
+                        //spinTheWheel.Winningnumber = PlayerPrefs.GetInt(Const.winNumber);
                         Debug.Log("funTargetBet.isDataSendOnClick value is : " + funTargetBet.isDataSendOnClick);
-
-                        if (!funTargetBet.isDataSendOnClick)
+                        SendBetData();
+                        /*if (!funTargetBet.isDataSendOnClick)
                         {
                             SendBetData();
                             funTargetBet.isDataSendOnClick = true;
                             //PlayerPrefs.SetInt(Const.isTake, 0);
                             Debug.Log("Bet Data is send to DB");
-                        }
+                        }*/
                         break;
                 }
             }
@@ -560,6 +647,7 @@ public class FunTargetAPIManager : MonoBehaviour
             }
         }
     }
+
     IEnumerator LoadPreViousDataFromAPI()
     {
         WWWForm form = new();
@@ -600,7 +688,7 @@ public class FunTargetAPIManager : MonoBehaviour
                             
                         if(allamt <= PlayerPrefs.GetFloat(Const.ft_score))
                         {
-                            funTargetBet.bet1_text.text = getResultData.betting_data[0].data1.ToString();
+                          /*funTargetBet.bet1_text.text = getResultData.betting_data[0].data1.ToString();
                             funTargetBet.bet2_text.text = getResultData.betting_data[0].data2.ToString();
                             funTargetBet.bet3_text.text = getResultData.betting_data[0].data3.ToString();
                             funTargetBet.bet4_text.text = getResultData.betting_data[0].data4.ToString();
@@ -611,6 +699,9 @@ public class FunTargetAPIManager : MonoBehaviour
                             funTargetBet.bet9_text.text = getResultData.betting_data[0].data9.ToString();
                             funTargetBet.bet0_text.text = getResultData.betting_data[0].data0.ToString();
                             funTargetBet.showAllAmt.text = allamt.ToString();
+                            */
+
+                            DataHandling();
 
                             funTargetBet.tempClick_Data0 = getResultData.betting_data[0].data0;
                             funTargetBet.tempClick_Data1 = getResultData.betting_data[0].data1;
@@ -623,10 +714,16 @@ public class FunTargetAPIManager : MonoBehaviour
                             funTargetBet.tempClick_Data8 = getResultData.betting_data[0].data8;
                             funTargetBet.tempClick_Data9 = getResultData.betting_data[0].data9;
 
-                            for (int i = 0; i < funTargetBet.betBtn.Count; i++)
-                            {
-                                funTargetBet.betBtn[i].SetTrigger("btnClick");
-                            }
+                            PlayerPrefs.SetString(Const.data0, funTargetBet.tempClick_Data0.ToString());
+                            PlayerPrefs.SetString(Const.data1, funTargetBet.tempClick_Data1.ToString());
+                            PlayerPrefs.SetString(Const.data2, funTargetBet.tempClick_Data2.ToString());
+                            PlayerPrefs.SetString(Const.data3, funTargetBet.tempClick_Data3.ToString());
+                            PlayerPrefs.SetString(Const.data4, funTargetBet.tempClick_Data4.ToString());
+                            PlayerPrefs.SetString(Const.data5, funTargetBet.tempClick_Data5.ToString());
+                            PlayerPrefs.SetString(Const.data6, funTargetBet.tempClick_Data6.ToString());
+                            PlayerPrefs.SetString(Const.data7, funTargetBet.tempClick_Data7.ToString());
+                            PlayerPrefs.SetString(Const.data8, funTargetBet.tempClick_Data8.ToString());
+                            PlayerPrefs.SetString(Const.data9, funTargetBet.tempClick_Data9.ToString());
                         }
                         else
                         {
@@ -734,6 +831,7 @@ public class betting_data
     public int wining_number;
     public int wining_status;
     public int status;
+    public int is_end;
 }
 
 public class BettingData

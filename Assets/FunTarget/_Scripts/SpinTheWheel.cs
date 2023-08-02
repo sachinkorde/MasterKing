@@ -28,12 +28,14 @@ public class SpinTheWheel : MonoBehaviour
     {
         spinCenter.SetTrigger("idle");
 
-        for (int i = 0; i < funTargetBet.betBtn.Count; i++)
+        /*for (int i = 0; i < funTargetBet.betBtn.Count; i++)
         {
             funTargetBet.betBtn[i].SetTrigger("idle");
-        }
+        }*/
 
-        switch (Winningnumber)
+        ShowResult();
+
+        switch (PlayerPrefs.GetInt(Const.winNumber))
         {
             case 0:
                 wheelTheAnimator.SetTrigger("0");
@@ -85,22 +87,16 @@ public class SpinTheWheel : MonoBehaviour
                 funTargetBet.betBtn[9].SetTrigger("btnAfterWin");
                 break;
         }
-
-        Debug.Log(Winningnumber + "  after game win Number");
         PlayerPrefs.SetInt(Const.isWheelRotate, 1);
         FT_SoundManager.instance.ft_AudioSorce.Stop();
-
-        //Invoke(nameof(ShowResult), 0.1f);
-        ShowResult();
     }
 
     void ShowResult()
     {
         if (!funTargetBet.isDataNull)
         {
-            //funTargetAPIManager.GetResultFunInGame();
             funTargetBet.isDataNull = false;
-            funTargetAPIManager.LastTranData();
+            funTargetAPIManager.ShowResultWithLastTranData();
         }
 
         funTargetBet.ShowWinNumInLast10Data();
@@ -109,12 +105,9 @@ public class SpinTheWheel : MonoBehaviour
 
     void StartGameAgain()
     {
-        funTargetAPIManager.StartTimerAgain();
         funTargetBet.btnHider.SetActive(false);
         funTargetBet.isDataSendOnClick = false;
-        funTargetBet.isFunCounter = false;
         funTargetBet.isBetOk = false;
         funTargetBet.allAmtClickCounter = 0;
-        PlayerPrefs.SetInt("BetDataSend", 0);
     }
 }
