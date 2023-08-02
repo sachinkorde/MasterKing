@@ -121,8 +121,7 @@ public class FunTargetAPIManager : MonoBehaviour
                         break;
 
                     case 200:
-                        //Debug.Log("Playerprefs take :- " + PlayerPrefs.GetInt(Const.isTake));
-                        Debug.Log("playerprefs wheel rotate :- " + PlayerPrefs.GetInt(Const.isWheelRotate));
+                        Debug.Log("playerprefs wheel rotate :: " + PlayerPrefs.GetInt(Const.isWheelRotate));
 
                         if (getResultData.betting_data[0].wining_status == 10)
                         {
@@ -136,6 +135,12 @@ public class FunTargetAPIManager : MonoBehaviour
                         {
                             funTargetBet.isTake = true;
                             funTargetBet.takeBtn.enabled = true;
+                            int allamt;
+                            allamt = getResultData.betting_data[0].data1 + getResultData.betting_data[0].data2
+                                   + getResultData.betting_data[0].data3 + getResultData.betting_data[0].data4
+                                   + getResultData.betting_data[0].data5 + getResultData.betting_data[0].data6
+                                   + getResultData.betting_data[0].data7 + getResultData.betting_data[0].data8
+                                   + getResultData.betting_data[0].data9 + getResultData.betting_data[0].data0;
 
                             funTargetBet.bet1_text.text = getResultData.betting_data[0].data1.ToString();
                             funTargetBet.bet2_text.text = getResultData.betting_data[0].data2.ToString();
@@ -147,8 +152,14 @@ public class FunTargetAPIManager : MonoBehaviour
                             funTargetBet.bet8_text.text = getResultData.betting_data[0].data8.ToString();
                             funTargetBet.bet9_text.text = getResultData.betting_data[0].data9.ToString();
                             funTargetBet.bet0_text.text = getResultData.betting_data[0].data0.ToString();
+                            funTargetBet.showAllAmt.text = allamt.ToString();
 
-                            if(PlayerPrefs.GetInt(Const.isWheelRotate) ==  1)
+                            for (int i = 0; i < funTargetBet.betBtn.Count; i++)
+                            {
+                                funTargetBet.betBtn[i].SetTrigger("btnClick");
+                            }
+
+                            if (PlayerPrefs.GetInt(Const.isWheelRotate) ==  1)
                             {
                                 funTargetBet.winText.text = getResultData.betting_data[0].winner_score.ToString();
                                 funTargetBet.bottomPanelMsg.text = "Please Take your Win Amount And Play";
@@ -231,12 +242,12 @@ public class FunTargetAPIManager : MonoBehaviour
                             
                             isSpin = true;
 
-                            if(timerData.timer == 0)
+                            /*if(timerData.timer == 0)
                             {
                                 funTargetBet.timerText.text = "00" + ":" + "00";
                                 StopCoroutine(GetTimeData());
                                 FT_SoundManager.instance.timerAudio.Stop();
-                            }
+                            }*/
                         }
                         else
                         {
@@ -257,7 +268,8 @@ public class FunTargetAPIManager : MonoBehaviour
         if (isSpin)
         {
             spinTheWheel.WheelSpinHere();
-
+            PlayerPrefs.SetInt(Const.startNewGame, 0);
+            PlayerPrefs.SetInt(Const.isWheelRotate, 1);
             Debug.Log(spinTheWheel.Winningnumber + "  after game win Number");
             winTextTempshow.text = spinTheWheel.Winningnumber.ToString();
             
@@ -406,8 +418,6 @@ public class FunTargetAPIManager : MonoBehaviour
         form.AddField("data_content[data9]", PlayerPrefs.GetString(Const.data9));
         form.AddField("wining_number", spinTheWheel.Winningnumber);
 
-
-        Debug.Log(spinTheWheel.Winningnumber + "    winning num on send bet data");
         using (UnityWebRequest www = UnityWebRequest.Post(betting_data, form))
         {
             yield return www.SendWebRequest();
@@ -434,10 +444,19 @@ public class FunTargetAPIManager : MonoBehaviour
                         funTargetBet.isDataNull = false;
                         funTargetBet.isBetOk = true;
                         PlayerPrefs.SetInt(Const.isWheelRotate, 0);
-                        PlayerPrefs.SetInt(Const.startNewGame, 0);
+                        yield return new WaitForSeconds(20);
+                        ChangeWinFlag();
                         break;
                 }
             }
+        }
+    }
+
+    void ChangeWinFlag()
+    {
+        if(PlayerPrefs.GetInt(Const.isWheelRotate) == 0)
+        {
+            PlayerPrefs.SetInt(Const.isWheelRotate, 1);
         }
     }
 
@@ -571,12 +590,13 @@ public class FunTargetAPIManager : MonoBehaviour
 
                     case 200:
                         
-                        int allamt = 0;
+                        int allamt;
 
-                        allamt = getResultData.betting_data[0].data1 + getResultData.betting_data[0].data2 + getResultData.betting_data[0].data3
-                            + getResultData.betting_data[0].data4 + getResultData.betting_data[0].data5 + getResultData.betting_data[0].data6
-                            + getResultData.betting_data[0].data7 + getResultData.betting_data[0].data8 + getResultData.betting_data[0].data9
-                            + getResultData.betting_data[0].data0;
+                        allamt = getResultData.betting_data[0].data1 + getResultData.betting_data[0].data2 
+                               + getResultData.betting_data[0].data3 + getResultData.betting_data[0].data4 
+                               + getResultData.betting_data[0].data5 + getResultData.betting_data[0].data6
+                               + getResultData.betting_data[0].data7 + getResultData.betting_data[0].data8 
+                               + getResultData.betting_data[0].data9 + getResultData.betting_data[0].data0;
                             
                         if(allamt <= PlayerPrefs.GetFloat(Const.ft_score))
                         {
@@ -590,13 +610,29 @@ public class FunTargetAPIManager : MonoBehaviour
                             funTargetBet.bet8_text.text = getResultData.betting_data[0].data8.ToString();
                             funTargetBet.bet9_text.text = getResultData.betting_data[0].data9.ToString();
                             funTargetBet.bet0_text.text = getResultData.betting_data[0].data0.ToString();
+                            funTargetBet.showAllAmt.text = allamt.ToString();
+
+                            funTargetBet.tempClick_Data0 = getResultData.betting_data[0].data0;
+                            funTargetBet.tempClick_Data1 = getResultData.betting_data[0].data1;
+                            funTargetBet.tempClick_Data2 = getResultData.betting_data[0].data2;
+                            funTargetBet.tempClick_Data3 = getResultData.betting_data[0].data3;
+                            funTargetBet.tempClick_Data4 = getResultData.betting_data[0].data4;
+                            funTargetBet.tempClick_Data5 = getResultData.betting_data[0].data5;
+                            funTargetBet.tempClick_Data6 = getResultData.betting_data[0].data6;
+                            funTargetBet.tempClick_Data7 = getResultData.betting_data[0].data7;
+                            funTargetBet.tempClick_Data8 = getResultData.betting_data[0].data8;
+                            funTargetBet.tempClick_Data9 = getResultData.betting_data[0].data9;
+
+                            for (int i = 0; i < funTargetBet.betBtn.Count; i++)
+                            {
+                                funTargetBet.betBtn[i].SetTrigger("btnClick");
+                            }
                         }
                         else
                         {
                             funTargetBet.bottomPanelMsg.text = "Insufficient Fund";
                         }
                         
-
                         break;
                 }
             }

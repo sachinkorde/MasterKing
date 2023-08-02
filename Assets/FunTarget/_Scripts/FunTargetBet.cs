@@ -194,12 +194,6 @@ public class FunTargetBet : MonoBehaviour
 
     public void CommonMsgOnBet()
     {
-        if (isTake)
-        {
-            PlayBottomAnim();
-            return;
-        }
-
         if (clickbetData == 0)
         {
             bottomPanelMsg.text = "Please Select Any Bet Amount";
@@ -241,6 +235,12 @@ public class FunTargetBet : MonoBehaviour
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
+        if (isTake)
+        {
+            PlayBottomAnim();
+            return;
+        }
+
         if (isCancelSpecificBet)
         {
             isCancelSpecificBet = false;
@@ -249,6 +249,7 @@ public class FunTargetBet : MonoBehaviour
             tempClick_Data0 = 0;
             clickbetData = 0;
             PlayerPrefs.SetString(Const.data0, "");
+            betBtn[0].SetTrigger("idle");
             AllDataAmount();
             return;
         }
@@ -307,6 +308,12 @@ public class FunTargetBet : MonoBehaviour
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
+        if (isTake)
+        {
+            PlayBottomAnim();
+            return;
+        }
+
         if (isCancelSpecificBet)
         {
             isCancelSpecificBet = false;
@@ -315,6 +322,7 @@ public class FunTargetBet : MonoBehaviour
             tempClick_Data1 = 0;
             clickbetData = 0;
             PlayerPrefs.SetString(Const.data1, "");
+            betBtn[1].SetTrigger("idle");
             AllDataAmount();
             return;
         }
@@ -371,6 +379,12 @@ public class FunTargetBet : MonoBehaviour
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
+        if (isTake)
+        {
+            PlayBottomAnim();
+            return;
+        }
+
         if (isCancelSpecificBet)
         {
             isCancelSpecificBet = false;
@@ -379,6 +393,7 @@ public class FunTargetBet : MonoBehaviour
             tempClick_Data2 = 0;
             clickbetData = 0;
             PlayerPrefs.SetString(Const.data2, "");
+            betBtn[2].SetTrigger("idle");
             AllDataAmount();
             return;
         }
@@ -436,6 +451,12 @@ public class FunTargetBet : MonoBehaviour
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
+        if (isTake)
+        {
+            PlayBottomAnim();
+            return;
+        }
+
         if (isCancelSpecificBet)
         {
             isCancelSpecificBet = false;
@@ -444,8 +465,8 @@ public class FunTargetBet : MonoBehaviour
             tempClick_Data3 = 0;
             clickbetData = 0;
             PlayerPrefs.SetString(Const.data3, "");
-            AllDataAmount();
             betBtn[3].SetTrigger("idle");
+            AllDataAmount();
             return;
         }
 
@@ -502,6 +523,12 @@ public class FunTargetBet : MonoBehaviour
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
+        if (isTake)
+        {
+            PlayBottomAnim();
+            return;
+        }
+
         if (isCancelSpecificBet)
         {
             isCancelSpecificBet = false;
@@ -510,6 +537,7 @@ public class FunTargetBet : MonoBehaviour
             tempClick_Data4 = 0;
             clickbetData = 0;
             PlayerPrefs.SetString(Const.data4, "");
+            betBtn[4].SetTrigger("idle");
             AllDataAmount();
             return;
         }
@@ -567,6 +595,12 @@ public class FunTargetBet : MonoBehaviour
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
+        if (isTake)
+        {
+            PlayBottomAnim();
+            return;
+        }
+
         if (isCancelSpecificBet)
         {
             isCancelSpecificBet = false;
@@ -575,6 +609,7 @@ public class FunTargetBet : MonoBehaviour
             tempClick_Data5 = 0;
             clickbetData = 0;
             PlayerPrefs.SetString(Const.data5, "");
+            betBtn[5].SetTrigger("idle");
             AllDataAmount();
             return;
         }
@@ -631,6 +666,12 @@ public class FunTargetBet : MonoBehaviour
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
+        if (isTake)
+        {
+            PlayBottomAnim();
+            return;
+        }
+
         if (isCancelSpecificBet)
         {
             isCancelSpecificBet = false;
@@ -639,6 +680,7 @@ public class FunTargetBet : MonoBehaviour
             tempClick_Data6 = 0;
             clickbetData = 0;
             PlayerPrefs.SetString(Const.data6, "");
+            betBtn[6].SetTrigger("idle");
             AllDataAmount();
             return;
         }
@@ -695,6 +737,12 @@ public class FunTargetBet : MonoBehaviour
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
+        if (isTake)
+        {
+            PlayBottomAnim();
+            return;
+        }
+
         if (isCancelSpecificBet)
         {
             isCancelSpecificBet = false;
@@ -703,6 +751,7 @@ public class FunTargetBet : MonoBehaviour
             tempClick_Data7 = 0;
             clickbetData = 0;
             PlayerPrefs.SetString(Const.data7, "");
+            betBtn[7].SetTrigger("idle");
             AllDataAmount();
             return;
         }
@@ -759,6 +808,12 @@ public class FunTargetBet : MonoBehaviour
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
+        if (isTake)
+        {
+            PlayBottomAnim();
+            return;
+        }
+
         if (isCancelSpecificBet)
         {
             isCancelSpecificBet = false;
@@ -767,6 +822,7 @@ public class FunTargetBet : MonoBehaviour
             tempClick_Data8 = 0;
             clickbetData = 0;
             PlayerPrefs.SetString(Const.data8, "");
+            betBtn[8].SetTrigger("idle");
             AllDataAmount();
             return;
         }
@@ -824,6 +880,12 @@ public class FunTargetBet : MonoBehaviour
     {
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Bet);
 
+        if (isTake)
+        {
+            PlayBottomAnim();
+            return;
+        }
+
         if (isCancelSpecificBet)
         {
             isCancelSpecificBet = false;
@@ -832,6 +894,7 @@ public class FunTargetBet : MonoBehaviour
             tempClick_Data9 = 0;
             clickbetData = 0;
             PlayerPrefs.SetString(Const.data9, "");
+            betBtn[9].SetTrigger("idle");
             AllDataAmount();
             return;
         }
@@ -969,6 +1032,10 @@ public class FunTargetBet : MonoBehaviour
         if (PlayerPrefs.GetInt(Const.startNewGame) == 0)
         {
             ResetBetDataOnWinZero();
+            for (int i = 0; i < betBtn.Count; i++)
+            {
+                betBtn[i].SetTrigger("idle");
+            }
             PlayerPrefs.SetInt(Const.startNewGame, 1);
         }
 
