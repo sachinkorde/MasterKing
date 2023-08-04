@@ -1,8 +1,8 @@
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class FunTargetAPIManager : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class FunTargetAPIManager : MonoBehaviour
     public string betting_data = "https://godigiinfotech.com/masterking/api/betting_data"; // Send all betting data 0 to 9
     public string transfer_main_wallet = "https://godigiinfotech.com/masterking/api/ft_transfer_main_wallet"; //Take API
     public string get_result = "https://godigiinfotech.com/masterking/api/get_result";
-    public string last_10_ft = "https://godigiinfotech.com/masterking/api/last_10_ft"; // Get Last 10 Wining Num and Winning score here
+    public string last_10_WinNumber = "https://godigiinfotech.com/masterking/api/last_10_win_number"; // Get Last 10 Wining Num and Winning score here
     public string get_Timer = "https://godigiinfotech.com/masterking/api/get_timer"; // Timer API
     public string gt_WinningNumFromDb = "https://godigiinfotech.com/masterking/api/get_winning_number"; // Getting wiining Number from Database
 
@@ -27,6 +27,9 @@ public class FunTargetAPIManager : MonoBehaviour
     public static GetDbWinNum getDbWinNum;
     public static GetResultData getResultData;
     public static LastTransactionIdData lastTransactionIdData;
+    public static Last10WinNum last10WinNum;
+
+    public Animator timerAnimator;
 
     string userID;
 
@@ -43,6 +46,7 @@ public class FunTargetAPIManager : MonoBehaviour
     {
         GetScoreAndWinScoreDataFunction();
         StartTimerAgain();
+        ShowDataOfLast10WinNum();
         funTargetBet.btnHider.SetActive(false);
     }
 
@@ -75,6 +79,16 @@ public class FunTargetAPIManager : MonoBehaviour
                 {
                     case 500:
                         Debug.Log(www.error);
+
+                        if (www.error != "Null")
+                        {
+                            ShowResultWithLastTranData();
+                        }
+                        else
+                        {
+                            SceneManager.LoadScene(Const.Login);
+                        }
+
                         break;
 
                     case 200:
@@ -230,6 +244,7 @@ public class FunTargetAPIManager : MonoBehaviour
                 {
                     case 500:
                         Debug.Log(www.error);
+                        OnLoadStartGetResultFun();
                         break;
 
                     case 200:
@@ -239,36 +254,32 @@ public class FunTargetAPIManager : MonoBehaviour
                         if (getResultData.betting_data[0].is_end == 20) // Game Not End
                         {
                             DataHandling();
-                            funTargetBet.isTake = false;
-                            funTargetBet.takeBtn.enabled = false;
+                            funTargetBet.TakeBtnDisabledState();
                             funTargetBet.bottomPanelMsg.text = "Bet Ok";
                             funTargetBet.btnHider.SetActive(true);
                         }
-                        else if (getResultData.betting_data[0].is_end == 10)
+                        else if (getResultData.betting_data[0].is_end == 10) // Old Game is End Here
                         {
-                            if (getResultData.betting_data[0].winner_score == 0) // No need to Take Here
+
+                            if (getResultData.betting_data[0].winner_score > 0 && getResultData.betting_data[0].status == 0)  // here we need to take
                             {
-                                funTargetBet.isTake = false;
-                                funTargetBet.takeBtn.enabled = false;
-                                funTargetBet.ResetBetData();
-                                funTargetBet.bottomPanelMsg.text = "";
-                            }
-                            else if (getResultData.betting_data[0].winner_score > 0 &&
-                                     getResultData.betting_data[0].status == 0)
-                            {
-                                funTargetBet.isTake = true;
-                                funTargetBet.takeBtn.enabled = true;
+                                funTargetBet.TakeBtnEnbledState();
                                 funTargetBet.winText.text = getResultData.betting_data[0].winner_score.ToString();
                                 DataHandling();
                                 funTargetBet.bottomPanelMsg.text = "Please Take your Win Amount And Play";
                             }
-                            else if (getResultData.betting_data[0].winner_score > 0 &&
-                                     getResultData.betting_data[0].status == 10)
+                            else if(getResultData.betting_data[0].winner_score == 0 && getResultData.betting_data[0].status == 0) // Here not win But need to take
                             {
-                                funTargetBet.isTake = false;
-                                funTargetBet.takeBtn.enabled = false;
+                                Take();
+                                funTargetBet.TakeBtnDisabledState();
+                                FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Loose);
                                 funTargetBet.ResetBetData();
                                 funTargetBet.bottomPanelMsg.text = "";
+                            }
+                            else if(getResultData.betting_data[0].status == 10) // No need to take 
+                            {
+                                funTargetBet.ResetBetData();
+                                funTargetBet.TakeBtnDisabledState();
                             }
                         }
 
@@ -303,7 +314,10 @@ public class FunTargetAPIManager : MonoBehaviour
                 switch (timerData.status)
                 {
                     case 500:
+
                         Debug.Log(www.error);
+                        //If timer API gives internal error
+                        StartTimerAgain();
 
                         break;
                     case 200:
@@ -315,15 +329,22 @@ public class FunTargetAPIManager : MonoBehaviour
                             FT_SoundManager.instance.timerAudio.Play();
                         }
 
+                        if(timerData.timer < 15)
+                        {
+                            isTimerAnimStart = true;
+                        }
+
                         if (timerData.timer < 10)
                         {
                             funTargetBet.timerText.text = "00:0" + timerData.timer.ToString();
                             funTargetBet.btnHider.SetActive(true);
                             funTargetBet.bottomPanelMsg.text = "Bet Time Over..!";
+                            funTargetBet.BetOkIdleAnim();
 
-                            if (!funTargetBet.isTake && !funTargetBet.isDataSendOnClick)
+                            if (!funTargetBet.isTake && PlayerPrefs.GetInt(Const.isDataSendOnClick) == 0)
                             {
-                                funTargetBet.isDataSendOnClick = true;
+                                //funTargetBet.isDataSendOnClick = true;
+                                PlayerPrefs.SetInt(Const.isDataSendOnClick, 1);
                                 UpdateWinNum();
                             }
                         }
@@ -346,6 +367,7 @@ public class FunTargetAPIManager : MonoBehaviour
     }
 
     public bool isSpin = false;
+    public bool isTimerAnimStart = false;
     public TMP_Text winTextTempshow;
 
     private void Update()
@@ -355,7 +377,14 @@ public class FunTargetAPIManager : MonoBehaviour
             spinTheWheel.WheelSpinHere();
             PlayerPrefs.SetInt(Const.startNewGame, 0);
             PlayerPrefs.SetInt(Const.isWheelRotate, 1);
+            timerAnimator.SetTrigger("idle");
             isSpin = false;
+        }
+
+        if (isTimerAnimStart)
+        {
+            isTimerAnimStart = false;
+            timerAnimator.SetTrigger("timerAnim");
         }
     }
     #endregion
@@ -380,6 +409,7 @@ public class FunTargetAPIManager : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log(www.error);
+                Take();
             }
             else
             {
@@ -394,9 +424,10 @@ public class FunTargetAPIManager : MonoBehaviour
 
                     case 200:
 
-                        funTargetBet.isTake = false;
+                        //funTargetBet.isTake = false;
                         funTargetBet.isBetOk = false;
-                        funTargetBet.takeBtn.enabled = false;
+                        funTargetBet.TakeBtnDisabledState();
+                        //funTargetBet.takeBtn.enabled = false;
                         funTargetBet.scoreTxt.text = takeAPI.main_score + ".00";
                         funTargetBet.winText.text = "";
                         PlayerPrefs.SetInt(Const.isWheelRotate, 1);
@@ -413,14 +444,14 @@ public class FunTargetAPIManager : MonoBehaviour
     {
         funTargetBet.previousBtn.gameObject.SetActive(true);
         funTargetBet.betokBtn.gameObject.SetActive(false);
-        Invoke(nameof(DisablePreviousBtn), 7.0f);
+        Invoke(nameof(DisablePreviousBtn), 5.0f);
     }
 
     void DisablePreviousBtn()
     {
         funTargetBet.previousBtn.gameObject.SetActive(false);
         funTargetBet.betokBtn.gameObject.SetActive(true);
-        //funTargetBet.ResetOnNewBet();
+        funTargetBet.BetOkIdleAnim();
     }
 
     #endregion
@@ -454,6 +485,15 @@ public class FunTargetAPIManager : MonoBehaviour
                 {
                     case 500:
                         Debug.Log(www.error);
+
+                        if(www.error != null)
+                        {
+                            GetScoreAndWinScoreDataFunction();
+                        }
+                        else
+                        {
+                            SceneManager.LoadScene(Const.Login);
+                        }
                         break;
 
                     case 200:
@@ -480,9 +520,13 @@ public class FunTargetAPIManager : MonoBehaviour
         {
             funTargetBet.btnHider.SetActive(true);
             funTargetBet.bottomPanelMsg.text = "Bet Ok..!";
-            funTargetBet.isDataSendOnClick = true;
+            //funTargetBet.isDataSendOnClick = true;
+            PlayerPrefs.SetInt(Const.isDataSendOnClick, 1);
             UpdateWinNum();
         }
+        funTargetBet.betokBtn.gameObject.SetActive(false);
+        funTargetBet.betokBtn.gameObject.SetActive(true);
+        funTargetBet.BetOkIdleAnim();
     }
 
     IEnumerator SendBettingData()
@@ -504,6 +548,7 @@ public class FunTargetAPIManager : MonoBehaviour
         form.AddField("wining_number", PlayerPrefs.GetInt(Const.winNumber));
 
         Debug.Log("  spin win Num  : " + PlayerPrefs.GetInt(Const.winNumber));
+
         using (UnityWebRequest www = UnityWebRequest.Post(betting_data, form))
         {
             yield return www.SendWebRequest();
@@ -585,21 +630,11 @@ public class FunTargetAPIManager : MonoBehaviour
                         break;
 
                     case 200:
-
-                         
-
+                        
                         PlayerPrefs.SetInt(Const.winNumber, getDbWinNum.winning_number);
-
-                        //spinTheWheel.Winningnumber = PlayerPrefs.GetInt(Const.winNumber);
-                        Debug.Log("funTargetBet.isDataSendOnClick value is : " + funTargetBet.isDataSendOnClick);
+                        Debug.Log("isDataSendOnClick Playerprefs :" + PlayerPrefs.GetInt(Const.isDataSendOnClick));
                         SendBetData();
-                        /*if (!funTargetBet.isDataSendOnClick)
-                        {
-                            SendBetData();
-                            funTargetBet.isDataSendOnClick = true;
-                            //PlayerPrefs.SetInt(Const.isTake, 0);
-                            Debug.Log("Bet Data is send to DB");
-                        }*/
+                        
                         break;
                 }
             }
@@ -688,19 +723,6 @@ public class FunTargetAPIManager : MonoBehaviour
                             
                         if(allamt <= PlayerPrefs.GetFloat(Const.ft_score))
                         {
-                          /*funTargetBet.bet1_text.text = getResultData.betting_data[0].data1.ToString();
-                            funTargetBet.bet2_text.text = getResultData.betting_data[0].data2.ToString();
-                            funTargetBet.bet3_text.text = getResultData.betting_data[0].data3.ToString();
-                            funTargetBet.bet4_text.text = getResultData.betting_data[0].data4.ToString();
-                            funTargetBet.bet5_text.text = getResultData.betting_data[0].data5.ToString();
-                            funTargetBet.bet6_text.text = getResultData.betting_data[0].data6.ToString();
-                            funTargetBet.bet7_text.text = getResultData.betting_data[0].data7.ToString();
-                            funTargetBet.bet8_text.text = getResultData.betting_data[0].data8.ToString();
-                            funTargetBet.bet9_text.text = getResultData.betting_data[0].data9.ToString();
-                            funTargetBet.bet0_text.text = getResultData.betting_data[0].data0.ToString();
-                            funTargetBet.showAllAmt.text = allamt.ToString();
-                            */
-
                             DataHandling();
 
                             funTargetBet.tempClick_Data0 = getResultData.betting_data[0].data0;
@@ -724,6 +746,12 @@ public class FunTargetAPIManager : MonoBehaviour
                             PlayerPrefs.SetString(Const.data7, funTargetBet.tempClick_Data7.ToString());
                             PlayerPrefs.SetString(Const.data8, funTargetBet.tempClick_Data8.ToString());
                             PlayerPrefs.SetString(Const.data9, funTargetBet.tempClick_Data9.ToString());
+
+                            funTargetBet.previousBtn.gameObject.SetActive(false);
+                            funTargetBet.betokBtn.gameObject.SetActive(true);
+                            funTargetBet.cancelBtn.enabled = true;
+                            funTargetBet.cancelSpecificBetBtn.enabled = true;
+                            funTargetBet.BetBtnAnimation();
                         }
                         else
                         {
@@ -732,6 +760,43 @@ public class FunTargetAPIManager : MonoBehaviour
                         
                         break;
                 }
+            }
+        }
+    }
+    #endregion
+
+    #region show Last 10 Win Number
+    public void ShowDataOfLast10WinNum()
+    {
+        StartCoroutine(ShowLast10WinNumbers());
+    }
+
+    private IEnumerator ShowLast10WinNumbers()
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(last_10_WinNumber))
+        {
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.Success)
+            {
+                string jsonString = webRequest.downloadHandler.text;
+                last10WinNum = JsonUtility.FromJson<Last10WinNum>(jsonString);
+
+                if (last10WinNum.last_data != null)
+                {
+                    for (int i = 0; i < last10WinNum.last_data.Length; i++)
+                    {
+                        funTargetBet.last10WinText[i].text = last10WinNum.last_data[i];
+                    }
+                }
+                else
+                {
+                    ShowDataOfLast10WinNum();
+                }
+            }
+            else
+            {
+                ShowDataOfLast10WinNum();
             }
         }
     }
@@ -866,5 +931,13 @@ public class LastTransactionIdData
     public int status;
     public string message;
     public int last_transaction_id;
+}
+
+[System.Serializable]
+public class Last10WinNum
+{
+    public int status;
+    public string message;
+    public string[] last_data;
 }
 #endregion

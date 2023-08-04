@@ -13,8 +13,7 @@ public class FunTargetBet : MonoBehaviour
     bool isCancelSpecificBet = false;
     public bool isTake = false;
     public bool isDataNull = false;
-    //public bool isFunCounter = false;
-    public bool isDataSendOnClick = false;
+    //public bool isDataSendOnClick = false;
     public bool countdownStarted = false;
     public bool isBetOk = false;
 
@@ -24,8 +23,7 @@ public class FunTargetBet : MonoBehaviour
     public TMP_Text winText;
     public TMP_Text timerText;
     public TMP_Text bottomPanelMsg;
-    public TMP_Text bet1_text, bet2_text, bet3_text, bet4_text, 
-                    bet5_text, bet6_text, bet7_text, bet8_text, 
+    public TMP_Text bet1_text, bet2_text, bet3_text, bet4_text, bet5_text, bet6_text, bet7_text, bet8_text,
                     bet9_text, bet0_text, showAllAmt;
 
     public TMP_Text[] last10WinText;
@@ -67,80 +65,17 @@ public class FunTargetBet : MonoBehaviour
     public int allAmt = 0;
     public int allAmtClickCounter = 0;
 
-    public List<int> winNumToShow = new();
+    //public List<int> winNumToShow = new();
     public List<Animator> betBtn = new();
 
     [SerializeField] private float btnCounterValue = 0.2f;
     public Button takeBtn;
-    public Button previousBtn, betokBtn;
+    public Button previousBtn, betokBtn, cancelBtn, cancelSpecificBetBtn;
+    public Animator betOkBtn, takeBtnAnimator;
 
     private void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        //WinDaTa();
-    }
-
-    void WinDaTa()
-    {
-        if (PlayerPrefs.GetInt("winNum0") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum0"));
-            last10WinText[0].text = PlayerPrefs.GetInt("winNum0").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum1") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum1"));
-            last10WinText[1].text = PlayerPrefs.GetInt("winNum1").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum2") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum2"));
-            last10WinText[2].text = PlayerPrefs.GetInt("winNum2").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum3") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum3"));
-            last10WinText[3].text = PlayerPrefs.GetInt("winNum3").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum4") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum4"));
-            last10WinText[4].text = PlayerPrefs.GetInt("winNum4").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum5") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum5"));
-            last10WinText[5].text = PlayerPrefs.GetInt("winNum5").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum6") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum6"));
-            last10WinText[6].text = PlayerPrefs.GetInt("winNum6").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum7") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum7"));
-            last10WinText[7].text = PlayerPrefs.GetInt("winNum7").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum8") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum8"));
-            last10WinText[8].text = PlayerPrefs.GetInt("winNum8").ToString();
-        }
-
-        if (PlayerPrefs.GetInt("winNum9") > 0)
-        {
-            winNumToShow.Add(PlayerPrefs.GetInt("winNum9"));
-            last10WinText[9].text = PlayerPrefs.GetInt("winNum9").ToString();
-        }
     }
 
     public void PrevoiusBetStatus()
@@ -173,8 +108,9 @@ public class FunTargetBet : MonoBehaviour
 
     public void CancelAllBet()
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.btnClick);
-
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
+        betokBtn.gameObject.SetActive(false);
+        betokBtn.gameObject.SetActive(true);
         if (isTake)
         {
             PlayBottomAnim();
@@ -223,7 +159,7 @@ public class FunTargetBet : MonoBehaviour
 
     private int currentIndex = 0;
 
-    public void ShowWinNumInLast10Data()
+    /*public void ShowWinNumInLast10Data()
     {
         if (winNumToShow.Count < last10WinText.Length)
         {
@@ -243,7 +179,7 @@ public class FunTargetBet : MonoBehaviour
                 last10WinText[i].text = PlayerPrefs.GetInt("winNum" + i).ToString();
             }
         }
-    }
+    }*/
 
     #region OnClick Bet Numbers
     bool isPressingData = false;
@@ -260,6 +196,7 @@ public class FunTargetBet : MonoBehaviour
         if (clickbetData == 0)
         {
             bottomPanelMsg.text = "Please Select Any Bet Amount";
+            BetOkIdleAnim();
             return;
         }
         else
@@ -1020,13 +957,45 @@ public class FunTargetBet : MonoBehaviour
         isButtonPressed = false;
     }
 
+    public void BetBtnAnimation()
+    {
+        betokBtn.enabled = true;
+        cancelBtn.enabled = true;
+        cancelSpecificBetBtn.enabled = true;
+        betOkBtn.SetTrigger("betokanim");
+    }
+
+    public void BetOkIdleAnim()
+    {
+        betokBtn.enabled = false;
+        cancelBtn.enabled = false;
+        cancelSpecificBetBtn.enabled = false;
+        betOkBtn.SetTrigger("idle");
+    }
+
+    public void TakeBtnDisabledState()
+    {
+        isTake = false;
+        takeBtn.enabled = false;
+        takeBtnAnimator.SetTrigger("idle");
+    }
+
+    public void TakeBtnEnbledState()
+    {
+        takeBtnAnimator.SetTrigger("takebtnokanim");
+        isTake = true;
+        takeBtn.enabled = true;
+        BetOkIdleAnim(); 
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Win);
+    }
+
     void AllDataAmount()
     {
         allAmt = tempClick_Data0 + tempClick_Data1 + tempClick_Data2 + tempClick_Data3
                + tempClick_Data4 + tempClick_Data5 + tempClick_Data6 + tempClick_Data7 
                + tempClick_Data8 + tempClick_Data9;
 
-
+        BetBtnAnimation();
         showAllAmt.text = allAmt + ".00";
         PlayerPrefs.SetString("SetAllAmt", allAmt.ToString());
         float tempShowScore;
@@ -1163,7 +1132,7 @@ public class FunTargetBet : MonoBehaviour
         bet9_text.text = "";
         bet0_text.text = "";
         showAllAmt.text = "";
-
+        BetOkIdleAnim();
         ResetBetDataOnWinZero();
     }
 

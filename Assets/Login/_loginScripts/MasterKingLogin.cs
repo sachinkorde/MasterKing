@@ -40,8 +40,16 @@ public class MasterKingLogin : MonoBehaviour
     public GameObject glowCloseBtn;
     public GameObject loginScreenPanel;
 
+    private void Awake()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
     private void Start()
     {
+        Debug.Log(PlayerPrefs.GetInt(Const.userId));
+
+
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         StartCoroutine(StartAnim());
         glowEnterBtn.SetActive(false);

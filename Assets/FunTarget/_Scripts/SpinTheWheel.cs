@@ -93,21 +93,72 @@ public class SpinTheWheel : MonoBehaviour
 
     void ShowResult()
     {
-        if (!funTargetBet.isDataNull)
+        /*if (!funTargetBet.isDataNull)
         {
             funTargetBet.isDataNull = false;
-            funTargetAPIManager.ShowResultWithLastTranData();
-        }
+        }*/
+        //funTargetBet.ShowWinNumInLast10Data();
 
-        funTargetBet.ShowWinNumInLast10Data();
+        funTargetAPIManager.ShowResultWithLastTranData();
         Invoke(nameof(StartGameAgain), 0.5f);
     }
 
     void StartGameAgain()
     {
         funTargetBet.btnHider.SetActive(false);
-        funTargetBet.isDataSendOnClick = false;
+        //funTargetBet.isDataSendOnClick = false;
+        PlayerPrefs.SetInt(Const.isDataSendOnClick, 0);
         funTargetBet.isBetOk = false;
         funTargetBet.allAmtClickCounter = 0;
+        funTargetAPIManager.ShowDataOfLast10WinNum();
+
+        Invoke(nameof(WinButtonAnimation), 0.25f);
+    }
+
+    void WinButtonAnimation()
+    {
+        switch (PlayerPrefs.GetInt(Const.winNumber))
+        {
+            case 0:
+                funTargetBet.betBtn[0].SetTrigger("btnAfterWin");
+                break;
+
+            case 1:
+                funTargetBet.betBtn[1].SetTrigger("btnAfterWin");
+                break;
+
+            case 2:
+                wheelTheAnimator.SetTrigger("2");
+                funTargetBet.betBtn[2].SetTrigger("btnAfterWin");
+                break;
+
+            case 3:
+                funTargetBet.betBtn[3].SetTrigger("btnAfterWin");
+                break;
+
+            case 4:
+                funTargetBet.betBtn[4].SetTrigger("btnAfterWin");
+                break;
+
+            case 5:
+                funTargetBet.betBtn[5].SetTrigger("btnAfterWin");
+                break;
+
+            case 6:
+                funTargetBet.betBtn[6].SetTrigger("btnAfterWin");
+                break;
+
+            case 7:
+                funTargetBet.betBtn[7].SetTrigger("btnAfterWin");
+                break;
+
+            case 8:
+                funTargetBet.betBtn[8].SetTrigger("btnAfterWin");
+                break;
+
+            case 9:
+                funTargetBet.betBtn[9].SetTrigger("btnAfterWin");
+                break;
+        }
     }
 }
