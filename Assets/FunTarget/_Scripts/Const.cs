@@ -30,7 +30,7 @@ public static class Const
 
     //Funtarget other const
     //public static string isTake = "isTake";
-    public static string isWheelRotate = "isWheelRotate";
+    //public static string isWheelRotate = "isWheelRotate";
     public static string startNewGame = "startNewGame";
     public static string isDataSendOnClick = "isDataSendOnClick";
     //funtarget game WinNum

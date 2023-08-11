@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class FunTargetBet : MonoBehaviour
 {
+    public static FunTargetBet instance;
     public SpinTheWheel spinTheWheel;
     public FunTargetAPIManager funTargetAPIManager;
 
@@ -72,6 +73,11 @@ public class FunTargetBet : MonoBehaviour
     public Button takeBtn;
     public Button previousBtn, betokBtn, cancelBtn, cancelSpecificBetBtn;
     public Animator betOkBtn, takeBtnAnimator;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -272,7 +278,7 @@ public class FunTargetBet : MonoBehaviour
     {
         int limtSet = allAmt + clickbetData;
 
-        Debug.Log(limtSet + " set limit value");
+        //Debug.Log(limtSet + " set limit value");
         while (isButtonPressed && PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
         {
             limtSet = allAmt + clickbetData;

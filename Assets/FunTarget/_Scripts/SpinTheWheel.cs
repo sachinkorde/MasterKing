@@ -14,27 +14,24 @@ public class SpinTheWheel : MonoBehaviour
 
     public Animator wheelTheAnimator;
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     public void WheelSpinHere()
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.SpeenWheelRotate);
+        FT_SoundManager.instance.ft_spin.Play();
         spinCenter.SetTrigger("runSpin");
         wheelTheAnimator.SetTrigger("wheelrotation");
 
-        float clipLength = FT_SoundManager.instance.ft_AudioSorce.clip.length;
+        float clipLength = FT_SoundManager.instance.ft_spin.clip.length;
         Invoke(nameof(SpinTheWheelAnim), clipLength);
     }
 
     public void SpinTheWheelAnim()
     {
         spinCenter.SetTrigger("idle");
-
-        /*for (int i = 0; i < funTargetBet.betBtn.Count; i++)
-        {
-            funTargetBet.betBtn[i].SetTrigger("idle");
-        }*/
-
-        ShowResult();
-
         switch (PlayerPrefs.GetInt(Const.winNumber))
         {
             case 0:
@@ -87,31 +84,25 @@ public class SpinTheWheel : MonoBehaviour
                 funTargetBet.betBtn[9].SetTrigger("btnAfterWin");
                 break;
         }
-        PlayerPrefs.SetInt(Const.isWheelRotate, 1);
         FT_SoundManager.instance.ft_AudioSorce.Stop();
+        FT_SoundManager.instance.ft_spin.Stop();
+
+        ShowResult();
     }
 
     void ShowResult()
     {
-        /*if (!funTargetBet.isDataNull)
-        {
-            funTargetBet.isDataNull = false;
-        }*/
-        //funTargetBet.ShowWinNumInLast10Data();
-
         funTargetAPIManager.ShowResultWithLastTranData();
         Invoke(nameof(StartGameAgain), 0.5f);
     }
 
     void StartGameAgain()
     {
-        funTargetBet.btnHider.SetActive(false);
-        //funTargetBet.isDataSendOnClick = false;
         PlayerPrefs.SetInt(Const.isDataSendOnClick, 0);
         funTargetBet.isBetOk = false;
+        funTargetBet.btnHider.SetActive(false);
         funTargetBet.allAmtClickCounter = 0;
         funTargetAPIManager.ShowDataOfLast10WinNum();
-
         Invoke(nameof(WinButtonAnimation), 0.25f);
     }
 
@@ -128,7 +119,6 @@ public class SpinTheWheel : MonoBehaviour
                 break;
 
             case 2:
-                wheelTheAnimator.SetTrigger("2");
                 funTargetBet.betBtn[2].SetTrigger("btnAfterWin");
                 break;
 

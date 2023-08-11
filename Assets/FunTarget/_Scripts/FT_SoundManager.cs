@@ -29,7 +29,8 @@ public class FT_SoundManager : MonoBehaviour
 
     public AudioSource ft_AudioSorce;
     public AudioSource timerAudio;
-    
+    public AudioSource ft_spin;
+
     public List<FT_GameAudioClipsInfo> fT_GameAudioClipsInfo = new();
 
     private void Awake()
