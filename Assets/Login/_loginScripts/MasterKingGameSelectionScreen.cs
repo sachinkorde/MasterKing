@@ -28,10 +28,7 @@ public class MasterKingGameSelectionScreen : MonoBehaviour
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         StartCoroutine(SelectionScreenAnim());
-
-        userIdTxt.text = PlayerPrefs.GetInt(Const.userAcc).ToString();
-        //userCoinTxt.text = PlayerPrefs.GetInt(Const.userCoins).ToString();
-
+        userIdTxt.text = "00"+ PlayerPrefs.GetInt(Const.userAcc);
         GetScoreAndWinScoreDataFunction();
     }
 

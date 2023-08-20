@@ -21,13 +21,21 @@ public class SpinTheWheel : MonoBehaviour
 
     public void WheelSpinHere()
     {
-        FT_SoundManager.instance.ft_spin.Play();
+        AnimatorStateInfo stateInfo = wheelTheAnimator.GetCurrentAnimatorStateInfo(0);
+
         spinCenter.SetTrigger("runSpin");
         wheelTheAnimator.SetTrigger("wheelrotation");
+
+        if (!FT_SoundManager.instance.ft_spin.isPlaying && stateInfo.IsName("wheelrotation"))
+        {
+            FT_SoundManager.instance.ft_spin.Play();
+        }
 
         float clipLength = FT_SoundManager.instance.ft_spin.clip.length;
         Invoke(nameof(SpinTheWheelAnim), clipLength);
     }
+
+    public bool showresTime = false;
 
     public void SpinTheWheelAnim()
     {
@@ -86,18 +94,23 @@ public class SpinTheWheel : MonoBehaviour
         }
         FT_SoundManager.instance.ft_AudioSorce.Stop();
         FT_SoundManager.instance.ft_spin.Stop();
-
-        ShowResult();
+        showresTime = true;
+        if(showresTime)
+        {
+            ShowResult();
+        }
     }
 
     void ShowResult()
     {
-        funTargetAPIManager.ShowResultWithLastTranData();
+        Debug.Log("   show result");
+        funTargetAPIManager.ShowResultWithLastTranIdAt_GameEnd();
         Invoke(nameof(StartGameAgain), 0.5f);
     }
 
     void StartGameAgain()
     {
+        Debug.Log("   start game again");
         PlayerPrefs.SetInt(Const.isDataSendOnClick, 0);
         funTargetBet.isBetOk = false;
         funTargetBet.btnHider.SetActive(false);

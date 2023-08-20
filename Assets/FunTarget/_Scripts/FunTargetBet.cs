@@ -14,7 +14,6 @@ public class FunTargetBet : MonoBehaviour
     bool isCancelSpecificBet = false;
     public bool isTake = false;
     public bool isDataNull = false;
-    //public bool isDataSendOnClick = false;
     public bool countdownStarted = false;
     public bool isBetOk = false;
 
@@ -66,7 +65,6 @@ public class FunTargetBet : MonoBehaviour
     public int allAmt = 0;
     public int allAmtClickCounter = 0;
 
-    //public List<int> winNumToShow = new();
     public List<Animator> betBtn = new();
 
     [SerializeField] private float btnCounterValue = 0.2f;
@@ -278,7 +276,6 @@ public class FunTargetBet : MonoBehaviour
     {
         int limtSet = allAmt + clickbetData;
 
-        //Debug.Log(limtSet + " set limit value");
         while (isButtonPressed && PlayerPrefs.GetFloat(Const.ft_score) >= limtSet)
         {
             limtSet = allAmt + clickbetData;
@@ -974,8 +971,6 @@ public class FunTargetBet : MonoBehaviour
     public void BetOkIdleAnim()
     {
         betokBtn.enabled = false;
-        cancelBtn.enabled = false;
-        cancelSpecificBetBtn.enabled = false;
         betOkBtn.SetTrigger("idle");
     }
 

@@ -50,14 +50,14 @@ public class FunTargetAPIManager : MonoBehaviour
 
     private void Start()
     {
-        ShowResultWithLastTranData();
+        ShowResultWithLastTranIdAt_Start();
         GetScoreAndWinScoreDataFunction();
         ShowDataOfLast10WinNum();
         funTargetBet.btnHider.SetActive(false);
     }
 
-    #region Last Transaction Id
-    public void ShowResultWithLastTranData()
+    #region Last Transaction Id At Start
+    public void ShowResultWithLastTranIdAt_Start()
     {
         StartCoroutine(LastTransactionIdData());
     }
@@ -75,6 +75,8 @@ public class FunTargetAPIManager : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log(www.error);
+
+                ShowResultWithLastTranIdAt_Start();
             }
             else
             {
@@ -88,7 +90,9 @@ public class FunTargetAPIManager : MonoBehaviour
 
                         if (www.error != "Null")
                         {
-                            ShowResultWithLastTranData();
+                            ShowResultWithLastTranIdAt_Start();
+
+                            Debug.Log(www.error +  "   called here how many times");
                         }
                         else
                         {
@@ -100,16 +104,11 @@ public class FunTargetAPIManager : MonoBehaviour
                     case 200:
 
                         PlayerPrefs.SetInt(Const.last_transaction_id, lastTransactionIdData.last_transaction_id);
-                        OnLoadStartGetResultFun();
+                        OnLoadStartGetResult_AtStart();
                         break;
                 }
             }
         }
-    }
-
-    public void OnLoadStartGetResultFun()
-    {
-        StartCoroutine(OnLoadStartGetResultData());
     }
 
     void DataHandling()
@@ -224,7 +223,12 @@ public class FunTargetAPIManager : MonoBehaviour
         }
     }
 
-    IEnumerator OnLoadStartGetResultData()
+    public void OnLoadStartGetResult_AtStart()
+    {
+        StartCoroutine(OnLoadStartGetResultData_AtStart());
+    }
+
+    IEnumerator OnLoadStartGetResultData_AtStart()
     {
         WWWForm form = new();
 
@@ -238,19 +242,19 @@ public class FunTargetAPIManager : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log(www.error);
+
+                OnLoadStartGetResult_AtStart();
             }
             else
             {
                 string strjson = www.downloadHandler.text;
                 getResultData = JsonUtility.FromJson<GetResultData>(strjson);
 
-                Debug.Log(strjson);
-
                 switch (getResultData.status)
                 {
                     case 500:
                         Debug.Log(www.error);
-                        OnLoadStartGetResultFun();
+                        OnLoadStartGetResult_AtStart();
                         break;
 
                     case 200:
@@ -261,20 +265,23 @@ public class FunTargetAPIManager : MonoBehaviour
                             funTargetBet.TakeBtnDisabledState();
                             funTargetBet.bottomPanelMsg.text = "Bet Ok";
                             funTargetBet.btnHider.SetActive(true);
+
+                            Debug.Log("  Game is not End Here");
+
                         }
                         else if (getResultData.betting_data[0].is_end == 10) // Old Game is End Here
                         {
-
                             if (getResultData.betting_data[0].winner_score > 0 
                                 && getResultData.betting_data[0].status == 0)  // here we need to take
                             {
                                 funTargetBet.TakeBtnEnbledState();
-                                //funTargetBet.btnHider.SetActive(true);
                                 funTargetBet.winText.text = getResultData.betting_data[0].winner_score.ToString();
                                 DataHandling();
 
                                 Debug.Log(getResultData.betting_data[0].winner_score);
                                 funTargetBet.bottomPanelMsg.text = "Please Take your Win Amount And Play";
+
+                                Debug.Log("Old Game is End Here and Player need to take win Amt");
                             }
                             else if(getResultData.betting_data[0].winner_score == 0 
                                 && getResultData.betting_data[0].status == 0) // Here not win But need to take
@@ -284,12 +291,19 @@ public class FunTargetAPIManager : MonoBehaviour
                                 FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Loose);
                                 funTargetBet.ResetBetData();
                                 funTargetBet.bottomPanelMsg.text = "";
+
+                                Debug.Log("Player is not win but take API called for setup calculations in game");
                             }
                             else if(getResultData.betting_data[0].status == 10) // No need to take 
                             {
                                 funTargetBet.ResetBetData();
                                 funTargetBet.TakeBtnDisabledState();
+
+                                Debug.Log("Old Game is End Here and Player already to take win Amt");
+
                             }
+                            spinTheWheel.showresTime = false;
+                            StopCoroutine(OnLoadStartGetResultData_AtStart());
                         }
 
                         break;
@@ -299,6 +313,133 @@ public class FunTargetAPIManager : MonoBehaviour
     }
     #endregion
 
+
+    #region Show Restlt At Game End
+    public void ShowResultWithLastTranIdAt_GameEnd()
+    {
+        StartCoroutine(LastTransactionIdDataAt_GameEnd());
+    }
+
+    IEnumerator LastTransactionIdDataAt_GameEnd()
+    {
+        WWWForm form = new();
+
+        form.AddField("user_id", userID);
+        form.AddField("app_token", "temp_token");
+
+        using (UnityWebRequest www = UnityWebRequest.Post(lastTransactionIdurl, form))
+        {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+
+                ShowResultWithLastTranIdAt_GameEnd();
+            }
+            else
+            {
+                string strjson = www.downloadHandler.text;
+                lastTransactionIdData = JsonUtility.FromJson<LastTransactionIdData>(strjson);
+
+                switch (lastTransactionIdData.status)
+                {
+                    case 500:
+                        Debug.Log(www.error);
+
+                        if (www.error != "Null")
+                        {
+                            ShowResultWithLastTranIdAt_GameEnd();
+
+                            Debug.Log(www.error + "   called here how many times");
+                        }
+                        else
+                        {
+                            SceneManager.LoadScene(Const.Login);
+                        }
+
+                        break;
+
+                    case 200:
+
+                        PlayerPrefs.SetInt(Const.last_transaction_id, lastTransactionIdData.last_transaction_id);
+                        OnLoadStartGetResult_AtGameEnd();
+                        break;
+                }
+            }
+        }
+    }
+
+    public void OnLoadStartGetResult_AtGameEnd()
+    {
+        StartCoroutine(OnLoadStartGetResultData_AtGameEnd());
+    }
+
+    IEnumerator OnLoadStartGetResultData_AtGameEnd()
+    {
+        WWWForm form = new();
+
+        form.AddField("user_id", userID);
+        form.AddField("app_token", "temp_token");
+        form.AddField("id", PlayerPrefs.GetInt(Const.last_transaction_id));
+
+        using (UnityWebRequest www = UnityWebRequest.Post(get_result, form))
+        {
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+
+                OnLoadStartGetResultData_AtGameEnd();
+            }
+            else
+            {
+                string strjson = www.downloadHandler.text;
+                getResultData = JsonUtility.FromJson<GetResultData>(strjson);
+
+                switch (getResultData.status)
+                {
+                    case 500:
+                        Debug.Log(www.error);
+                        OnLoadStartGetResultData_AtGameEnd();
+                        break;
+
+                    case 200:
+                        if (getResultData.betting_data[0].is_end == 10) // Old Game is End Here
+                        {
+                            if (getResultData.betting_data[0].winner_score > 0
+                                && getResultData.betting_data[0].status == 0)  // here we need to take
+                            {
+                                funTargetBet.TakeBtnEnbledState();
+                                funTargetBet.winText.text = getResultData.betting_data[0].winner_score.ToString();
+                                DataHandling();
+
+                                Debug.Log(getResultData.betting_data[0].winner_score);
+                                funTargetBet.bottomPanelMsg.text = "Please Take your Win Amount And Play";
+
+                                Debug.Log("Old Game is End Here and Player need to take win Amt");
+                            }
+                            else if (getResultData.betting_data[0].winner_score == 0
+                                && getResultData.betting_data[0].status == 0) // Here not win But need to take
+                            {
+                                Take();
+                                funTargetBet.TakeBtnDisabledState();
+                                FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Loose);
+                                funTargetBet.ResetBetData();
+                                funTargetBet.bottomPanelMsg.text = "";
+
+                                Debug.Log("Player is not win but take API called for setup calculations in game");
+                            }
+                            
+                            spinTheWheel.showresTime = false;
+                            StopCoroutine(OnLoadStartGetResultData_AtGameEnd());
+                        }
+
+                        break;
+                }
+            }
+        }
+    }
+    #endregion
     #region GettimerData get_Timer
     public void StartTimer()
     {
@@ -371,6 +512,8 @@ public class FunTargetAPIManager : MonoBehaviour
         if (seconds == 1)
         {
             StartCoroutine(CustomAnimation());
+
+            Debug.Log(seconds + "     This is secondssss");
         }
 
         if (seconds == 10)
@@ -444,14 +587,11 @@ public class FunTargetAPIManager : MonoBehaviour
 
                     case 200:
 
-                        //funTargetBet.isTake = false;
                         funTargetBet.isBetOk = false;
                         funTargetBet.btnHider.SetActive(false);
                         funTargetBet.TakeBtnDisabledState();
-                        //funTargetBet.takeBtn.enabled = false;
                         funTargetBet.scoreTxt.text = takeAPI.main_score + ".00";
                         funTargetBet.winText.text = "";
-                        //PlayerPrefs.SetInt(Const.isWheelRotate, 1);
                         funTargetBet.PrevoiusBetStatus();
                         GetScoreAndWinScoreDataFunction();
                         PreviousBtnAnimation();
@@ -541,7 +681,6 @@ public class FunTargetAPIManager : MonoBehaviour
         {
             funTargetBet.btnHider.SetActive(true);
             funTargetBet.bottomPanelMsg.text = "Bet Ok..!";
-            //funTargetBet.isDataSendOnClick = true;
             PlayerPrefs.SetInt(Const.isDataSendOnClick, 1);
             UpdateWinNum();
         }
@@ -568,8 +707,6 @@ public class FunTargetAPIManager : MonoBehaviour
         form.AddField("data_content[data9]", PlayerPrefs.GetString(Const.data9));
         form.AddField("wining_number", PlayerPrefs.GetInt(Const.winNumber));
 
-        //Debug.Log("  spin win Num  : " + PlayerPrefs.GetInt(Const.winNumber));
-
         using (UnityWebRequest www = UnityWebRequest.Post(betting_data, form))
         {
             yield return www.SendWebRequest();
@@ -595,22 +732,11 @@ public class FunTargetAPIManager : MonoBehaviour
 
                         funTargetBet.isDataNull = false;
                         funTargetBet.isBetOk = true;
-                        //PlayerPrefs.SetInt(Const.isWheelRotate, 0);
-                        //yield return new WaitForSeconds(20);
-                        //ChangeWinFlag();
                         break;
                 }
             }
         }
     }
-
-    /*void ChangeWinFlag()
-    {
-        if(PlayerPrefs.GetInt(Const.isWheelRotate) == 0)
-        {
-            PlayerPrefs.SetInt(Const.isWheelRotate, 1);
-        }
-    }*/
 
     public void SendBetData()
     {
@@ -660,7 +786,6 @@ public class FunTargetAPIManager : MonoBehaviour
                     case 200:
                         
                         PlayerPrefs.SetInt(Const.winNumber, getDbWinNum.winning_number);
-                        //Debug.Log("isDataSendOnClick Playerprefs :" + PlayerPrefs.GetInt(Const.isDataSendOnClick));
                         SendBetData();
                         
                         break;
@@ -822,58 +947,47 @@ public class FunTargetAPIManager : MonoBehaviour
                     }
 
                     int x = int.Parse(last10WinNum.last_data[9]);
-                    //Debug.Log(x + "  last value of result screen");
 
                     switch (x)
                     {
                         case 0:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("0");
-                            //funTargetBet.betBtn[0].SetTrigger("btnAfterWin");
                             break;
 
                         case 1:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("1");
-                            //funTargetBet.betBtn[1].SetTrigger("btnAfterWin");
                             break;
 
                         case 2:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("2");
-                            //funTargetBet.betBtn[2].SetTrigger("btnAfterWin");
                             break;
 
                         case 3:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("3");
-                            //funTargetBet.betBtn[3].SetTrigger("btnAfterWin");
                             break;
 
                         case 4:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("4");
-                            //funTargetBet.betBtn[4].SetTrigger("btnAfterWin");
                             break;
 
                         case 5:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("5");
-                            //funTargetBet.betBtn[5].SetTrigger("btnAfterWin");
                             break;
 
                         case 6:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("6");
-                            //funTargetBet.betBtn[6].SetTrigger("btnAfterWin");
                             break;
 
                         case 7:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("7");
-                            //funTargetBet.betBtn[7].SetTrigger("btnAfterWin");
                             break;
 
                         case 8:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("8");
-                            //funTargetBet.betBtn[8].SetTrigger("btnAfterWin");
                             break;
 
                         case 9:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("9");
-                            //funTargetBet.betBtn[9].SetTrigger("btnAfterWin");
                             break;
                     }
                 }
