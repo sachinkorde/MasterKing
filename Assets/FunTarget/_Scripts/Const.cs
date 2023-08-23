@@ -35,4 +35,6 @@ public static class Const
     public static string isDataSendOnClick = "isDataSendOnClick";
     //funtarget game WinNum
     public static string winNumber = "winNumber";
+    public static string animForWinBtn = "animForWinBtn";
+    public static string tempAnimForWinBtn = "tempAnimForWinBtn";
 }

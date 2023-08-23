@@ -4711,7 +4711,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.128}
   m_AnchorMax: {x: 1, y: 0.346864}
-  m_AnchoredPosition: {x: 0, y: 35.782776}
+  m_AnchoredPosition: {x: 0, y: 35.78276}
   m_SizeDelta: {x: 0, y: 37.671}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &414907850
@@ -11838,6 +11838,7 @@ MonoBehaviour:
   spinCenter: {fileID: 1779246219}
   Winningnumber: 0
   wheelTheAnimator: {fileID: 1299274702}
+  showresTime: 0
 --- !u!4 &1200923297
 Transform:
   m_ObjectHideFlags: 0
@@ -12971,6 +12972,8 @@ MonoBehaviour:
   isSpin: 0
   isTimerAnimStart: 0
   winTextTempshow: {fileID: 1684988958}
+  isTimerSound: 1
+  hasFunctionBeenCalled: 0
 --- !u!1 &1334945738
 GameObject:
   m_ObjectHideFlags: 0
@@ -16918,8 +16921,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -35}
-  m_SizeDelta: {x: 265, y: 175}
+  m_AnchoredPosition: {x: -1.5, y: -34}
+  m_SizeDelta: {x: 265, y: 161.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1779246217
 MonoBehaviour:
@@ -16941,7 +16944,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 009b16762dc4c5c44aa446e56f696a3f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bbacc8b4f6ba92f48986ee5abf553f2d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17149,7 +17152,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.337}
   m_AnchorMin: {x: 0.32432628, y: 0.6458161}
   m_AnchorMax: {x: 0.34633687, y: 0.71800005}
-  m_AnchoredPosition: {x: -0.17504883, y: 1.4483643}
+  m_AnchoredPosition: {x: -0.17504883, y: 1.4483185}
   m_SizeDelta: {x: 33.617264, y: 22.539581}
   m_Pivot: {x: 0.5751118, y: 0.5005767}
 --- !u!114 &1821900200

@@ -72,6 +72,8 @@ public class FunTargetBet : MonoBehaviour
     public Button previousBtn, betokBtn, cancelBtn, cancelSpecificBetBtn;
     public Animator betOkBtn, takeBtnAnimator;
 
+    private int currentIndex = 0;
+
     private void Awake()
     {
         instance = this;
@@ -80,6 +82,8 @@ public class FunTargetBet : MonoBehaviour
     private void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
+        AllDataAmount();
     }
 
     public void PrevoiusBetStatus()
@@ -96,23 +100,24 @@ public class FunTargetBet : MonoBehaviour
             bet8_text.text = PlayerPrefs.GetString(Const.data8);
             bet9_text.text = PlayerPrefs.GetString(Const.data9);
             bet0_text.text = PlayerPrefs.GetString(Const.data0);
-            AllDataAmount();
         }
         else
         {
             ResetBetData();
         }
+
+        AllDataAmount();
     }
 
     public void OnClickLoadPreviousData()
     {
+        allAmtClickCounter++;
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
         funTargetAPIManager.OnClickLoadPreviousBet();
     }
 
     public void CancelAllBet()
     {
-        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
         betokBtn.gameObject.SetActive(false);
         betokBtn.gameObject.SetActive(true);
         if (isTake)
@@ -120,8 +125,10 @@ public class FunTargetBet : MonoBehaviour
             PlayBottomAnim();
             return;
         }
-
+        
         ResetBetData();
+        AllDataAmount();
+        FT_SoundManager.instance.PlayAudioClip(FT_GameClips.ClickSound);
     }
 
     public void CancelspecificData()
@@ -157,11 +164,9 @@ public class FunTargetBet : MonoBehaviour
 
     void AferBottomAnimPlay()
     {
-        bottomPanelMsg.text = "";
+        bottomPanelMsg.text = "Please Take Previous Win Amount";
         bottomPanelMsg.gameObject.SetActive(true);
     }
-
-    private int currentIndex = 0;
 
     /*public void ShowWinNumInLast10Data()
     {
@@ -212,10 +217,27 @@ public class FunTargetBet : MonoBehaviour
         {
             showAllAmt.text = "";
             ResetOnNewBet();
+
+            Debug.Log("------is Data Change-------");
+            Debug.Log(allAmtClickCounter + "     conterrrrrrr value is changeeeeeeeeeee");
+            Debug.Log(PlayerPrefs.GetString(Const.data0));
+            Debug.Log(PlayerPrefs.GetString(Const.data1));
+            Debug.Log(PlayerPrefs.GetString(Const.data2));
+            Debug.Log(PlayerPrefs.GetString(Const.data3));
+            Debug.Log(PlayerPrefs.GetString(Const.data4));
+            Debug.Log(PlayerPrefs.GetString(Const.data5));
+            Debug.Log(PlayerPrefs.GetString(Const.data6));
+            Debug.Log(PlayerPrefs.GetString(Const.data7));
+            Debug.Log(PlayerPrefs.GetString(Const.data8));
+            Debug.Log(PlayerPrefs.GetString(Const.data9));
+
+            Debug.Log("------is Data Change-------");
+
         }
 
         previousBtn.gameObject.SetActive(false);
         betokBtn.gameObject.SetActive(true);
+        AllDataAmount();
     }
 
     public void ResetOnNewBet()
@@ -990,18 +1012,121 @@ public class FunTargetBet : MonoBehaviour
         FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Win);
     }
 
-    void AllDataAmount()
+    public void AllDataAmount()
     {
         allAmt = tempClick_Data0 + tempClick_Data1 + tempClick_Data2 + tempClick_Data3
                + tempClick_Data4 + tempClick_Data5 + tempClick_Data6 + tempClick_Data7 
                + tempClick_Data8 + tempClick_Data9;
 
-        BetBtnAnimation();
+        //BetBtnAnimation();
         showAllAmt.text = allAmt + ".00";
         PlayerPrefs.SetString("SetAllAmt", allAmt.ToString());
         float tempShowScore;
         tempShowScore = PlayerPrefs.GetFloat(Const.ft_score) - allAmt;
         scoreTxt.text = tempShowScore + ".00";
+
+        if(bet0_text.text == "")
+        {
+            betBtn[0].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[0].SetTrigger("btnClick");
+        }
+
+        if (bet1_text.text == "")
+        {
+            betBtn[1].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[1].SetTrigger("btnClick");
+        }
+
+        if (bet2_text.text == "")
+        {
+            betBtn[2].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[2].SetTrigger("btnClick");
+        }
+
+        if (bet3_text.text == "")
+        {
+            betBtn[3].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[3].SetTrigger("btnClick");
+        }
+
+        if (bet4_text.text == "")
+        {
+            betBtn[4].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[4].SetTrigger("btnClick");
+        }
+
+        if (bet5_text.text == "")
+        {
+            betBtn[5].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[5].SetTrigger("btnClick");
+        }
+
+        if (bet6_text.text == "")
+        {
+            betBtn[6].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[6].SetTrigger("btnClick");
+        }
+
+        if (bet7_text.text == "")
+        {
+            betBtn[7].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[7].SetTrigger("btnClick");
+        }
+
+        if (bet8_text.text == "")
+        {
+            betBtn[8].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[8].SetTrigger("btnClick");
+        }
+
+        if (bet9_text.text == "")
+        {
+            betBtn[9].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[9].SetTrigger("btnClick");
+        }
+
+        if (bet0_text.text == "" && bet1_text.text == "" && bet2_text.text == "" && bet3_text.text == ""
+            && bet4_text.text == "" && bet5_text.text == "" && bet6_text.text == "" && bet7_text.text == ""
+            && bet8_text.text == "" && bet9_text.text == "")
+        {
+            betokBtn.enabled = false;
+            betOkBtn.SetTrigger("idle");
+        }
+        else
+        {
+            betokBtn.enabled = true;
+            betOkBtn.SetTrigger("betokanim");
+        }
     }
     #endregion
 
@@ -1009,6 +1134,12 @@ public class FunTargetBet : MonoBehaviour
 
     public void SelectBetAmt(int betAmt) // on click on bet 1,5,10,50,100,500,1000,5000
     {
+        if (isBetOk || isTake)
+        {
+            //AllDataAmount();
+            return;
+        }
+        
         previousBtn.gameObject.SetActive(false);
         betokBtn.gameObject.SetActive(true);
 
@@ -1058,20 +1189,12 @@ public class FunTargetBet : MonoBehaviour
                 break;
         }
         clickCounter = 0;
+
+        AllDataAmount();
     }
 
     public void OnClickBetAmt(int betAmt_click)
     {
-        if (PlayerPrefs.GetInt(Const.startNewGame) == 0)
-        {
-            ResetBetDataOnWinZero();
-            for (int i = 0; i < betBtn.Count; i++)
-            {
-                betBtn[i].SetTrigger("idle");
-            }
-            PlayerPrefs.SetInt(Const.startNewGame, 1);
-        }
-
         if (PlayerPrefs.GetFloat(Const.ft_score) > betAmt_click)
         {
             tempBetData = betAmt_click;
@@ -1080,8 +1203,103 @@ public class FunTargetBet : MonoBehaviour
         {
             bottomPanelMsg.text = "Insufficient Fund";
         }
+
+        AllDataAmount();
     }
     #endregion
+
+    public void ResetBtnAnims()
+    {
+        if (bet0_text.text == "")
+        {
+            betBtn[0].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[0].SetTrigger("btnClick");
+        }
+
+        if (bet1_text.text == "")
+        {
+            betBtn[1].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[1].SetTrigger("btnClick");
+        }
+
+        if (bet2_text.text == "")
+        {
+            betBtn[2].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[2].SetTrigger("btnClick");
+        }
+
+        if (bet3_text.text == "")
+        {
+            betBtn[3].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[3].SetTrigger("btnClick");
+        }
+
+        if (bet4_text.text == "")
+        {
+            betBtn[4].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[4].SetTrigger("btnClick");
+        }
+
+        if (bet5_text.text == "")
+        {
+            betBtn[5].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[5].SetTrigger("btnClick");
+        }
+
+        if (bet6_text.text == "")
+        {
+            betBtn[6].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[6].SetTrigger("btnClick");
+        }
+
+        if (bet7_text.text == "")
+        {
+            betBtn[7].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[7].SetTrigger("btnClick");
+        }
+
+        if (bet8_text.text == "")
+        {
+            betBtn[8].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[8].SetTrigger("btnClick");
+        }
+
+        if (bet9_text.text == "")
+        {
+            betBtn[9].SetTrigger("idle");
+        }
+        else
+        {
+            betBtn[9].SetTrigger("btnClick");
+        }
+    }
 
     #region Resetbet Data
     public void ResetBetData()
@@ -1135,6 +1353,8 @@ public class FunTargetBet : MonoBehaviour
         showAllAmt.text = "";
         BetOkIdleAnim();
         ResetBetDataOnWinZero();
+
+        AllDataAmount();
     }
 
     void ResetBetDataOnWinZero()
@@ -1156,6 +1376,8 @@ public class FunTargetBet : MonoBehaviour
         {
             betBtn[i].SetTrigger("idle");
         }
+
+        AllDataAmount();
     }
     #endregion
 

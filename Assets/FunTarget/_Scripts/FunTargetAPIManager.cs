@@ -1,4 +1,3 @@
-using NUnit.Framework.Constraints;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -54,6 +53,10 @@ public class FunTargetAPIManager : MonoBehaviour
         GetScoreAndWinScoreDataFunction();
         ShowDataOfLast10WinNum();
         funTargetBet.btnHider.SetActive(false);
+
+        isTimeStart = false;
+        isTimerSound = true;
+        funTargetBet.timerText.text = "00:00";
     }
 
     #region Last Transaction Id At Start
@@ -241,9 +244,8 @@ public class FunTargetAPIManager : MonoBehaviour
             yield return www.SendWebRequest();
             if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.Log(www.error);
-
                 OnLoadStartGetResult_AtStart();
+                Debug.Log(www.error);
             }
             else
             {
@@ -302,7 +304,7 @@ public class FunTargetAPIManager : MonoBehaviour
                                 Debug.Log("Old Game is End Here and Player already to take win Amt");
 
                             }
-                            spinTheWheel.showresTime = false;
+                            //spinTheWheel.showresTime = false;
                             StopCoroutine(OnLoadStartGetResultData_AtStart());
                         }
 
@@ -312,7 +314,6 @@ public class FunTargetAPIManager : MonoBehaviour
         }
     }
     #endregion
-
 
     #region Show Restlt At Game End
     public void ShowResultWithLastTranIdAt_GameEnd()
@@ -348,7 +349,7 @@ public class FunTargetAPIManager : MonoBehaviour
 
                         if (www.error != "Null")
                         {
-                            ShowResultWithLastTranIdAt_GameEnd();
+                            //ShowResultWithLastTranIdAt_GameEnd();
 
                             Debug.Log(www.error + "   called here how many times");
                         }
@@ -362,14 +363,14 @@ public class FunTargetAPIManager : MonoBehaviour
                     case 200:
 
                         PlayerPrefs.SetInt(Const.last_transaction_id, lastTransactionIdData.last_transaction_id);
-                        OnLoadStartGetResult_AtGameEnd();
+                        LoadGetResult_AtGameEnd();
                         break;
                 }
             }
         }
     }
 
-    public void OnLoadStartGetResult_AtGameEnd()
+    public void LoadGetResult_AtGameEnd()
     {
         StartCoroutine(OnLoadStartGetResultData_AtGameEnd());
     }
@@ -389,7 +390,7 @@ public class FunTargetAPIManager : MonoBehaviour
             {
                 Debug.Log(www.error);
 
-                OnLoadStartGetResultData_AtGameEnd();
+                LoadGetResult_AtGameEnd();
             }
             else
             {
@@ -400,7 +401,7 @@ public class FunTargetAPIManager : MonoBehaviour
                 {
                     case 500:
                         Debug.Log(www.error);
-                        OnLoadStartGetResultData_AtGameEnd();
+                        //LoadGetResult_AtGameEnd();
                         break;
 
                     case 200:
@@ -429,8 +430,11 @@ public class FunTargetAPIManager : MonoBehaviour
 
                                 Debug.Log("Player is not win but take API called for setup calculations in game");
                             }
-                            
-                            spinTheWheel.showresTime = false;
+
+                            //spinTheWheel.showresTime = false;
+                            spinTheWheel.WinButtonAnimation();
+
+                            Debug.Log(PlayerPrefs.GetInt(Const.winNumber) + "    Wining Num ");
                             StopCoroutine(OnLoadStartGetResultData_AtGameEnd());
                         }
 
@@ -440,6 +444,7 @@ public class FunTargetAPIManager : MonoBehaviour
         }
     }
     #endregion
+
     #region GettimerData get_Timer
     public void StartTimer()
     {
@@ -473,26 +478,33 @@ public class FunTargetAPIManager : MonoBehaviour
                     case 200:
 
                         currentTime = timerData.timer;
+                        isTimeStart = true;
                         break;
                 }
             }
         }
     }
 
-    private void Update()
+    bool isTimeStart = false;
+    public bool isTimerSound = true;
+
+    private void FixedUpdate()
     {
-        StartCoroutine(UpdateTimerDisplay());
+        if(isTimeStart)
+        {
+            UpdateTimerDisplay();
+        }
     }
 
-    private IEnumerator UpdateTimerDisplay()
-    {
-        yield return new WaitForSecondsRealtime(0.2f);
+    public bool hasFunctionBeenCalled = false;
 
+    void UpdateTimerDisplay()
+    {
         preSec = seconds;
         seconds = Mathf.FloorToInt(currentTime % 60);
         currentTime -= Time.deltaTime;
 
-        if (seconds < preSec)
+        if (seconds < preSec && isTimerSound)
         {
             if (!FT_SoundManager.instance.timerAudio.isPlaying)
             {
@@ -511,9 +523,12 @@ public class FunTargetAPIManager : MonoBehaviour
 
         if (seconds == 1)
         {
-            StartCoroutine(CustomAnimation());
-
-            Debug.Log(seconds + "     This is secondssss");
+            if (!hasFunctionBeenCalled)
+            {
+                hasFunctionBeenCalled = true;
+                CustomAnimation();
+                Debug.Log(seconds + "     This is secondssss");
+            }
         }
 
         if (seconds == 10)
@@ -533,22 +548,23 @@ public class FunTargetAPIManager : MonoBehaviour
         {
             timerAnimator.SetTrigger("timerAnim");
         }
-
-        StopCoroutine(UpdateTimerDisplay());
-        yield return null;
     }
 
-    IEnumerator CustomAnimation()
+    void CustomAnimation()
     {
         funTargetBet.timerText.text = "00:01";
-        yield return new WaitForSecondsRealtime(0.7f);
+        Invoke(nameof(WheelRotate), 0.65f);
+    }
+
+    void WheelRotate()
+    {
         funTargetBet.timerText.text = "00:00";
+        isTimerSound = false;
         spinTheWheel.WheelSpinHere();
         PlayerPrefs.SetInt(Const.startNewGame, 0);
         timerAnimator.SetTrigger("idle");
         isSpin = false;
         currentTime = 60;
-        StopCoroutine(CustomAnimation());
     }
     #endregion
 
@@ -732,6 +748,21 @@ public class FunTargetAPIManager : MonoBehaviour
 
                         funTargetBet.isDataNull = false;
                         funTargetBet.isBetOk = true;
+
+                        Debug.Log("------This Data sended To server-------");
+
+                        Debug.Log(PlayerPrefs.GetString(Const.data0));
+                        Debug.Log(PlayerPrefs.GetString(Const.data1));
+                        Debug.Log(PlayerPrefs.GetString(Const.data2));
+                        Debug.Log(PlayerPrefs.GetString(Const.data3));
+                        Debug.Log(PlayerPrefs.GetString(Const.data4));
+                        Debug.Log(PlayerPrefs.GetString(Const.data5));
+                        Debug.Log(PlayerPrefs.GetString(Const.data6));
+                        Debug.Log(PlayerPrefs.GetString(Const.data7));
+                        Debug.Log(PlayerPrefs.GetString(Const.data8));
+                        Debug.Log(PlayerPrefs.GetString(Const.data9));
+
+                        Debug.Log("------This Data sended To server-------");
                         break;
                 }
             }
@@ -774,7 +805,6 @@ public class FunTargetAPIManager : MonoBehaviour
             else
             {
                 string strjson = www.downloadHandler.text;
-
                 getDbWinNum = JsonUtility.FromJson<GetDbWinNum>(strjson);
 
                 switch (getDbWinNum.status)
@@ -784,10 +814,8 @@ public class FunTargetAPIManager : MonoBehaviour
                         break;
 
                     case 200:
-                        
                         PlayerPrefs.SetInt(Const.winNumber, getDbWinNum.winning_number);
                         SendBetData();
-                        
                         break;
                 }
             }
@@ -814,6 +842,8 @@ public class FunTargetAPIManager : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log(www.error);
+
+                OnClickLoadPreviousBet();
             }
             else
             {
@@ -824,12 +854,17 @@ public class FunTargetAPIManager : MonoBehaviour
                 {
                     case 500:
                         Debug.Log(www.error);
+
+                        OnClickLoadPreviousBet();
+
                         break;
 
                     case 200:
 
                         PlayerPrefs.SetInt(Const.last_transaction_id, lastTransactionIdData.last_transaction_id);
                         StartCoroutine(LoadPreViousDataFromAPI());
+
+                        funTargetBet.allAmtClickCounter = 1;
                         break;
                 }
             }
@@ -908,7 +943,27 @@ public class FunTargetAPIManager : MonoBehaviour
                             funTargetBet.betokBtn.enabled = true;
                             funTargetBet.cancelBtn.enabled = true;
                             funTargetBet.cancelSpecificBetBtn.enabled = true;
-                            funTargetBet.BetBtnAnimation();
+                            //funTargetBet.BetBtnAnimation();
+
+
+                            Debug.Log("------This Data Get From server-------");
+
+                            Debug.Log(PlayerPrefs.GetString(Const.data0));
+                            Debug.Log(PlayerPrefs.GetString(Const.data1));
+                            Debug.Log(PlayerPrefs.GetString(Const.data2));
+                            Debug.Log(PlayerPrefs.GetString(Const.data3));
+                            Debug.Log(PlayerPrefs.GetString(Const.data4));
+                            Debug.Log(PlayerPrefs.GetString(Const.data5));
+                            Debug.Log(PlayerPrefs.GetString(Const.data6));
+                            Debug.Log(PlayerPrefs.GetString(Const.data7));
+                            Debug.Log(PlayerPrefs.GetString(Const.data8));
+                            Debug.Log(PlayerPrefs.GetString(Const.data9));
+
+                            Debug.Log("------This Data Get From server-------");
+
+                            funTargetBet.AllDataAmount();
+
+                            funTargetBet.allAmtClickCounter++;
                         }
                         else
                         {
@@ -922,7 +977,7 @@ public class FunTargetAPIManager : MonoBehaviour
     }
     #endregion
 
-    #region show Last 10 Win Number
+    #region show Last 10 Win Number Btn animation is also here after winning
     public void ShowDataOfLast10WinNum()
     {
         StartCoroutine(ShowLast10WinNumbers());
@@ -948,48 +1003,61 @@ public class FunTargetAPIManager : MonoBehaviour
 
                     int x = int.Parse(last10WinNum.last_data[9]);
 
-                    switch (x)
+                    PlayerPrefs.SetInt(Const.animForWinBtn, x);
+                    funTargetBet.ResetBtnAnims();
+                    switch (PlayerPrefs.GetInt(Const.animForWinBtn))
                     {
                         case 0:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("0");
+                            funTargetBet.betBtn[0].SetTrigger("btnAfterWin");
                             break;
 
                         case 1:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("1");
+                            funTargetBet.betBtn[1].SetTrigger("btnAfterWin");
                             break;
 
                         case 2:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("2");
+                            funTargetBet.betBtn[2].SetTrigger("btnAfterWin");
                             break;
 
                         case 3:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("3");
+                            funTargetBet.betBtn[3].SetTrigger("btnAfterWin");
                             break;
 
                         case 4:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("4");
+                            funTargetBet.betBtn[4].SetTrigger("btnAfterWin");
                             break;
 
                         case 5:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("5");
+                            funTargetBet.betBtn[5].SetTrigger("btnAfterWin");
                             break;
 
                         case 6:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("6");
+                            funTargetBet.betBtn[6].SetTrigger("btnAfterWin");
                             break;
 
                         case 7:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("7");
+                            funTargetBet.betBtn[7].SetTrigger("btnAfterWin");
                             break;
 
                         case 8:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("8");
+                            funTargetBet.betBtn[8].SetTrigger("btnAfterWin");
                             break;
 
                         case 9:
                             SpinTheWheel.instance.wheelTheAnimator.SetTrigger("9");
+                            funTargetBet.betBtn[9].SetTrigger("btnAfterWin");
                             break;
                     }
+                    SpinTheWheel.instance.WinButtonAnimation();
                 }
                 else
                 {
@@ -1002,7 +1070,47 @@ public class FunTargetAPIManager : MonoBehaviour
             }
         }
     }
-    #endregion
+
+    public void ShowTempDataOfLast10WinNum()
+    {
+        StartCoroutine(ShowTempLast10WinNumbers());
+    }
+
+    private IEnumerator ShowTempLast10WinNumbers()
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(last_10_WinNumber))
+        {
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.Success)
+            {
+                string jsonString = webRequest.downloadHandler.text;
+                last10WinNum = JsonUtility.FromJson<Last10WinNum>(jsonString);
+
+                if (last10WinNum.last_data != null)
+                {
+                    for (int i = 0; i < last10WinNum.last_data.Length; i++)
+                    {
+                        Debug.Log(last10WinNum.last_data[i] + " 10 Win Numbers");
+                    }
+
+                    int x = int.Parse(last10WinNum.last_data[9]);
+
+                    PlayerPrefs.SetInt(Const.tempAnimForWinBtn, x);
+
+                }
+                else
+                {
+                    ShowTempDataOfLast10WinNum();
+                }
+            }
+            else
+            {
+                ShowTempDataOfLast10WinNum();
+            }
+        }
+    }
+    #endregion 
 }
 
 #region Json Parser code
