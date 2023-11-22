@@ -83,7 +83,7 @@ public class FunTargetBet : MonoBehaviour
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-        AllDataAmount();
+        //AllDataAmount();
     }
 
     public void PrevoiusBetStatus()
@@ -1115,17 +1115,25 @@ public class FunTargetBet : MonoBehaviour
             betBtn[9].SetTrigger("btnClick");
         }
 
-        if (bet0_text.text == "" && bet1_text.text == "" && bet2_text.text == "" && bet3_text.text == ""
+        if (!isTake)
+        {
+            if (bet0_text.text == "" && bet1_text.text == "" && bet2_text.text == "" && bet3_text.text == ""
             && bet4_text.text == "" && bet5_text.text == "" && bet6_text.text == "" && bet7_text.text == ""
             && bet8_text.text == "" && bet9_text.text == "")
-        {
-            betokBtn.enabled = false;
-            betOkBtn.SetTrigger("idle");
+            {
+                betokBtn.enabled = false;
+                betOkBtn.SetTrigger("idle");
+            }
+            else
+            {
+                betokBtn.enabled = true;
+                betOkBtn.SetTrigger("betokanim");
+            }
         }
         else
         {
-            betokBtn.enabled = true;
-            betOkBtn.SetTrigger("betokanim");
+            betokBtn.enabled = false;
+            betOkBtn.SetTrigger("idle");
         }
     }
     #endregion
@@ -1371,13 +1379,6 @@ public class FunTargetBet : MonoBehaviour
         PlayerPrefs.SetString(Const.data9, "");
 
         PlayerPrefs.SetString(Const.SetAllAmt, "");
-
-        for (int i = 0; i < betBtn.Count; i++)
-        {
-            betBtn[i].SetTrigger("idle");
-        }
-
-        AllDataAmount();
     }
     #endregion
 

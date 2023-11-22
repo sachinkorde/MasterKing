@@ -414,7 +414,6 @@ public class FunTargetAPIManager : MonoBehaviour
                                 funTargetBet.winText.text = getResultData.betting_data[0].winner_score.ToString();
                                 DataHandling();
 
-                                Debug.Log(getResultData.betting_data[0].winner_score);
                                 funTargetBet.bottomPanelMsg.text = "Please Take your Win Amount And Play";
 
                                 Debug.Log("Old Game is End Here and Player need to take win Amt");
@@ -426,22 +425,20 @@ public class FunTargetAPIManager : MonoBehaviour
                                 funTargetBet.TakeBtnDisabledState();
                                 FT_SoundManager.instance.PlayAudioClip(FT_GameClips.Loose);
                                 funTargetBet.ResetBetData();
-                                funTargetBet.bottomPanelMsg.text = "";
-
+                                funTargetBet.bottomPanelMsg.text = "You Loose..Play Again!";
                                 Debug.Log("Player is not win but take API called for setup calculations in game");
                             }
 
-                            //spinTheWheel.showresTime = false;
-                            spinTheWheel.WinButtonAnimation();
-
+                            
                             Debug.Log(PlayerPrefs.GetInt(Const.winNumber) + "    Wining Num ");
-                            StopCoroutine(OnLoadStartGetResultData_AtGameEnd());
                         }
 
                         break;
                 }
             }
         }
+
+        ShowDataOfLast10WinNum();
     }
     #endregion
 
@@ -527,7 +524,7 @@ public class FunTargetAPIManager : MonoBehaviour
             {
                 hasFunctionBeenCalled = true;
                 CustomAnimation();
-                Debug.Log(seconds + "     This is secondssss");
+                //Debug.Log(seconds + "     This is secondssss");
             }
         }
 
@@ -676,6 +673,7 @@ public class FunTargetAPIManager : MonoBehaviour
                     case 200:
                         funTargetBet.scoreTxt.text = scoreBoardData.main_score + ".00";
                         PlayerPrefs.SetFloat(Const.ft_score, scoreBoardData.main_score);
+
                         break;
                 }
             }
@@ -749,7 +747,7 @@ public class FunTargetAPIManager : MonoBehaviour
                         funTargetBet.isDataNull = false;
                         funTargetBet.isBetOk = true;
 
-                        Debug.Log("------This Data sended To server-------");
+                        /*Debug.Log("------This Data sended To server-------");
 
                         Debug.Log(PlayerPrefs.GetString(Const.data0));
                         Debug.Log(PlayerPrefs.GetString(Const.data1));
@@ -762,7 +760,7 @@ public class FunTargetAPIManager : MonoBehaviour
                         Debug.Log(PlayerPrefs.GetString(Const.data8));
                         Debug.Log(PlayerPrefs.GetString(Const.data9));
 
-                        Debug.Log("------This Data sended To server-------");
+                        Debug.Log("------This Data sended To server-------");*/
                         break;
                 }
             }
@@ -946,7 +944,7 @@ public class FunTargetAPIManager : MonoBehaviour
                             //funTargetBet.BetBtnAnimation();
 
 
-                            Debug.Log("------This Data Get From server-------");
+                            /*Debug.Log("------This Data Get From server-------");
 
                             Debug.Log(PlayerPrefs.GetString(Const.data0));
                             Debug.Log(PlayerPrefs.GetString(Const.data1));
@@ -959,7 +957,7 @@ public class FunTargetAPIManager : MonoBehaviour
                             Debug.Log(PlayerPrefs.GetString(Const.data8));
                             Debug.Log(PlayerPrefs.GetString(Const.data9));
 
-                            Debug.Log("------This Data Get From server-------");
+                            Debug.Log("------This Data Get From server-------");*/
 
                             funTargetBet.AllDataAmount();
 
@@ -999,65 +997,82 @@ public class FunTargetAPIManager : MonoBehaviour
                     for (int i = 0; i < last10WinNum.last_data.Length; i++)
                     {
                         funTargetBet.last10WinText[i].text = last10WinNum.last_data[i];
+
+                        Debug.Log(i + " == " + last10WinNum.last_data[i] + " last 10 data");
                     }
 
                     int x = int.Parse(last10WinNum.last_data[9]);
-
+                    Debug.Log(x + " Is data correct");
                     PlayerPrefs.SetInt(Const.animForWinBtn, x);
-                    funTargetBet.ResetBtnAnims();
-                    switch (PlayerPrefs.GetInt(Const.animForWinBtn))
+
+                    Debug.Log(PlayerPrefs.GetInt(Const.animForWinBtn) + "  is playerprefs values is corretc");
+                    Animator animator = spinTheWheel.wheelTheAnimator;
+                    funTargetBet.AllDataAmount();
+                    
+                    switch (x)
                     {
                         case 0:
-                            SpinTheWheel.instance.wheelTheAnimator.SetTrigger("0");
+                            animator.SetTrigger("0");
                             funTargetBet.betBtn[0].SetTrigger("btnAfterWin");
+                            Debug.Log("reached");
                             break;
 
                         case 1:
-                            SpinTheWheel.instance.wheelTheAnimator.SetTrigger("1");
+                            animator.SetTrigger("1");
                             funTargetBet.betBtn[1].SetTrigger("btnAfterWin");
+                            Debug.Log("reached");
                             break;
 
                         case 2:
-                            SpinTheWheel.instance.wheelTheAnimator.SetTrigger("2");
+                            animator.SetTrigger("2");
                             funTargetBet.betBtn[2].SetTrigger("btnAfterWin");
+                            Debug.Log("reached");
                             break;
 
                         case 3:
-                            SpinTheWheel.instance.wheelTheAnimator.SetTrigger("3");
+                            animator.SetTrigger("3");
                             funTargetBet.betBtn[3].SetTrigger("btnAfterWin");
+                            Debug.Log("reached");
                             break;
 
                         case 4:
-                            SpinTheWheel.instance.wheelTheAnimator.SetTrigger("4");
+                            animator.SetTrigger("4");
                             funTargetBet.betBtn[4].SetTrigger("btnAfterWin");
+                            Debug.Log("reached");
                             break;
 
                         case 5:
-                            SpinTheWheel.instance.wheelTheAnimator.SetTrigger("5");
+                            animator.SetTrigger("5");
                             funTargetBet.betBtn[5].SetTrigger("btnAfterWin");
+                            Debug.Log("reached");
                             break;
 
                         case 6:
-                            SpinTheWheel.instance.wheelTheAnimator.SetTrigger("6");
+                            animator.SetTrigger("6");
                             funTargetBet.betBtn[6].SetTrigger("btnAfterWin");
+                            Debug.Log("reached");
                             break;
 
                         case 7:
-                            SpinTheWheel.instance.wheelTheAnimator.SetTrigger("7");
+                            animator.SetTrigger("7");
                             funTargetBet.betBtn[7].SetTrigger("btnAfterWin");
+                            Debug.Log("reached");
                             break;
 
                         case 8:
-                            SpinTheWheel.instance.wheelTheAnimator.SetTrigger("8");
+                            animator.SetTrigger("8");
                             funTargetBet.betBtn[8].SetTrigger("btnAfterWin");
+                            Debug.Log("reached");
                             break;
 
                         case 9:
-                            SpinTheWheel.instance.wheelTheAnimator.SetTrigger("9");
+                            animator.SetTrigger("9");
                             funTargetBet.betBtn[9].SetTrigger("btnAfterWin");
+                            Debug.Log("reached");
                             break;
                     }
-                    SpinTheWheel.instance.WinButtonAnimation();
+
+                    spinTheWheel.spinCenter.SetTrigger("idle");
                 }
                 else
                 {
@@ -1070,47 +1085,7 @@ public class FunTargetAPIManager : MonoBehaviour
             }
         }
     }
-
-    public void ShowTempDataOfLast10WinNum()
-    {
-        StartCoroutine(ShowTempLast10WinNumbers());
-    }
-
-    private IEnumerator ShowTempLast10WinNumbers()
-    {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(last_10_WinNumber))
-        {
-            yield return webRequest.SendWebRequest();
-
-            if (webRequest.result == UnityWebRequest.Result.Success)
-            {
-                string jsonString = webRequest.downloadHandler.text;
-                last10WinNum = JsonUtility.FromJson<Last10WinNum>(jsonString);
-
-                if (last10WinNum.last_data != null)
-                {
-                    for (int i = 0; i < last10WinNum.last_data.Length; i++)
-                    {
-                        Debug.Log(last10WinNum.last_data[i] + " 10 Win Numbers");
-                    }
-
-                    int x = int.Parse(last10WinNum.last_data[9]);
-
-                    PlayerPrefs.SetInt(Const.tempAnimForWinBtn, x);
-
-                }
-                else
-                {
-                    ShowTempDataOfLast10WinNum();
-                }
-            }
-            else
-            {
-                ShowTempDataOfLast10WinNum();
-            }
-        }
-    }
-    #endregion 
+    #endregion
 }
 
 #region Json Parser code
